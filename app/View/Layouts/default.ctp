@@ -38,8 +38,8 @@
           </a>
           <a class="brand" href="/cakephp/Volunteers">Volunteers</a>
           <div class="nav-collapse collapse">
-            <form class="navbar-search pull-right" action="/cakephp/Volunteers/search">
-              <input type="text" class="search-query" placeholder="Search...">
+            <form class="navbar-search pull-right" action="/cakephp/Volunteers/search" method="GET">
+              <input type="text" class="search-query" name="q" placeholder="Search...">
             </form>
             <ul class="nav">
               <li class="active"><a href="/cakephp/Volunteers/edit">Add a Volunteer</a></li>

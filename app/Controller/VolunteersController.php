@@ -7,8 +7,18 @@ class VolunteersController extends AppController {
     }
 
     public function search() {
-        $this->set('volunteers', $this->Volunteer->find('all'));
-        #TODO make this "upcoming birthdays"
+    	$q = $this->params['url']['q'];
+    	$q = isset($q) ? $q : "";
+    	$terms = explode(" ", $q);
+    	$conditions = array('AND' => array());
+    	foreach($terms as $term)
+    	{
+    		$conditions['AND'][] = array('OR' => array(
+    			array('Volunteer.firstname LIKE' => "%$term%"),
+    			array('Volunteer.lastname LIKE' => "%$term%")
+    			));
+    	}
+        $this->set('volunteers', $this->Volunteer->find('all', array('conditions' => $conditions)));
     }
 
 	public function edit($id = null) {
