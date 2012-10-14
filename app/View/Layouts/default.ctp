@@ -9,7 +9,7 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="/cakephp/css/bootstrap.css" rel="stylesheet">
+    <link href="<?php echo $this->webroot ?>css/bootstrap.css" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -22,8 +22,8 @@
     <![endif]-->
 
     <script src="http://code.jquery.com/jquery-latest.js"></script>
-    <script src="/cakephp/js/jquery.validate.min.js"></script>
-    <script src="/cakephp/js/bootstrap.min.js"></script>
+    <script src="<?php echo $this->webroot ?>js/jquery.validate.min.js"></script>
+    <script src="<?php echo $this->webroot ?>js/bootstrap.min.js"></script>
   </head>
 
   <body>
@@ -36,13 +36,13 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="/cakephp/Volunteers">Volunteers</a>
+          <a class="brand" href="<?php echo $this->webroot ?>Volunteers">Volunteers</a>
           <div class="nav-collapse collapse">
-            <form class="navbar-search pull-right" action="/cakephp/Volunteers/search" method="GET">
-              <input type="text" class="search-query" name="q" placeholder="Search...">
+            <form class="navbar-search pull-right" action="<?php echo $this->webroot ?>Volunteers/jump" method="GET">
+              <input type="text" class="search-query" id='searchbox' name="term" placeholder="Search..."  autocomplete="off">
             </form>
             <ul class="nav">
-              <li class="active"><a href="/cakephp/Volunteers/edit">Add a Volunteer</a></li>
+              <li class="active"><a href="<?php echo $this->webroot ?>Volunteers/edit">Add a Volunteer</a></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -57,7 +57,16 @@
 
 
     </div> <!-- /container -->
-
+    <script>
+    $(function(){
+      $("#searchbox").typeahead({
+        matcher: function(){return true;},
+        source: function (query, process) {
+          return $.get('<?php echo $this->webroot ?>Volunteers/search.json', { term: query }, process);
+        }
+      });
+    });
+    </script>
   </body>
 </html>
 

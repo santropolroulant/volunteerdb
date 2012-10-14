@@ -1,14 +1,13 @@
 <?php
 class VolunteersController extends AppController {
     public $helpers = array('Html', 'Form');
-
+	public $components = array('RequestHandler');
+    
     public function index() {
         #TODO make this "upcoming birthdays"
     }
 
-    public function search() {
-    	$q = $this->params['url']['q'];
-    	$q = isset($q) ? $q : "";
+    function find($q) {
     	$terms = explode(" ", $q);
     	$conditions = array('AND' => array());
     	foreach($terms as $term)
@@ -18,7 +17,23 @@ class VolunteersController extends AppController {
     			array('Volunteer.lastname LIKE' => "%$term%")
     			));
     	}
-        $this->set('volunteers', $this->Volunteer->find('all', array('conditions' => $conditions)));
+        return $this->Volunteer->find('all', array('conditions' => $conditions));
+    }
+
+    public function jump() {
+    	$q = isset($this->params['url']['term']) ? $this->params['url']['term'] : "";
+    	$result = $this->find($q);
+    	if(count($result) == 1) {
+    		$this->redirect(array('action' => 'edit', $result[0]['Volunteer']['id']));
+    	}
+    	else {
+    		$this->redirect(array('action' => 'search', "?" => array("term" => $q)));
+    	}
+    }
+
+    public function search() {
+    	$q = isset($this->params['url']['term']) ? $this->params['url']['term'] : "";
+        $this->set('volunteers', $this->find($q));
     }
 
 	public function edit($id = null) {
