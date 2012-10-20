@@ -73,6 +73,9 @@
       "label" => array("text" => "Other Phone", 'class' => 'control-label'),
       "class" => "input-small" 
     ));
+    echo $this->Form->input('emergemail', array(
+      "label" => array("text" => "Email Address", 'class' => 'control-label'),
+    ));
 ?>
 </fieldset>
 </div>
@@ -85,7 +88,6 @@
 <div class="span6">
 <?php
     $months = array(
-      "" => "",
       1 => "January",
       2 => "February",
       3 => "March",
@@ -99,22 +101,35 @@
       11 => "November",
       12 => "December"
       );
+
     echo $this->Form->input('birthday', array(
       "label" => array("text" => "Birth Day", 'class' => 'control-label'),
       "class" => "input-mini"
     ));
     echo $this->Form->input('birthmonth', array(
       "label" => array("text" => "Birth Month", 'class' => 'control-label'),
-      'options' => $months
+      'options' => $months, "empty" => ""
       ));
     echo $this->Form->input('birthyear', array(
       "label" => array("text" => "Birth Year", 'class' => 'control-label'),
       "class" => "input-mini"
     ));
 
-    $languages = array(
-"French", "English", "Italian", "Arabic", "Spanish", "Creole",  
-"Chinese", "Greek", "Portuguese", "Romanian", "Vietnamese", "Russian", "Armenian", "Polish"
+    $languages = array( "",
+"French" => "French", 
+"English" => "English", 
+"Italian" => "Italian", 
+"Arabic" => "Arabic", 
+"Spanish" =>"Spanish", 
+"Creole" => "Creole",  
+"Chinese" => "Chinese",
+"Greek" => "Greek",
+"Portuguese" => "Portuguese",
+"Romanian" => "Romanian",
+"Vietnamese" => "Vietnamese",
+"Russian" => "Russian",
+"Armenian" => "Armenian",
+"Polish" => "Polish"
       );
     echo $this->Form->input('language1', array(
       "label" => array("text" => "Primary Language", 'class' => 'control-label'),
@@ -133,8 +148,14 @@
 <div class="span6">
 <?php
     $occupations = array(
-      "", "Student", "Working", "Seeking Work", "Caregiver", "Retired", "Visiting/Vacation",
-      "Other"
+      "" => "", 
+      "Student" => "Student", 
+      "Working" => "Working", 
+      "Seeking Work" => "Seeking Work", 
+      "Caregiver" => "Caregiver", 
+      "Retired" => "Retired", 
+      "Visiting/Vacation" => "Visiting/Vacation",
+      "Other" => "Other"
       );
     echo $this->Form->input('occupation', array(
       "label" => array("text" => "Primary Occupation", 'class' => 'control-label'),
@@ -145,9 +166,16 @@
     ));
 
     $foundout = array(
-      "", "Neighbourhood/Santropol Cafe", "School", "Work", "Media", "Internet", "Roulant Event",
-      "Volunteer Bureau of Montreal", "Friend/Word of Mouth", 
-      "Other"
+      ""=> "", 
+      "Neighbourhood/Santropol Cafe"=> "Neighbourhood/Santropol Cafe", 
+      "School"=> "School", 
+      "Work"=> "Work", 
+      "Media"=> "Media", 
+      "Internet"=> "Internet", 
+      "Roulant Event"=>"Roulant Event",
+      "Volunteer Bureau of Montreal"=> "Volunteer Bureau of Montreal", 
+      "Friend/Word of Mouth"=> "Friend/Word of Mouth", 
+      "Other" => "Other"
       );
     echo $this->Form->input('foundout', array(
       "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
@@ -217,14 +245,11 @@
         },
         "data[Volunteer][emergname]": {
           minlength: 2,
-          required: true
         },
         "data[Volunteer][emergrelation]": {
           minlength: 2,
-          required: true
         },
         "data[Volunteer][emergphone1]": {
-          required: true,
           phoneUS: true
         },
         "data[Volunteer][emergphone2]": {
@@ -232,6 +257,9 @@
         },
         "data[Volunteer][emergphone3]": {
           phoneUS: true
+        },
+        "data[Volunteer][emergemail]": {
+          email: true
         },
       },
       errorClass: "help-inline",

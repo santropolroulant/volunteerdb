@@ -7,6 +7,11 @@ class VolunteersController extends AppController {
         #TODO make this "upcoming birthdays"
     }
 
+    public function view($id = null) {
+        $this->Volunteer->id = $id;
+        $this->set('volunteer', $this->Volunteer->read());
+    }
+
     function find($q) {
     	$terms = explode(" ", $q);
     	$conditions = array('AND' => array());
@@ -24,7 +29,7 @@ class VolunteersController extends AppController {
     	$q = isset($this->params['url']['term']) ? $this->params['url']['term'] : "";
     	$result = $this->find($q);
     	if(count($result) == 1) {
-    		$this->redirect(array('action' => 'edit', $result[0]['Volunteer']['id']));
+    		$this->redirect(array('action' => 'view', $result[0]['Volunteer']['id']));
     	}
     	else {
     		$this->redirect(array('action' => 'search', "?" => array("term" => $q)));
@@ -42,10 +47,10 @@ class VolunteersController extends AppController {
 	        $this->request->data = $this->Volunteer->read();
 	    } else {
 	        if ($this->Volunteer->save($this->request->data)) {
-	            $this->Session->setFlash('Your Volunteer has been updated.', 'flash_success');
-	            $this->redirect(array('action' => 'index'));
+	            $this->Session->setFlash('Data saved.', 'flash_success');
+	            $this->redirect(array('action' => 'view', $this->Volunteer->id));
 	        } else {
-	            $this->Session->setFlash('Unable to update your Volunteer.', 'flash_failure');
+	            $this->Session->setFlash('Unable to save data.', 'flash_failure');
 	        }
 	    }
 	}

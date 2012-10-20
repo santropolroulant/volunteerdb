@@ -12,7 +12,7 @@
         <td><?php echo $volunteer['Volunteer']['id']; ?></td>
         <td>
             <?php echo $this->Html->link($volunteer['Volunteer']['firstname'] . " " . $volunteer['Volunteer']['lastname'],
-array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer']['id'])); ?>
+array('controller' => 'Volunteers', 'action' => 'view', $volunteer['Volunteer']['id'])); ?>
         </td>
     </tr>
     <?php endforeach; ?>
