@@ -7,7 +7,14 @@ class VolunteersController extends AppController {
         #TODO make this "upcoming birthdays"
         #search for birthmonth = lastmonth, thismonth, nextmonth
         #remember about dec/jan wrap!
-        $this->set('volunteers', $this->Volunteer->find("all"));
+        $thisMonth = date("n");
+        $nextMonth = $thisMonth + 1 == 13 ? 1 : $thisMonth + 1;
+        $lastMonth = $thisMonth - 1 == 0 ? 12 : $thisMonth - 1;
+        $options = array(
+            "conditions" => array("Volunteer.birthmonth" => array($lastMonth, $thisMonth, $nextMonth)),
+            "order" => array('birthmonth' => 'asc', "birthday" => "asc")
+            );
+        $this->set('volunteers', $this->Volunteer->find("all", $options));
     }
 
     public function view($id = null) {

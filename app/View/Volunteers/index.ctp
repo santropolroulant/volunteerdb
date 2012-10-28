@@ -1,4 +1,4 @@
-<h2>Upcoming Birthdays</h2>
+<h2>Recent & Upcoming Birthdays</h2>
 <table class="table table-striped">
     <tr>
         <th>Name</th>

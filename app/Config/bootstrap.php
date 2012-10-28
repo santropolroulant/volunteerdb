@@ -221,7 +221,7 @@ function bday_fancy($day, $month, $year)
           $age = $nextYear - $year;
         else
           $age = $thisYear - $year;
-        return " (turning $age in $days days)";
+        return " (in $days days, turning $age)";
       }
       else 
         return " (in $days days)";
@@ -235,7 +235,7 @@ function bday_fancy($day, $month, $year)
           $age = $lastYear - $year;
         else
           $age = $thisYear - $year;
-        return " (turned $age $days days ago)";
+        return " ($days days ago, turned $age)";
       }
       else 
         return " ($days days ago)";
