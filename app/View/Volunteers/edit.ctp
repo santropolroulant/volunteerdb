@@ -87,7 +87,7 @@
 
 <div class="span6">
 <?php
-    $months = array(
+$months = array(
       1 => "January",
       2 => "February",
       3 => "March",
@@ -101,7 +101,6 @@
       11 => "November",
       12 => "December"
       );
-
     echo $this->Form->input('birthday', array(
       "label" => array("text" => "Birth Day", 'class' => 'control-label'),
       "class" => "input-mini"
@@ -260,6 +259,12 @@
         },
         "data[Volunteer][emergemail]": {
           email: true
+        },
+        "data[Volunteer][birthday]": {
+          number: true, min: 1, max: 31
+        },
+        "data[Volunteer][birthyear]": {
+          number: true, min: 1900, max: 2012
         },
       },
       errorClass: "help-inline",

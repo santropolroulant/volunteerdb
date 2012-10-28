@@ -2,48 +2,8 @@
 <?php 
 $v = $volunteer["Volunteer"]; 
 
-function format_phone($phone)
-{
-	$phone = preg_replace("/[^0-9]/", "", $phone);
 
-	if(strlen($phone) == 10)
-		return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone);
-	else
-		return $phone;
-}
 
-function format_bday($day, $month, $year) {
-
-$months = array(
-      1 => "January",
-      2 => "February",
-      3 => "March",
-      4 => "April",
-      5 => "May",
-      6 => "June",
-      7 => "July",
-      8 => "August",
-      9 => "September",
-      10 => "October",
-      11 => "November",
-      12 => "December"
-      );
-
-  if($month) {
-    $result = "";
-    $result .= $months[$month];
-    if($day) $result .= " $day";
-    if($year) $result .= ", $year";
-    return $result;
-  }
-  else if($year) return $year;
-  return "";
-}
-
-function bday_fancy($day, $month, $year)
-{
-  
-}
 
 ?>
 

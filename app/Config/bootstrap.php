@@ -179,3 +179,96 @@ CakeLog::config('error', array(
 	'types' => array('warning', 'error', 'critical', 'alert', 'emergency'),
 	'file' => 'error',
 ));
+
+
+#helpers needed in multiple places
+function format_phone($phone)
+{
+	$phone = preg_replace("/[^0-9]/", "", $phone);
+
+	if(strlen($phone) == 10)
+		return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone);
+	else
+		return $phone;
+}
+
+
+function bday_fancy($day, $month, $year)
+{
+  if($day && $month)
+  {
+    $thisYear = date("Y");
+    $lastYear = date("Y")-1;
+    $nextYear = date("Y")+1;
+    $lastYearDiff = strtotime("$lastYear-$month-$day") - mktime();
+    $thisYearDiff = strtotime("$thisYear-$month-$day") - mktime();
+    $nextYearDiff = strtotime("$nextYear-$month-$day") - mktime();
+
+    if(abs($lastYearDiff) < abs($thisYearDiff))
+      $diff = $lastYearDiff;
+    else if(abs($thisYearDiff) < abs($nextYearDiff))
+      $diff = $thisYearDiff;
+    else
+      $diff = $nextYearDiff;
+
+    $days = floor($diff / (60*60*24));
+
+    if($days > 0)
+    {
+      if($year)
+      {
+        if($diff == $nextYearDiff)
+          $age = $nextYear - $year;
+        else
+          $age = $thisYear - $year;
+        return " (turning $age in $days days)";
+      }
+      else 
+        return " (in $days days)";
+    }
+    else
+    {
+      $days = 0-$days;
+      if($year)
+      {
+        if($diff == $lastYearDiff)
+          $age = $lastYear - $year;
+        else
+          $age = $thisYear - $year;
+        return " (turned $age $days days ago)";
+      }
+      else 
+        return " ($days days ago)";
+    }
+  }
+}
+
+
+function format_bday($day, $month, $year) {
+
+$months = array(
+      1 => "January",
+      2 => "February",
+      3 => "March",
+      4 => "April",
+      5 => "May",
+      6 => "June",
+      7 => "July",
+      8 => "August",
+      9 => "September",
+      10 => "October",
+      11 => "November",
+      12 => "December"
+      );
+
+  if($month) {
+    $result = "";
+    $result .= $months[$month];
+    if($day) $result .= " $day";
+    if($year) $result .= ", $year";
+    return $result . bday_fancy($day, $month, $year);
+  }
+  else if($year) return $year;
+  return "";
+}
+

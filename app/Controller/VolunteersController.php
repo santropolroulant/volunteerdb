@@ -5,6 +5,9 @@ class VolunteersController extends AppController {
     
     public function index() {
         #TODO make this "upcoming birthdays"
+        #search for birthmonth = lastmonth, thismonth, nextmonth
+        #remember about dec/jan wrap!
+        $this->set('volunteers', $this->Volunteer->find("all"));
     }
 
     public function view($id = null) {
