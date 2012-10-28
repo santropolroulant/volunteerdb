@@ -22,15 +22,19 @@ class VolunteersController extends AppController {
         $this->set('volunteer', $this->Volunteer->read());
     }
 
+    function searchNormalize($x) {
+        $x = str_replace("'", "", $x); #O'Brien -> OBrien
+        $src = "-àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ";
+        $dst = " aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY";
+        return strtr(utf8_decode($x),utf8_decode($src),$dst); #Marie-Zoé -> Marie Zoe
+    }
+
     function find($q) {
-    	$terms = explode(" ", $q);
+    	$terms = explode(" ", $this->searchNormalize($q));
     	$conditions = array('AND' => array());
     	foreach($terms as $term)
     	{
-    		$conditions['AND'][] = array('OR' => array(
-    			array('Volunteer.firstname LIKE' => "%$term%"),
-    			array('Volunteer.lastname LIKE' => "%$term%")
-    			));
+    		$conditions['AND'][] = array('Volunteer.searchableName LIKE' => "%$term%");
     	}
         return $this->Volunteer->find('all', array('conditions' => $conditions));
     }
@@ -56,6 +60,8 @@ class VolunteersController extends AppController {
 	    if ($this->request->is('get')) {
 	        $this->request->data = $this->Volunteer->read();
 	    } else {
+            $fullname = $this->request->data["Volunteer"]["firstname"] . " " . $this->request->data["Volunteer"]["lastname"];
+            $this->request->data["Volunteer"]["searchableName"] = $this->searchNormalize($fullname);
 	        if ($this->Volunteer->save($this->request->data)) {
 	            $this->Session->setFlash('Data saved.', 'flash_success');
 	            $this->redirect(array('action' => 'view', $this->Volunteer->id));
