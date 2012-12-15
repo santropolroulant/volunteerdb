@@ -14,9 +14,6 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
 
 <dl class="dl-horizontal">
   
-  <?php if($v["email"]){ ?>
-  	<dt>Email Address</dt> <dd><?php echo $this->Html->link($v["email"],"mailto:".$v["email"]) ?></dd> 
-  <?php } ?>
   <?php 
     $phones = array();
     if($v["phone1"]){ $phones[] = format_phone($v["phone1"]); }
@@ -26,6 +23,10 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
 
   <?php if(count($phones != 0)){ ?>
   	<dt>Phone Numbers</dt> <dd><?php echo join(" or ", $phones); ?></dd> 
+  <?php } ?>
+  
+  <?php if($v["email"]){ ?>
+    <dt>Email Address</dt> <dd><?php echo $this->Html->link($v["email"],"mailto:".$v["email"]) ?></dd> 
   <?php } ?>
 
   <?php if($v["address"]){ ?>
