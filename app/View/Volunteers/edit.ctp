@@ -115,21 +115,63 @@ $months = array(
     ));
 
     $languages = array( "",
-"French" => "French", 
-"English" => "English", 
-"Italian" => "Italian", 
-"Arabic" => "Arabic", 
-"Spanish" =>"Spanish", 
-"Creole" => "Creole",  
-"Chinese" => "Chinese",
-"Greek" => "Greek",
-"Portuguese" => "Portuguese",
-"Romanian" => "Romanian",
-"Vietnamese" => "Vietnamese",
-"Russian" => "Russian",
-"Armenian" => "Armenian",
-"Polish" => "Polish"
-      );
+      "Most Common" => array(
+        "English" => "English",
+        "French" => "French",
+        "Italian" => "Italian",
+        "Arabic" => "Arabic",
+        "Spanish" => "Spanish",
+        "Chinese" => "Chinese",
+        "Cantonese" => "Cantonese",
+        "Mandarin" => "Mandarin",
+        "Japanese" => "Japanese",
+        "Korean" => "Korean",
+        "Creole" => "Creole",
+        "Portuguese" => "Portuguese",
+        "Romanian" => "Romanian",
+        "Vietnamese" => "Vietnamese",
+        "Armenian" => "Armenian",
+        "Russian" => "Russian",
+        "Polish" => "Polish",
+      ),
+      "Less Common" => array(
+        "Albanian" => "Albanian",
+        "American Sign Language" => "American Sign Language",
+        "Bangla" => "Bangla",
+        "Bengali" => "Bengali",
+        "Bulgarian" => "Bulgarian",
+        "Catalan" => "Catalan",
+        "Czech" => "Czech",
+        "Danish" => "Danish",
+        "Dutch" => "Dutch",
+        "Farsi" => "Farsi",
+        "Filipino" => "Filipino",
+        "German" => "German",
+        "Greek" => "Greek",
+        "Hebrew" => "Hebrew",
+        "Hindi" => "Hindi",
+        "Icelandic" => "Icelandic",
+        "Khmer" => "Khmer",
+        "Ladino" => "Ladino",
+        "Latvian" => "Latvian",
+        "Lithuanian" => "Lithuanian",
+        "Malayalam" => "Malayalam",
+        "Mauritian" => "Mauritian",
+        "Norwegian" => "Norwegian",
+        "Punjabi" => "Punjabi",
+        "Serbian" => "Serbian",
+        "Swahili" => "Swahili",
+        "Swedish" => "Swedish",
+        "Tagalog" => "Tagalog",
+        "Tamil" => "Tamil",
+        "Thai" => "Thai",
+        "Turkish" => "Turkish",
+        "Ukranian" => "Ukranian",
+        "Urdu" => "Urdu",
+        "Wolof" => "Wolof",
+      )
+    );
+
     echo $this->Form->input('language1', array(
       "label" => array("text" => "Primary Language", 'class' => 'control-label'),
       'options' => $languages
@@ -139,7 +181,15 @@ $months = array(
       'options' => $languages
       ));
     echo $this->Form->input('language3', array(
-      "label" => array("text" => "Other Language", 'class' => 'control-label'),
+      "label" => array("text" => "Third Language", 'class' => 'control-label'),
+      'options' => $languages
+      ));
+    echo $this->Form->input('language4', array(
+      "label" => array("text" => "Fourth Language", 'class' => 'control-label'),
+      'options' => $languages
+      ));
+    echo $this->Form->input('language5', array(
+      "label" => array("text" => "Fifth Language", 'class' => 'control-label'),
       'options' => $languages
       ));
 ?>
