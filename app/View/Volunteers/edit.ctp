@@ -248,15 +248,6 @@ $months = array(
         "data[Volunteer][emergrelation]": {
           minlength: 2,
         },
-        "data[Volunteer][emergphone1]": {
-          phoneUS: true
-        },
-        "data[Volunteer][emergphone2]": {
-          phoneUS: true
-        },
-        "data[Volunteer][emergphone3]": {
-          phoneUS: true
-        },
         "data[Volunteer][emergemail]": {
           email: true
         },

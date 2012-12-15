@@ -82,5 +82,10 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   	<dt>How They Heard Of Us Details/Other</dt> <dd><?php echo $v["foundoutother"] ?></dd> 
   <?php } ?>
 
+    <dt>Record Created</dt> <dd><?php echo date_format(date_create($v["created"]), "F j, Y"); ?></dd> 
+  <?php if($v["created"] != $v["modified"]){ ?> 
+    <dt>Record Modified</dt> <dd><?php echo date_format(date_create($v["modified"]), "F j, Y") ?></dd> 
+  <?php } ?>
+
 </dl>
 </fieldset>

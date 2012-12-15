@@ -9,6 +9,7 @@
 
     <?php foreach ($volunteers as $volunteer): 
         $v = $volunteer['Volunteer'];
+        if(abs(delta_days($v["birthday"], $v["birthmonth"])) > 2) continue;
         ?>
     <tr>
         <td>
@@ -17,7 +18,7 @@ array('controller' => 'Volunteers', 'action' => 'view', $v['id'])); ?>
         </td>
         <td>
         <?php if($v["birthday"] || $v["birthmonth"] || $v["birthyear"]){ 
-            echo format_bday($v["birthday"], $v["birthmonth"], $v["birthyear"]); 
+            echo bday_fancy($v["birthday"], $v["birthmonth"], $v["birthyear"]); 
         }?>
         </td>
     </tr>

@@ -184,14 +184,33 @@ CakeLog::config('error', array(
 #helpers needed in multiple places
 function format_phone($phone)
 {
-	$phone = preg_replace("/[^0-9]/", "", $phone);
+	$phone2 = preg_replace("/[^0-9]/", "", $phone);
 
-	if(strlen($phone) == 10)
-		return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone);
+	if(strlen($phone2) == 10)
+		return preg_replace("/([0-9]{3})([0-9]{3})([0-9]{4})/", "$1-$2-$3", $phone2);
 	else
 		return $phone;
 }
 
+
+function delta_days($day, $month)
+{    
+  $thisYear = date("Y");
+  $lastYear = date("Y")-1;
+  $nextYear = date("Y")+1;
+  $lastYearDiff = strtotime("$lastYear-$month-$day") - mktime();
+  $thisYearDiff = strtotime("$thisYear-$month-$day") - mktime();
+  $nextYearDiff = strtotime("$nextYear-$month-$day") - mktime();
+
+  if(abs($lastYearDiff) < abs($thisYearDiff))
+    $diff = $lastYearDiff;
+  else if(abs($thisYearDiff) < abs($nextYearDiff))
+    $diff = $thisYearDiff;
+  else
+    $diff = $nextYearDiff;
+
+  return floor($diff / (60*60*24));
+}
 
 function bday_fancy($day, $month, $year)
 {
@@ -213,33 +232,35 @@ function bday_fancy($day, $month, $year)
 
     $days = floor($diff / (60*60*24));
 
-    if($days > 0)
+    $days = delta_days($day, $month);
+    if($days >= 0)
     {
+      $delta = $days == 1 ? "tomorrow" : "in $days days";
+      if($delta == "in 0 days") $delta = "today";
       if($year)
       {
         if($diff == $nextYearDiff)
           $age = $nextYear - $year;
         else
           $age = $thisYear - $year;
-        return " (in $days days, turning $age)";
+        $turning = ", turning $age";
       }
-      else 
-        return " (in $days days)";
     }
     else
     {
       $days = 0-$days;
+      $delta = $days == 1 ? "yesterday" : "$days days ago";
       if($year)
       {
         if($diff == $lastYearDiff)
           $age = $lastYear - $year;
         else
           $age = $thisYear - $year;
-        return " ($days days ago, turned $age)";
+        $turning = ", turned $age";
       }
-      else 
-        return " ($days days ago)";
     }
+
+    return $delta.$turning;
   }
 }
 
@@ -266,7 +287,7 @@ $months = array(
     $result .= $months[$month];
     if($day) $result .= " $day";
     if($year) $result .= ", $year";
-    return $result . bday_fancy($day, $month, $year);
+    return $result . " (" . bday_fancy($day, $month, $year) . ")";
   }
   else if($year) return $year;
   return "";

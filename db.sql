@@ -1,2 +1,33 @@
-Table	Create Table
-volunteers	CREATE TABLE `volunteers` (\n  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,\n  `firstname` varchar(50) DEFAULT NULL,\n  `lastname` varchar(50) DEFAULT NULL,\n  `birthyear` int(11) DEFAULT NULL,\n  `birthmonth` int(11) DEFAULT NULL,\n  `birthday` int(11) DEFAULT NULL,\n  `email` varchar(200) DEFAULT NULL,\n  `phone1` varchar(20) DEFAULT NULL,\n  `phone2` varchar(20) DEFAULT NULL,\n  `phone3` varchar(20) DEFAULT NULL,\n  `address` text,\n  `emergname` varchar(50) DEFAULT NULL,\n  `emergrelation` varchar(50) DEFAULT NULL,\n  `emergphone1` varchar(20) DEFAULT NULL,\n  `emergphone2` varchar(20) DEFAULT NULL,\n  `emergphone3` varchar(20) DEFAULT NULL,\n  `occupation` varchar(50) DEFAULT NULL,\n  `occupationother` text,\n  `foundout` varchar(50) DEFAULT NULL,\n  `foundoutother` text,\n  `language1` varchar(50) DEFAULT NULL,\n  `language2` varchar(50) DEFAULT NULL,\n  `language3` varchar(50) DEFAULT NULL,\n  `emergemail` varchar(50) DEFAULT NULL,\n  `searchableName` varchar(200) DEFAULT NULL,\n  PRIMARY KEY (`id`)\n) ENGINE=InnoDB AUTO_INCREMENT=15 DEFAULT CHARSET=latin1
+CREATE TABLE `volunteers` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `created` datetime DEFAULT NULL,
+  `modified` datetime DEFAULT NULL,
+
+  `firstname` varchar(50) DEFAULT NULL,
+  `lastname` varchar(50) DEFAULT NULL,
+  `searchableName` varchar(200) DEFAULT NULL,
+  `birthyear` int(11) DEFAULT NULL,
+  `birthmonth` int(11) DEFAULT NULL,
+  `birthday` int(11) DEFAULT NULL,
+
+  `phone1` varchar(20) DEFAULT NULL,
+  `phone2` varchar(20) DEFAULT NULL,
+  `phone3` varchar(20) DEFAULT NULL,
+  `email` varchar(200) DEFAULT NULL,
+  `address` text,
+  `emergname` varchar(50) DEFAULT NULL,
+  `emergrelation` varchar(50) DEFAULT NULL,
+  `emergphone1` varchar(20) DEFAULT NULL,
+  `emergphone2` varchar(20) DEFAULT NULL,
+  `emergphone3` varchar(20) DEFAULT NULL,
+  `emergemail` varchar(50) DEFAULT NULL,
+
+  `occupation` varchar(50) DEFAULT NULL,
+  `occupationother` text,
+  `foundout` varchar(50) DEFAULT NULL,
+  `foundoutother` text,
+  `language1` varchar(50) DEFAULT NULL,
+  `language2` varchar(50) DEFAULT NULL,
+  `language3` varchar(50) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+);
