@@ -86,9 +86,6 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   <?php if($v["emergrelation"]){ ?>
     <dt>Relationship</dt> <dd><?php echo $v["emergrelation"] ?></dd> 
   <?php } ?>
-  <?php if($v["emergemail"]){ ?>
-    <dt>Emergency Email</dt> <dd><?php echo $this->Html->link($v["emergemail"],"mailto:".$v["emergemail"]) ?></dd> 
-  <?php } ?>
   <?php if($v["emergphone1"]){ ?>
     <dt>Primary Emergency Phone</dt> <dd><?php echo format_phone($v["emergphone1"]) ?></dd> 
   <?php } ?>
@@ -97,6 +94,9 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   <?php } ?>
   <?php if($v["emergphone3"]){ ?>
     <dt>Other Emergency Phone</dt> <dd><?php echo format_phone($v["emergphone2"]) ?></dd> 
+  <?php } ?>
+  <?php if($v["emergemail"]){ ?>
+    <dt>Emergency Email</dt> <dd><?php echo $this->Html->link($v["emergemail"],"mailto:".$v["emergemail"]) ?></dd> 
   <?php } ?>
 
 </dl>

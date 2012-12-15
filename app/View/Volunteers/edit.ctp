@@ -59,7 +59,7 @@
       "label" => array("text" => "Contact Name", 'class' => 'control-label'),
     ));
     echo $this->Form->input('emergrelation', array(
-      "label" => array("text" => "Relationship to Volunteer", 'class' => 'control-label'), 
+      "label" => array("text" => "Relationship", 'class' => 'control-label'), 
     ));
     echo $this->Form->input('emergphone1', array(
       "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 

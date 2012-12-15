@@ -36,7 +36,7 @@ class VolunteersController extends AppController {
     	{
     		$conditions['AND'][] = array('Volunteer.searchableName LIKE' => "%$term%");
     	}
-        return $this->Volunteer->find('all', array('conditions' => $conditions));
+        return $this->Volunteer->find('all', array('conditions' => $conditions, "order" => "id"));
     }
 
     public function jump() {
