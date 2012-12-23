@@ -195,12 +195,15 @@ function format_phone($phone)
 
 function delta_days($day, $month)
 {    
+  date_default_timezone_set("America/Montreal");
   $thisYear = date("Y");
   $lastYear = date("Y")-1;
   $nextYear = date("Y")+1;
-  $lastYearDiff = strtotime("$lastYear-$month-$day") - mktime();
-  $thisYearDiff = strtotime("$thisYear-$month-$day") - mktime();
-  $nextYearDiff = strtotime("$nextYear-$month-$day") - mktime();
+  $todayday = strtotime(date("Ymd", mktime()));
+  $lastYearDiff = strtotime("$lastYear-$month-$day") - $todayday;
+  $thisYearDiff = strtotime("$thisYear-$month-$day") - $todayday;
+  $nextYearDiff = strtotime("$nextYear-$month-$day") - $todayday;
+
 
   if(abs($lastYearDiff) < abs($thisYearDiff))
     $diff = $lastYearDiff;
@@ -214,14 +217,16 @@ function delta_days($day, $month)
 
 function bday_fancy($day, $month, $year)
 {
+  date_default_timezone_set("America/Montreal");
   if($day && $month)
   {
     $thisYear = date("Y");
     $lastYear = date("Y")-1;
     $nextYear = date("Y")+1;
-    $lastYearDiff = strtotime("$lastYear-$month-$day") - mktime();
-    $thisYearDiff = strtotime("$thisYear-$month-$day") - mktime();
-    $nextYearDiff = strtotime("$nextYear-$month-$day") - mktime();
+    $todayday = strtotime(date("Ymd", mktime()));
+    $lastYearDiff = strtotime("$lastYear-$month-$day") - $todayday;
+    $thisYearDiff = strtotime("$thisYear-$month-$day") - $todayday;
+    $nextYearDiff = strtotime("$nextYear-$month-$day") - $todayday;
 
     if(abs($lastYearDiff) < abs($thisYearDiff))
       $diff = $lastYearDiff;
@@ -232,7 +237,6 @@ function bday_fancy($day, $month, $year)
 
     $days = floor($diff / (60*60*24));
 
-    $days = delta_days($day, $month);
     if($days >= 0)
     {
       $delta = $days == 1 ? "tomorrow" : "in $days days";

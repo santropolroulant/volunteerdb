@@ -8,12 +8,13 @@
 </style>
 
 <fieldset>
-<legend><?php echo $v["firstname"] . " "  . $v["lastname"]?>  <small><?php echo $this->Html->link("Edit",
+<legend>Volunteer Info  <small><?php echo $this->Html->link("Edit",
 array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer']['id']), array("class" => "btn btn-primary pull-right")); ?></small></legend>
 
 
 <dl class="dl-horizontal">
   
+    <dt>Volunteer Name</dt> <dd><?php echo $v["firstname"] . " "  . $v["lastname"]; ?></dd> 
   <?php 
     $phones = array();
     if($v["phone1"]){ $phones[] = format_phone($v["phone1"]); }
@@ -21,10 +22,10 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
     if($v["phone3"]){ $phones[] = format_phone($v["phone3"]); }
     ?>
 
-  <?php if(count($phones != 0)){ ?>
+  <?php if(count($phones) != 0){ ?>
   	<dt>Phone Numbers</dt> <dd><?php echo join(" or ", $phones); ?></dd> 
   <?php } ?>
-  
+
   <?php if($v["email"]){ ?>
     <dt>Email Address</dt> <dd><?php echo $this->Html->link($v["email"],"mailto:".$v["email"]) ?></dd> 
   <?php } ?>
@@ -47,7 +48,7 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
     if($v["language5"]){ $langs[] = $v["language5"]; }
     ?>
 
-  <?php if(count($langs != 0)){ ?>
+  <?php if(count($langs) != 0){ ?>
     <dt>Languages</dt> <dd><?php echo join(", ", $langs); ?></dd> 
   <?php } ?>
 
@@ -76,26 +77,33 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
 
     <?php if($v["emergname"] || $v["emergrelation"] || $v["emergemail"] || $v["emergphone1"] || $v["emergphone2"] || $v["emergphone3"]){ ?>
 
+
+<?php 
+$name = false;
+if($v["emergname"] || $v["emergrelation"]) {$name = $v["emergname"]. " (" . $v["emergrelation"] .")";}
+else if($v["emergname"]) {$name = $v["emergname"];}
+else if($v["emergrelation"]) {$name = $v["emergrelation"];}
+
+?>
 <fieldset>
-<legend>Emergency Contact</legend>
+<legend>Emergency Info</legend>
 
 
 <dl class="dl-horizontal">
-    <?php if($v["emergname"]){ ?>
-    <dt>Emergency Contact</dt> <dd><?php echo $v["emergname"] ?></dd> 
+  <?php if($name){ ?>
+    <dt>Emergency Contact</dt> <dd><?php echo $name ?></dd> 
   <?php } ?>
-  <?php if($v["emergrelation"]){ ?>
-    <dt>Relationship</dt> <dd><?php echo $v["emergrelation"] ?></dd> 
+  <?php 
+    $emergphones = array();
+    if($v["emergphone1"]){ $emergphones[] = $v["emergphone1"]; }
+    if($v["emergphone2"]){ $emergphones[] = $v["emergphone2"]; }
+    if($v["emergphone3"]){ $emergphones[] = $v["emergphone3"]; }
+    ?>
+
+  <?php if(count($emergphones) != 0){ ?>
+    <dt>Emergency Phones</dt> <dd><?php echo join(" or ", $emergphones); ?></dd> 
   <?php } ?>
-  <?php if($v["emergphone1"]){ ?>
-    <dt>Primary Emergency Phone</dt> <dd><?php echo format_phone($v["emergphone1"]) ?></dd> 
-  <?php } ?>
-  <?php if($v["emergphone2"]){ ?>
-    <dt>Secondary Emergency Phone</dt> <dd><?php echo format_phone($v["emergphone2"]) ?></dd> 
-  <?php } ?>
-  <?php if($v["emergphone3"]){ ?>
-    <dt>Other Emergency Phone</dt> <dd><?php echo format_phone($v["emergphone2"]) ?></dd> 
-  <?php } ?>
+
   <?php if($v["emergemail"]){ ?>
     <dt>Emergency Email</dt> <dd><?php echo $this->Html->link($v["emergemail"],"mailto:".$v["emergemail"]) ?></dd> 
   <?php } ?>

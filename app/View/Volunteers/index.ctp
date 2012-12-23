@@ -18,7 +18,7 @@ array('controller' => 'Volunteers', 'action' => 'view', $v['id'])); ?>
         </td>
         <td>
         <?php if($v["birthday"] || $v["birthmonth"] || $v["birthyear"]){ 
-            echo bday_fancy($v["birthday"], $v["birthmonth"], $v["birthyear"]); 
+            echo format_bday($v["birthday"], $v["birthmonth"], $v["birthyear"]); 
         }?>
         </td>
     </tr>
