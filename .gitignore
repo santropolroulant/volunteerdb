@@ -7,3 +7,5 @@
 /dist
 .DS_Store
 /tags
+migrate.php
+dump_njk.sql

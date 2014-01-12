@@ -6,11 +6,10 @@
 .dl-horizontal dd {margin-top: 15px; margin-left: 310px;}
 .dl-horizontal dd {font-size: 18px;}
 </style>
-
+<small><?php echo $this->Html->link("Edit",
+array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer']['id']), array("class" => "btn btn-primary pull-right")); ?></small>
 <fieldset>
-<legend>Volunteer Info  <small><?php echo $this->Html->link("Edit",
-array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer']['id']), array("class" => "btn btn-primary pull-right")); ?></small></legend>
-
+<legend>Volunteer Info </legend>
 
 <dl class="dl-horizontal">
   
@@ -22,8 +21,14 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
     if($v["phone3"]){ $phones[] = format_phone($v["phone3"]); }
     ?>
 
-  <?php if(count($phones) != 0){ ?>
-  	<dt>Phone Numbers</dt> <dd><?php echo join(" or ", $phones); ?></dd> 
+  <?php if($v["phone1"]){ ?>
+  	<dt>Cell Phone</dt> <dd><?php echo $v["phone1"]; ?></dd> 
+  <?php } ?>
+  <?php if($v["phone2"]){ ?>
+  	<dt>Home Phone</dt> <dd><?php echo $v["phone2"]; ?></dd> 
+  <?php } ?>
+  <?php if($v["phone3"]){ ?>
+  	<dt>Other Phone</dt> <dd><?php echo $v["phone3"]; ?></dd> 
   <?php } ?>
 
   <?php if($v["email"]){ ?>
@@ -53,23 +58,32 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   <?php } ?>
 
 
-  <?php if($v["occupation"]){ ?>
-  	<dt>Occupation</dt> <dd><?php echo $v["occupation"] ?></dd> 
+  <?php 
+    $occups = array();
+    if($v["occupation"]){ $occups[] = $v["occupation"]; }
+    if($v["occupation2"]){ $occups[] = $v["occupation2"]; }
+    if($v["occupation3"]){ $occups[] = $v["occupation3"]; }
+    if($v["occupationother"]){ $occups[] = $v["occupationother"]; }
+    ?>
+  <?php if(count($occups) !=0){ ?>
+  	<dt>Occupation</dt> <dd><?php echo join(", ", $occups) ?></dd> 
   <?php } ?>
-  <?php if($v["occupationother"]){ ?>
-  	<dt>Occupation Details/Other</dt> <dd><?php echo $v["occupationother"] ?></dd> 
+  
+
+  <?php 
+    $foundout = array();
+    if($v["foundout"]){ $foundout[] = $v["foundout"]; }
+    if($v["foundout2"]){ $foundout[] = $v["foundout2"]; }
+    if($v["foundout3"]){ $foundout[] = $v["foundout3"]; }
+    if($v["foundoutother"]){ $foundout[] = $v["foundoutother"]; }
+    ?>
+  <?php if(count($foundout) !=0){ ?>
+  	<dt>How They Heard Of Us</dt> <dd><?php echo join(", ", $foundout) ?></dd> 
   <?php } ?>
-  <?php if($v["foundout"]){ ?>
-  	<dt>How They Heard Of Us</dt> <dd><?php echo $v["foundout"] ?></dd> 
-  <?php } ?>
-  <?php if($v["foundoutother"]){ ?>
-  	<dt>How They Heard Of Us Details/Other</dt> <dd><?php echo $v["foundoutother"] ?></dd> 
+  <?php if($v["orientationdate"] != '0000-00-00' && $v["orientationdate"]){ ?>
+    <dt>Orientation Date</dt> <dd><?php echo date_format(date_create($v["orientationdate"]), "F j, Y") ?>
   <?php } ?>
 
-    <dt>Record Created</dt> <dd><?php echo date_format(date_create($v["created"]), "F j, Y"); ?></dd> 
-  <?php if($v["created"] != $v["modified"]){ ?> 
-    <dt>Record Modified</dt> <dd><?php echo date_format(date_create($v["modified"]), "F j, Y") ?></dd> 
-  <?php } ?>
 
 </dl>
 </fieldset>
@@ -101,7 +115,7 @@ else if($v["emergrelation"]) {$name = $v["emergrelation"];}
     ?>
 
   <?php if(count($emergphones) != 0){ ?>
-    <dt>Emergency Phones</dt> <dd><?php echo join(" or ", $emergphones); ?></dd> 
+    <dt>Emergency Phones</dt> <dd class="bigHover"><?php echo join(" or ", $emergphones); ?></dd> 
   <?php } ?>
 
   <?php if($v["emergemail"]){ ?>

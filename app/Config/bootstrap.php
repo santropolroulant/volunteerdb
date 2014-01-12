@@ -236,7 +236,7 @@ function bday_fancy($day, $month, $year)
       $diff = $nextYearDiff;
 
     $days = floor($diff / (60*60*24));
-
+    $turning = "";
     if($days >= 0)
     {
       $delta = $days == 1 ? "tomorrow" : "in $days days";

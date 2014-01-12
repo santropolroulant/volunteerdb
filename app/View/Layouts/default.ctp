@@ -10,6 +10,7 @@
 
     <!-- Le styles -->
     <link href="<?php echo $this->webroot ?>css/bootstrap.css" rel="stylesheet">
+    <link href="<?php echo $this->webroot ?>css/datepicker.css" rel="stylesheet">
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -21,9 +22,11 @@
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
 
-    <script src="http://code.jquery.com/jquery-latest.js"></script>
+    <script src="<?php echo $this->webroot ?>js/jquery-1.8.3.min.js"></script>
     <script src="<?php echo $this->webroot ?>js/jquery.validate.min.js"></script>
     <script src="<?php echo $this->webroot ?>js/bootstrap.min.js"></script>
+    <script src="<?php echo $this->webroot ?>js/bootstrap-datepicker.js"></script>
+    <script src="<?php echo $this->webroot ?>js/jquery.placeholder.min.js"></script>
   </head>
 
   <body>
@@ -38,8 +41,8 @@
           </a>
           <a class="brand" href="<?php echo $this->webroot ?>Volunteers">Volunteers</a>
           <div class="nav-collapse collapse">
-            <form class="navbar-search pull-right" action="<?php echo $this->webroot ?>Volunteers/jump" method="GET">
-              <input type="text" class="search-query" id='searchbox' name="term" placeholder="Search..."  autocomplete="off">
+            <form class="navbar-search pull-right" action="<?php echo $this->webroot ?>Volunteers/jump" method="GET" id="searchform">
+              <input type="text" class="search-query" id='searchbox' placeholder="Search..." name="term"  autocomplete="off">
             </form>
             <ul class="nav">
               <li class="active"><a href="<?php echo $this->webroot ?>Volunteers/edit">Add a Volunteer</a></li>
@@ -59,12 +62,17 @@
     </div> <!-- /container -->
     <script>
     $(function(){
+      $('input[placeholder]').placeholder();
       $("#searchbox").typeahead({
+        items: 20,
         matcher: function(){return true;},
         source: function (query, process) {
           return $.get('<?php echo $this->webroot ?>Volunteers/search.json', { term: query }, process);
         }
       });
+       $('#searchbox').bind("change", function() {
+          $('#searchform').submit();
+       });
     });
     </script>
   </body>

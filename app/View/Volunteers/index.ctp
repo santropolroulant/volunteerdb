@@ -9,7 +9,8 @@
 
     <?php foreach ($volunteers as $volunteer): 
         $v = $volunteer['Volunteer'];
-        if(abs(delta_days($v["birthday"], $v["birthmonth"])) > 2) continue;
+        if(delta_days($v["birthday"], $v["birthmonth"]) > 10) continue;
+        if(delta_days($v["birthday"], $v["birthmonth"]) < -2) continue;
         ?>
     <tr>
         <td>

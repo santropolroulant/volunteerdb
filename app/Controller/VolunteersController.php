@@ -55,6 +55,17 @@ class VolunteersController extends AppController {
         $this->set('volunteers', $this->find($q));
     }
 
+	public function delete($id = null) {
+	    if ($this->request->is('post') && $id) {
+	    	$this->Volunteer->delete($id);
+	        $this->Session->setFlash('Deleted.', 'flash_success');
+	    } else 
+	   {
+	        $this->Session->setFlash('Nothing to delete.', 'flash_failure');
+		
+           }
+	}
+
 	public function edit($id = null) {
 	    $this->Volunteer->id = $id;
 	    if ($this->request->is('get')) {

@@ -20,6 +20,12 @@
   <legend>Volunteer Information</legend>
 
 <?php
+    echo $this->Form->input('orientationdate', array(
+      "label" => array("text" => "Orientation Date", 'class' => 'control-label'), 
+      'type'=>'text',
+      'id' => "orientdationdatepicker",
+      "class" => "input-small" 
+    ));
     echo $this->Form->input('firstname', array(
       "label" => array("text" => "First Name", 'class' => 'control-label'),
       "class" => "input-medium"  
@@ -32,11 +38,11 @@
       "label" => array("text" => "Email Address", 'class' => 'control-label'),
     ));
     echo $this->Form->input('phone1', array(
-      "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 
+      "label" => array("text" => "Cell Phone", 'class' => 'control-label'), 
       "class" => "input-small" 
     ));
     echo $this->Form->input('phone2', array(
-      "label" => array("text" => "Secondary Phone", 'class' => 'control-label'), 
+      "label" => array("text" => "Home Phone", 'class' => 'control-label'), 
       "class" => "input-small" 
     ));
     echo $this->Form->input('phone3', array(
@@ -210,8 +216,17 @@ $months = array(
       "label" => array("text" => "Primary Occupation", 'class' => 'control-label'),
       'options' => $occupations
     ));
+    echo $this->Form->input('occupation2', array(
+      "label" => array("text" => "Secondary Occupation", 'class' => 'control-label'),
+      'options' => $occupations
+    ));
+    echo $this->Form->input('occupation3', array(
+      "label" => array("text" => "Other Occupation", 'class' => 'control-label'),
+      'options' => $occupations
+    ));
     echo $this->Form->input('occupationother', array(
-      "label" => array("text" => "Occupation Details/Other", 'class' => 'control-label'),
+      "label" => array("text" => "Occupation Details", 'class' => 'control-label'),
+      'type' => 'text',
     ));
 
     $foundout = array(
@@ -230,8 +245,17 @@ $months = array(
       "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
       'options' => $foundout
     ));
+    echo $this->Form->input('foundout2', array(
+      "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
+      'options' => $foundout
+    ));
+    echo $this->Form->input('foundout3', array(
+      "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
+      'options' => $foundout
+    ));
     echo $this->Form->input('foundoutother', array(
-      "label" => array("text" => "How They Heard Of Us Details/Other", 'class' => 'control-label'),
+      "label" => array("text" => "How They Heard Of Us Details", 'class' => 'control-label'),
+      'type' => 'text',
     ));
 
 
@@ -244,8 +268,6 @@ $months = array(
 <div class="controls">
 <?php
 	echo $this->Form->button('Save', array('type' => 'submit', 'class' => 'btn btn-primary btn-large'));
-	echo " ";
-	echo $this->Form->button('Reset', array('type' => 'reset', 'class' => 'btn'));
 ?>
 </div>
 
@@ -254,10 +276,28 @@ $months = array(
 ?>
 
 
+<?php
+    echo $this->Form->create('Volunteer', array(
+    	'action' => 'delete',
+    	'class' => 'form-horizontal',
+		'inputDefaults' => array(
+		    'div' => 'control-group',
+		    'label' => array('class' => 'control-label'),
+		    'between' => '<div class="controls">',
+		    'after' => '</div>',
+		    'error' => array('attributes' => array('wrap' => 'div', 'class' => 'alert alert-error'))
+		)
+	));
 
+  echo $this->Form->input('id', array('type' => 'hidden'));
+	echo $this->Form->button('Delete', array('type' => 'submit', 'class' => 'btn btn-danger pull-right', 'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"));
+    echo $this->Form->end();
+?>
+
+<br /><br />
 
 <script>
-
+  
   jQuery.validator.addMethod("phoneUS", function(phone_number, element) {
       phone_number = phone_number.replace(/\s+/g, ""); 
     return this.optional(element) || phone_number.length > 9 &&
@@ -265,7 +305,8 @@ $months = array(
   }, "Please specify a valid phone number");
 
     $(function(){
- 
+     $("#orientdationdatepicker").datepicker({format:"yyyy-mm-dd", viewMode: "years"});
+
      $('#VolunteerEditForm').validate(
      {
       rules: {
@@ -277,18 +318,18 @@ $months = array(
           minlength: 2,
           required: true
         },
-        "data[Volunteer][phone1]": {
-          phoneUS: true
-        },
-        "data[Volunteer][phone2]": {
-          phoneUS: true
-        },
-        "data[Volunteer][phone3]": {
-          phoneUS: true
-        },
-        "data[Volunteer][email]": {
-          email: true
-        },
+        //"data[Volunteer][phone1]": {
+        //  phoneUS: true
+        //},
+        //"data[Volunteer][phone2]": {
+        //  phoneUS: true
+        //},
+        //"data[Volunteer][phone3]": {
+        //  phoneUS: true
+        //},
+        //"data[Volunteer][email]": {
+        //  email: true
+        //},
         "data[Volunteer][address]": {
           minlength: 2
         },
@@ -306,6 +347,9 @@ $months = array(
         },
         "data[Volunteer][birthyear]": {
           number: true, min: 1900, max: 2012
+        },
+        "data[Volunteer][orientationdate]": {
+          date: true
         },
       },
       errorClass: "help-inline",
