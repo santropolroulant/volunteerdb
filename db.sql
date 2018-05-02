@@ -1,7 +1,8 @@
-CREATE TABLE `volunteers` (
+CREATE TABLE `vol2_volunteers` (
   `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
   `created` datetime DEFAULT NULL,
   `modified` datetime DEFAULT NULL,
+  `orientationdate` date DEFAULT NULL,
 
   `firstname` varchar(50) DEFAULT NULL,
   `lastname` varchar(50) DEFAULT NULL,
@@ -29,5 +30,14 @@ CREATE TABLE `volunteers` (
   `language1` varchar(50) DEFAULT NULL,
   `language2` varchar(50) DEFAULT NULL,
   `language3` varchar(50) DEFAULT NULL,
+  `language4` varchar(50) DEFAULT NULL,
+  `language5` varchar(50) DEFAULT NULL,
+
+  `occupation2` varchar(50) DEFAULT NULL,
+  `occupation3` varchar(50) DEFAULT NULL,
+
+  `foundout2` varchar(50) DEFAULT NULL,
+  `foundout3` varchar(50) DEFAULT NULL,
+
   PRIMARY KEY (`id`)
 );
