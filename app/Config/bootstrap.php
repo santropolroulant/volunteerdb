@@ -199,7 +199,7 @@ function delta_days($day, $month)
   $thisYear = date("Y");
   $lastYear = date("Y")-1;
   $nextYear = date("Y")+1;
-  $todayday = strtotime(date("Ymd", mktime()));
+  $todayday = strtotime(date("Ymd", time()));
   $lastYearDiff = strtotime("$lastYear-$month-$day") - $todayday;
   $thisYearDiff = strtotime("$thisYear-$month-$day") - $todayday;
   $nextYearDiff = strtotime("$nextYear-$month-$day") - $todayday;
@@ -223,7 +223,7 @@ function bday_fancy($day, $month, $year)
     $thisYear = date("Y");
     $lastYear = date("Y")-1;
     $nextYear = date("Y")+1;
-    $todayday = strtotime(date("Ymd", mktime()));
+    $todayday = strtotime(date("Ymd", time()));
     $lastYearDiff = strtotime("$lastYear-$month-$day") - $todayday;
     $thisYearDiff = strtotime("$thisYear-$month-$day") - $todayday;
     $nextYearDiff = strtotime("$nextYear-$month-$day") - $todayday;
