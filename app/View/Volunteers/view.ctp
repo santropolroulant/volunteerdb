@@ -39,10 +39,18 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   	<dt>Postal Address</dt> <dd><?php echo $v["address"] ?></dd> 
   <?php } ?>
 
+  <?php $age = (new DateTime($v['birthyear'] . '-' . $v['birthmonth'] . '-' . $v['birthday']))->diff(new DateTime('now'))->y; ?>
   <?php if($v["birthday"] || $v["birthmonth"] || $v["birthyear"]){ ?>
-    <dt>Birthday</dt> <dd><?php echo format_bday($v["birthday"], $v["birthmonth"], $v["birthyear"]) ?></dd> 
+    <dt>Birthday</dt> 
+    <dd>
+      <?php echo format_bday($v["birthday"], $v["birthmonth"], $v["birthyear"]) ?>
+      <?php if ($age <= 12) { ?>
+      <span class="label label-danger" style="background-color:#d9534f">12 and under</span>
+      <?php } else if ($age <= 15) { ?>
+      <span class="label label-warning" style="background-color:#f0ad4e">13-15 years old</span>
+      <?php } ?>
+    </dd>
   <?php } ?>
-
 
   <?php 
     $langs = array();
@@ -137,12 +145,16 @@ else if($v["emergrelation"]) {$name = $v["emergrelation"];}
 
 <script type="text/javascript">
 (function () {
+  var shown = false;
+
   function get(selector) {
     return document.getElementById(selector);
   }
 
   get('toggle-notes').addEventListener('click', function () {
-    get('user-notes').setAttribute('style', '');
+    get('toggle-notes').innerText = shown ? 'Show' : 'Hide';
+    get('user-notes').setAttribute('style', shown ? 'display:none' : '');
+    shown = !shown;
   });
 })();
 </script>

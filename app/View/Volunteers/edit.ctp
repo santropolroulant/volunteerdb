@@ -281,14 +281,16 @@ $months = array(
 
 <script type="text/javascript">
 (function () {
+  var shown = false;
+
   function get(selector) {
     return document.getElementById(selector);
   }
 
-  get('toggle-notes').addEventListener('click', function (e) {
-    e.preventDefault();
-    e.stopPropagation();
-    get('user-notes').setAttribute('style', '');
+  get('toggle-notes').addEventListener('click', function () {
+    get('toggle-notes').innerText = shown ? 'Show' : 'Hide';
+    get('user-notes').setAttribute('style', shown ? 'display:none' : '');
+    shown = !shown;
   });
 })();
 </script>
