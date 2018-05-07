@@ -34,5 +34,6 @@ CREATE TABLE `vol2_volunteers` (
  `occupation3` varchar(50) DEFAULT NULL,
  `foundout2` varchar(50) DEFAULT NULL,
  `foundout3` varchar(50) DEFAULT NULL,
+ `notes` varchar(5000) DEFAULT NULL
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6057 DEFAULT CHARSET=latin1;

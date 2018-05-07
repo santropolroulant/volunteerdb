@@ -126,3 +126,23 @@ else if($v["emergrelation"]) {$name = $v["emergrelation"];}
 </fieldset>
 
   <?php } ?>
+
+
+<fieldset>
+  <legend>Notes <button id="toggle-notes" class="btn <?php echo $v['notes'] == '' ? 'btn-success' : 'btn-danger' ?>">Show</button></legend>
+  <dl class="dl-horizontal" id="user-notes" style="display:none">
+    <?php echo $v['notes'] == '' ? '<i>This volunteer has no notes</i>' : nl2br($v['notes']) ?>
+  </dl>
+</fieldset>
+
+<script type="text/javascript">
+(function () {
+  function get(selector) {
+    return document.getElementById(selector);
+  }
+
+  get('toggle-notes').addEventListener('click', function () {
+    get('user-notes').setAttribute('style', '');
+  });
+})();
+</script>

@@ -265,11 +265,37 @@ $months = array(
 </fieldset>
 </div> <!-- /row -->
 
-<div class="controls">
-<?php
-	echo $this->Form->button('Save', array('type' => 'submit', 'class' => 'btn btn-primary btn-large'));
-?>
+<?php $notes = $this->data['Volunteer']['notes']; ?>
+<div class="row" style="margin-bottom: 20px">
+  <fieldset >
+    <legend>Notes <button id="toggle-notes" class="btn <?php echo $notes == '' ? 'btn-success' : 'btn-danger' ?>">Show</button></legend>
+    <div class='span12' id="user-notes" style="display:none">
+      <?php
+      echo $this->Form->textarea('notes', array(
+        'style' => 'width: 100%; height: 300px'
+      ));
+      ?>
+    </div>
+  </fieldset>
 </div>
+
+<script type="text/javascript">
+(function () {
+  function get(selector) {
+    return document.getElementById(selector);
+  }
+
+  get('toggle-notes').addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
+    get('user-notes').setAttribute('style', '');
+  });
+})();
+</script>
+
+<?php
+  echo $this->Form->button('Save', array('type' => 'submit', 'class' => 'btn btn-primary btn-large'));
+?>
 
 <?php
     echo $this->Form->end();
