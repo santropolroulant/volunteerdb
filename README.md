@@ -1,3 +1,29 @@
+Santropol Volunteer DB
+======================
+
+## Development setup
+
+1. [Install Docker Compose](https://docs.docker.com/compose/install/)
+2. From this directory, run `docker-compose up`
+3. The application should now be running on `http://localhost:8090`
+
+Finally, you'll need to create the database connection file at `app/Config/database.php`:
+
+```
+<?php
+class DATABASE_CONFIG {
+    public $default = array(
+        'datasource'  => 'Database/Mysql',
+        'persistent'  => false,
+        'host'        => 'db',
+        'login'       => 'root',
+        'password'    => 'password',
+        'database'    => 'database',
+        'prefix'      => 'vol2_'
+    );
+}
+```
+
 CakePHP
 =======
 
