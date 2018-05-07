@@ -39,8 +39,8 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   	<dt>Postal Address</dt> <dd><?php echo $v["address"] ?></dd> 
   <?php } ?>
 
-  <?php $age = (new DateTime($v['birthyear'] . '-' . $v['birthmonth'] . '-' . $v['birthday']))->diff(new DateTime('now'))->y; ?>
   <?php if($v["birthday"] || $v["birthmonth"] || $v["birthyear"]){ ?>
+  <?php $age = (new DateTime($v['birthyear'] . '-' . $v['birthmonth'] . '-' . $v['birthday']))->diff(new DateTime('now'))->y; ?>
     <dt>Birthday</dt> 
     <dd>
       <?php echo format_bday($v["birthday"], $v["birthmonth"], $v["birthyear"]) ?>
@@ -111,6 +111,9 @@ else if($v["emergrelation"]) {$name = $v["emergrelation"];}
 <legend>Emergency Info</legend>
 
 
+<?php if ($v['emergunable']) { ?>
+<div style="margin-bottom: 20px">This volunteer is unable to provide an emergency contact</div>
+<?php } else { ?>
 <dl class="dl-horizontal">
   <?php if($name){ ?>
     <dt>Emergency Contact</dt> <dd><?php echo $name ?></dd> 
@@ -131,6 +134,7 @@ else if($v["emergrelation"]) {$name = $v["emergrelation"];}
   <?php } ?>
 
 </dl>
+<?php } ?>
 </fieldset>
 
   <?php } ?>
@@ -151,7 +155,9 @@ else if($v["emergrelation"]) {$name = $v["emergrelation"];}
     return document.getElementById(selector);
   }
 
-  get('toggle-notes').addEventListener('click', function () {
+  get('toggle-notes').addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
     get('toggle-notes').innerText = shown ? 'Show' : 'Hide';
     get('user-notes').setAttribute('style', shown ? 'display:none' : '');
     shown = !shown;

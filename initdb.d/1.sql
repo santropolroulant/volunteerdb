@@ -15,6 +15,7 @@ CREATE TABLE `vol2_volunteers` (
  `phone3` varchar(20) DEFAULT NULL,
  `email` varchar(200) DEFAULT NULL,
  `address` text,
+ `emergunable` bool DEFAULT 0,
  `emergname` varchar(50) DEFAULT NULL,
  `emergrelation` varchar(50) DEFAULT NULL,
  `emergphone1` varchar(20) DEFAULT NULL,

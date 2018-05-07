@@ -60,7 +60,20 @@
 <fieldset >
   <legend>Emergency Contact Information</legend>
 
-<?php
+  <div class="checkbox" style="
+    padding-left: 60px;
+  padding-bottom: 15px;">
+    <label>
+    <?php
+    echo $this->Form->checkbox('emergunable', array(
+      "label" => array("text" => "I am unable at this time to provide an emergency contact", 'class' => 'control-label'),
+      "id" => "emergunable"
+    ));
+    ?>
+    <span style="margin-left: 15px">I am unable at this time to provide an emergency contact</span>
+    </label>
+  </div>
+    <?php
     echo $this->Form->input('emergname', array(
       "label" => array("text" => "Contact Name", 'class' => 'control-label'),
     ));
@@ -119,6 +132,11 @@ $months = array(
       "label" => array("text" => "Birth Year", 'class' => 'control-label'),
       "class" => "input-mini"
     ));
+?>
+</div>
+<div class="span6">
+<?php
+
 
     $languages = array( "",
       "Most Common" => array(
@@ -200,68 +218,6 @@ $months = array(
       ));
 ?>
 </div>
-<div class="span6">
-<?php
-    $occupations = array(
-      "" => "", 
-      "Student" => "Student", 
-      "Working" => "Working", 
-      "Seeking Work" => "Seeking Work", 
-      "Caregiver" => "Caregiver", 
-      "Retired" => "Retired", 
-      "Visiting/Vacation" => "Visiting/Vacation",
-      "Other" => "Other"
-      );
-    echo $this->Form->input('occupation', array(
-      "label" => array("text" => "Primary Occupation", 'class' => 'control-label'),
-      'options' => $occupations
-    ));
-    echo $this->Form->input('occupation2', array(
-      "label" => array("text" => "Secondary Occupation", 'class' => 'control-label'),
-      'options' => $occupations
-    ));
-    echo $this->Form->input('occupation3', array(
-      "label" => array("text" => "Other Occupation", 'class' => 'control-label'),
-      'options' => $occupations
-    ));
-    echo $this->Form->input('occupationother', array(
-      "label" => array("text" => "Occupation Details", 'class' => 'control-label'),
-      'type' => 'text',
-    ));
-
-    $foundout = array(
-      ""=> "", 
-      "Neighbourhood/Santropol Cafe"=> "Neighbourhood/Santropol Cafe", 
-      "School"=> "School", 
-      "Work"=> "Work", 
-      "Media"=> "Media", 
-      "Internet"=> "Internet", 
-      "Roulant Event"=>"Roulant Event",
-      "Volunteer Bureau of Montreal"=> "Volunteer Bureau of Montreal", 
-      "Friend/Word of Mouth"=> "Friend/Word of Mouth", 
-      "Other" => "Other"
-      );
-    echo $this->Form->input('foundout', array(
-      "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
-      'options' => $foundout
-    ));
-    echo $this->Form->input('foundout2', array(
-      "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
-      'options' => $foundout
-    ));
-    echo $this->Form->input('foundout3', array(
-      "label" => array("text" => "How They Heard Of Us", 'class' => 'control-label'),
-      'options' => $foundout
-    ));
-    echo $this->Form->input('foundoutother', array(
-      "label" => array("text" => "How They Heard Of Us Details", 'class' => 'control-label'),
-      'type' => 'text',
-    ));
-
-
-
-?>
-</div>
 </fieldset>
 </div> <!-- /row -->
 
@@ -287,7 +243,9 @@ $months = array(
     return document.getElementById(selector);
   }
 
-  get('toggle-notes').addEventListener('click', function () {
+  get('toggle-notes').addEventListener('click', function (e) {
+    e.preventDefault();
+    e.stopPropagation();
     get('toggle-notes').innerText = shown ? 'Show' : 'Hide';
     get('user-notes').setAttribute('style', shown ? 'display:none' : '');
     shown = !shown;
