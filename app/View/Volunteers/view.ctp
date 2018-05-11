@@ -101,13 +101,6 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
     <?php } ?>
   </dd>
 
-  <?php if(count($foundout) !=0){ ?>
-    <dt>How They Heard Of Us</dt> <dd><?php echo join(", ", $foundout) ?></dd> 
-  <?php } ?>
-  <?php if($v["orientationdate"] != '0000-00-00' && $v["orientationdate"]){ ?>
-    <dt>Orientation Date</dt> <dd><?php echo date_format(date_create($v["orientationdate"]), "F j, Y") ?>
-  <?php } ?>
-
 </dl>
 </fieldset>
 
