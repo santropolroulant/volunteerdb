@@ -16,7 +16,13 @@ CREATE TABLE `vol2_volunteers` (
  `email` varchar(200) DEFAULT NULL,
  `address` text,
  `emergunable` bool DEFAULT 0,
- `emergname` varchar(50) DEFAULT NULL,
+ `emergname` varchar(200) DEFAULT NULL,
+ `emergrelation` varchar(50) DEFAULT NULL,
+ `emergphone1` varchar(20) DEFAULT NULL,
+ `emergphone2` varchar(20) DEFAULT NULL,
+ `emergphone3` varchar(20) DEFAULT NULL,
+ `emergemail` varchar(50) DEFAULT NULL,
+ `emergname` varchar(200) DEFAULT NULL,
  `emergrelation` varchar(50) DEFAULT NULL,
  `emergphone1` varchar(20) DEFAULT NULL,
  `emergphone2` varchar(20) DEFAULT NULL,
@@ -35,6 +41,7 @@ CREATE TABLE `vol2_volunteers` (
  `occupation3` varchar(50) DEFAULT NULL,
  `foundout2` varchar(50) DEFAULT NULL,
  `foundout3` varchar(50) DEFAULT NULL,
- `notes` varchar(5000) DEFAULT NULL
+ `notes` varchar(5000) DEFAULT NULL,
+ `mediapermission` tinyint(1) DEFAULT 1
  PRIMARY KEY (`id`)
 ) ENGINE=MyISAM AUTO_INCREMENT=6057 DEFAULT CHARSET=latin1;

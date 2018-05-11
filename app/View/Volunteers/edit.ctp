@@ -15,95 +15,263 @@
 	?>
 
 <div class="row">
-<div class="span6">
+<div class="span12">
 <fieldset>
   <legend>Volunteer Information</legend>
 
-<?php
-    echo $this->Form->input('orientationdate', array(
-      "label" => array("text" => "Orientation Date", 'class' => 'control-label'), 
-      'type'=>'text',
-      'id' => "orientdationdatepicker",
-      "class" => "input-small" 
-    ));
-    echo $this->Form->input('firstname', array(
-      "label" => array("text" => "First Name", 'class' => 'control-label'),
-      "class" => "input-medium"  
-    ));
-    echo $this->Form->input('lastname', array(
-      "label" => array("text" => "Last Name", 'class' => 'control-label'), 
-      "class" => "input-medium"  
-    ));
-    echo $this->Form->input('email', array(
-      "label" => array("text" => "Email Address", 'class' => 'control-label'),
-    ));
-    echo $this->Form->input('phone1', array(
-      "label" => array("text" => "Cell Phone", 'class' => 'control-label'), 
-      "class" => "input-small" 
-    ));
-    echo $this->Form->input('phone2', array(
-      "label" => array("text" => "Home Phone", 'class' => 'control-label'), 
-      "class" => "input-small" 
-    ));
-    echo $this->Form->input('phone3', array(
-      "label" => array("text" => "Other Phone", 'class' => 'control-label'), 
-      "class" => "input-small" 
-    ));
+  <div class="row">
+    <div class="span4">
+    <?php
+      echo $this->Form->input('firstname', array(
+        "label" => array("text" => "First Name", 'class' => 'control-label'),
+        "class" => "input-medium"  
+      ));
+    ?>
+    </div>
+    <div class="span4">
+    <?php
+      echo $this->Form->input('lastname', array(
+        "label" => array("text" => "Last Name", 'class' => 'control-label'), 
+        "class" => "input-medium"  
+      ));
+    ?>
+    </div>
+    <div class="span4">
+    <?php
+        echo $this->Form->input('orientationdate', array(
+          "label" => array("text" => "Orientation Date", 'class' => 'control-label'), 
+          'type'=>'text',
+          'id' => "orientdationdatepicker",
+          "class" => "input-small" 
+        ));
+    ?>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+    <?php
     echo $this->Form->input('address', array(
-      "label" => array("text" => "Mailing Address", 'class' => 'control-label'), 
+      "label" => array("text" => "Mailing Address", 'class' => 'control-label'),
+      "style" => "width: 90%"
     ));
-?>
+    ?>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span4">
+      <?php
+      echo $this->Form->input('phone1', array(
+        "label" => array("text" => "Cell Phone", 'class' => 'control-label'), 
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+    <div class="span4">
+      <?php
+      echo $this->Form->input('phone2', array(
+        "label" => array("text" => "Home Phone", 'class' => 'control-label'), 
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+    <div class='span4'>
+      <?php
+      echo $this->Form->input('phone3', array(
+        "label" => array("text" => "Other Phone", 'class' => 'control-label'), 
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+  </div>
+  <div class="row">
+    <div class="span12">
+    <?php
+      echo $this->Form->input('email', array(
+        "label" => array("text" => "Email Address", 'class' => 'control-label'),
+      ));
+    ?>
+    </div>
+  </div>
 </fieldset>
 </div>
 
-<div class="span6">
+<style type="text/css">
+  .alert-secondary {
+    color: #555;
+    background-color: #eee;
+    border-color: #aaa;
+  }
+</style>
+
+  <?php
+  $v = $this->data['Volunteer'];
+  $secondContactProps = array('emerg2name', 'emerg2relation', 'emerg2phone1', 'emerg2phone2', 'emerg2phone3', 'emerg2email');
+  $hasSecondaryContact = false;
+
+  forEach ($secondContactProps as $prop) {
+    if ($v[$prop] != '') {
+      $hasSecondaryContact = true;
+    }
+  }
+  ?>
+
+<div class="span12">
 <fieldset >
   <legend>Emergency Contact Information</legend>
-
-  <div class="checkbox" style="
-    padding-left: 60px;
-  padding-bottom: 15px;">
-    <label>
-    <?php
-    echo $this->Form->checkbox('emergunable', array(
-      "label" => array("text" => "I am unable at this time to provide an emergency contact", 'class' => 'control-label'),
-      "id" => "emergunable"
-    ));
-    ?>
-    <span style="margin-left: 15px">I am unable at this time to provide an emergency contact</span>
-    </label>
+  <div class="row">
+    <div class="span12" id="primary-header" style="<?php if (!$hasSecondaryContact) echo 'display:none'; ?>">
+      <div class="alert alert-secondary">Primary Emergency Contact</div>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emergname', array(
+        "label" => array("text" => "Contact Name", 'class' => 'control-label'),
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emergrelation', array(
+        "label" => array("text" => "Relationship", 'class' => 'control-label'), 
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emergphone1', array(
+        "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emergphone2', array(
+        "label" => array("text" => "Secondary Phone", 'class' => 'control-label'),
+        "class" => "input-small"  
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emergphone3', array(
+        "label" => array("text" => "Other Phone", 'class' => 'control-label'),
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emergemail', array(
+        "label" => array("text" => "Email Address", 'class' => 'control-label'),
+      ));
+      ?>
+    </div>
   </div>
-    <?php
-    echo $this->Form->input('emergname', array(
-      "label" => array("text" => "Contact Name", 'class' => 'control-label'),
-    ));
-    echo $this->Form->input('emergrelation', array(
-      "label" => array("text" => "Relationship", 'class' => 'control-label'), 
-    ));
-    echo $this->Form->input('emergphone1', array(
-      "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 
-      "class" => "input-small" 
-    ));
-    echo $this->Form->input('emergphone2', array(
-      "label" => array("text" => "Secondary Phone", 'class' => 'control-label'),
-      "class" => "input-small"  
-    ));
-    echo $this->Form->input('emergphone3', array(
-      "label" => array("text" => "Other Phone", 'class' => 'control-label'),
-      "class" => "input-small" 
-    ));
-    echo $this->Form->input('emergemail', array(
-      "label" => array("text" => "Email Address", 'class' => 'control-label'),
-    ));
-?>
+
+  <div class="row" id="second-emergency-contact-btn-container" style="<?php if ($hasSecondaryContact) echo 'display:none'; ?>">
+    <div class="span1"></div>
+    <div class="span9">
+      <a href="#" id="second-emergency-contact-btn">Add a secondary emergency contact</a>
+    </div>
+  </div>
+  <div class="row" id="second-emergency-contact" style="<?php if (!$hasSecondaryContact) echo 'display:none'; ?>">
+    <div class="span12">
+      <div class="alert alert-secondary">Secondary Emergency Contact</div>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emerg2name', array(
+        "label" => array("text" => "Contact Name", 'class' => 'control-label'),
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emerg2relation', array(
+        "label" => array("text" => "Relationship", 'class' => 'control-label'), 
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emerg2phone1', array(
+        "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emerg2phone2', array(
+        "label" => array("text" => "Secondary Phone", 'class' => 'control-label'),
+        "class" => "input-small"  
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emerg2phone3', array(
+        "label" => array("text" => "Other Phone", 'class' => 'control-label'),
+        "class" => "input-small" 
+      ));
+      ?>
+    </div>
+    <div class="span6">
+      <?php
+      echo $this->Form->input('emerg2email', array(
+        "label" => array("text" => "Email Address", 'class' => 'control-label'),
+      ));
+      ?>
+    </div>
+  </div>
+  <script type='text/javascript'>
+  (function () {
+    function get(id) {
+      return document.getElementById(id);
+    }
+
+    var contact = get('second-emergency-contact');
+    var btnContainer = get('second-emergency-contact-btn-container');
+    var btn = get('second-emergency-contact-btn');
+    var primary = get('primary-header');
+
+    btn.addEventListener('click', function (e) {
+      e.stopPropagation();
+      e.preventDefault();
+      contact.setAttribute('style', '');
+      btnContainer.setAttribute('style', 'display:none');
+      primary.setAttribute('style', '');
+    });
+  })();
+  </script>
+  <div class="row">
+    <div class='span1'></div>
+    <div class='span9'>
+      <div class="checkbox" style="
+      padding-top: 15px; padding-bottom: 15px;">
+        <label>
+        <?php
+        echo $this->Form->checkbox('emergunable', array(
+          "label" => array("text" => "I am unable at this time to provide an emergency contact", 'class' => 'control-label'),
+          "id" => "emergunable"
+        ));
+        ?>
+        <span style="margin-left: 15px">I am unable at this time to provide an emergency contact</span>
+        </label>
+      </div>
+    </div>
+  </div>
 </fieldset>
 </div>
 </div> <!-- /row -->
 
 <div class="row">
+  <div class="span12">
 <fieldset >
   <legend>Optional Information</legend>
 
+<div class="row"> 
 <div class="span6">
 <?php
 $months = array(
@@ -131,6 +299,15 @@ $months = array(
     echo $this->Form->input('birthyear', array(
       "label" => array("text" => "Birth Year", 'class' => 'control-label'),
       "class" => "input-mini"
+    ));
+
+    echo $this->Form->input('mediapermission', array(
+      'label' => array('text' => 'Photo / Video Permission', 'class' => 'control-label'),
+      'type' => 'select',
+      'options' => array(
+        0 => "No",
+        1 => "Yes"
+      )
     ));
 ?>
 </div>
@@ -218,21 +395,25 @@ $months = array(
       ));
 ?>
 </div>
+</div>
 </fieldset>
+</div>
 </div> <!-- /row -->
 
 <?php $notes = $this->data['Volunteer']['notes']; ?>
 <div class="row" style="margin-bottom: 20px">
-  <fieldset >
-    <legend>Notes <button id="toggle-notes" class="btn <?php echo $notes == '' ? 'btn-success' : 'btn-danger' ?>">Show</button></legend>
-    <div class='span12' id="user-notes" style="display:none">
-      <?php
-      echo $this->Form->textarea('notes', array(
-        'style' => 'width: 100%; height: 300px'
-      ));
-      ?>
-    </div>
-  </fieldset>
+  <div class='span12'>
+    <fieldset >
+      <legend><button id="toggle-notes" class="btn <?php echo $notes == '' ? 'btn-success' : 'btn-danger' ?>">Notes</button></legend>
+      <div class='span12' id="user-notes" style="display:none">
+        <?php
+        echo $this->Form->textarea('notes', array(
+          'style' => 'width: 100%; height: 300px'
+        ));
+        ?>
+      </div>
+    </fieldset>
+  </div>
 </div>
 
 <script type="text/javascript">
@@ -246,7 +427,7 @@ $months = array(
   get('toggle-notes').addEventListener('click', function (e) {
     e.preventDefault();
     e.stopPropagation();
-    get('toggle-notes').innerText = shown ? 'Show' : 'Hide';
+    // get('toggle-notes').innerText = shown ? 'Show' : 'Hide';
     get('user-notes').setAttribute('style', shown ? 'display:none' : '');
     shown = !shown;
   });
