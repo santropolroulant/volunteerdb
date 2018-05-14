@@ -304,6 +304,7 @@ $months = array(
     echo $this->Form->input('mediapermission', array(
       'label' => array('text' => 'Photo / Video Permission', 'class' => 'control-label'),
       'type' => 'select',
+      'default' => 1,
       'options' => array(
         0 => "No",
         1 => "Yes"
