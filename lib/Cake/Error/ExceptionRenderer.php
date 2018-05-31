@@ -19,17 +19,15 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Error;
 
-App::uses('Sanitize', 'Utility');
-App::uses('Router', 'Routing');
-App::uses('CakeResponse', 'Network');
-App::uses('Controller', 'Controller');
+
 
 /**
  * Exception Renderer.
  *
  * Captures and handles all unhandled exceptions. Displays helpful framework errors when debug > 1.
- * When debug < 1 a CakeException will render 404 or  500 errors.  If an uncaught exception is thrown
+ * When debug < 1 a \Exception will render 404 or  500 errors.  If an uncaught exception is thrown
  * and it is a type that ExceptionHandler does not know about it will be treated as a 500 error.
  *
  * ### Implementing application specific exception rendering
@@ -62,7 +60,7 @@ class ExceptionRenderer {
 	public $controller = null;
 
 /**
- * template to render for CakeException
+ * template to render for \Exception
  *
  * @var string
  */
@@ -84,7 +82,7 @@ class ExceptionRenderer {
 
 /**
  * Creates the controller to perform rendering on the error response.
- * If the error is a CakeException it will be converted to either a 400 or a 500
+ * If the error is a \Exception it will be converted to either a 400 or a 500
  * code error depending on the code used to construct the error.
  *
  * @param Exception $exception Exception
@@ -100,7 +98,7 @@ class ExceptionRenderer {
 
 		$methodExists = method_exists($this, $method);
 
-		if ($exception instanceof CakeException && !$methodExists) {
+		if ($exception instanceof \Exception && !$methodExists) {
 			$method = '_cakeError';
 			if (empty($template)) {
 				$template = 'error500';
@@ -142,11 +140,10 @@ class ExceptionRenderer {
  * @return Controller
  */
 	protected function _getController($exception) {
-		App::uses('CakeErrorController', 'Controller');
 		if (!$request = Router::getRequest(true)) {
-			$request = new CakeRequest();
+			$request = new Request();
 		}
-		$response = new CakeResponse(array('charset' => Configure::read('App.encoding')));
+		$response = new Response(array('charset' => Configure::read('App.encoding')));
 		try {
 			if (class_exists('AppController')) {
 				$controller = new CakeErrorController($request, $response);
@@ -174,10 +171,10 @@ class ExceptionRenderer {
 /**
  * Generic handler for the internal framework errors CakePHP can generate.
  *
- * @param CakeException $error
+ * @param \Exception $error
  * @return void
  */
-	protected function _cakeError(CakeException $error) {
+	protected function _cakeError(\Exception $error) {
 		$url = $this->controller->request->here();
 		$code = ($error->getCode() >= 400 && $error->getCode() < 506) ? $error->getCode() : 500;
 		$this->controller->response->statusCode($code);
@@ -200,7 +197,7 @@ class ExceptionRenderer {
  */
 	public function error400($error) {
 		$message = $error->getMessage();
-		if (Configure::read('debug') == 0 && $error instanceof CakeException) {
+		if (Configure::read('debug') == 0 && $error instanceof \Exception) {
 			$message = __d('cake', 'Not Found');
 		}
 		$url = $this->controller->request->here();

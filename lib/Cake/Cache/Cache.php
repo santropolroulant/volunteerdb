@@ -12,9 +12,9 @@
  * @since         CakePHP(tm) v 1.2.0.4933
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Cache;
 
-App::uses('Inflector', 'Utility');
-App::uses('CacheEngine', 'Cache');
+
 
 /**
  * Cache provides a consistent interface to Caching in your application. It allows you
@@ -152,14 +152,13 @@ class Cache {
 
 		list($plugin, $class) = pluginSplit($config['engine'], true);
 		$cacheClass = $class . 'Engine';
-		App::uses($cacheClass, $plugin . 'Cache/Engine');
+		/* TODO: App::uses($cacheClass, $plugin . 'Cache/Engine'); */
 		if (!class_exists($cacheClass)) {
 			return false;
 		}
 		$cacheClass = $class . 'Engine';
 		if (!is_subclass_of($cacheClass, 'CacheEngine')) {
-			throw new CacheException(__d('cake_dev', 'Cache engines must use CacheEngine as a base class.'));
-		}
+			throw new CacheException(__d('cake_dev', 'Cache engines must		}
 		self::$_engines[$name] = new $cacheClass();
 		if (self::$_engines[$name]->init($config)) {
 			if (self::$_engines[$name]->settings['probability'] && time() % self::$_engines[$name]->settings['probability'] === 0) {
@@ -299,8 +298,7 @@ class Cache {
 		self::set(null, $config);
 		if ($success === false && $value !== '') {
 			trigger_error(
-				__d('cake_dev',
-					"%s cache was unable to write '%s' to %s cache",
+				__d('cake_dev', "{0} cache was unable to write '{1}' to {2} cache",
 					$config,
 					$key,
 					self::$_engines[$config]->settings['engine']

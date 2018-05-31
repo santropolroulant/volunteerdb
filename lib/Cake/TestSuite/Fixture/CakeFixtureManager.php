@@ -16,9 +16,9 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\TestSuite\Fixture;
 
-App::uses('ConnectionManager', 'Model');
-App::uses('ClassRegistry', 'Utility');
+
 
 /**
  * A factory class to manage the life cycle of test fixtures
@@ -58,7 +58,7 @@ class CakeFixtureManager {
 /**
  * Inspects the test to look for unloaded fixtures and loads them
  *
- * @param CakeTestCase $test the test case to inspect
+ * @param TestCase $test the test case to inspect
  * @return void
  */
 	public function fixturize($test) {
@@ -90,7 +90,7 @@ class CakeFixtureManager {
 		if ($this->_initialized) {
 			return;
 		}
-		$db = ConnectionManager::getDataSource('test');
+		$db = ConnectionManager::get('test');
 		$db->cacheSources = false;
 		$this->_db = $db;
 		$this->_initialized = true;
@@ -124,7 +124,7 @@ class CakeFixtureManager {
 				$pluginName = $parts[1];
 				$fixture = $parts[2];
 				$fixturePaths = array(
-					CakePlugin::path(Inflector::camelize($pluginName)) . 'Test' . DS . 'Fixture',
+					Plugin::path(Inflector::camelize($pluginName)) . 'Test' . DS . 'Fixture',
 					TESTS . 'Fixture'
 				);
 			} else {
@@ -150,7 +150,7 @@ class CakeFixtureManager {
 
 			if (!$loaded) {
 				$firstPath = str_replace(array(APP, CAKE_CORE_INCLUDE_PATH, ROOT), '', $fixturePaths[0] . DS . $className . 'Fixture.php');
-				throw new UnexpectedValueException(__d('cake_dev', 'Referenced fixture class %s (%s) not found', $className, $firstPath));
+				throw new UnexpectedValueException(__d('cake_dev', 'Referenced fixture class {0} ({1}) not found', $className, $firstPath));
 			}
 		}
 	}
@@ -166,7 +166,7 @@ class CakeFixtureManager {
 	protected function _setupTable($fixture, $db = null, $drop = true) {
 		if (!$db) {
 			if (!empty($fixture->useDbConfig)) {
-				$db = ConnectionManager::getDataSource($fixture->useDbConfig);
+				$db = ConnectionManager::get($fixture->useDbConfig);
 			} else {
 				$db = $this->_db;
 			}
@@ -192,10 +192,10 @@ class CakeFixtureManager {
 /**
  * Creates the fixtures tables and inserts data on them.
  *
- * @param CakeTestCase $test the test to inspect for fixture loading
+ * @param TestCase $test the test to inspect for fixture loading
  * @return void
  */
-	public function load(CakeTestCase $test) {
+	public function load(TestCase $test) {
 		if (empty($test->fixtures)) {
 			return;
 		}
@@ -210,7 +210,7 @@ class CakeFixtureManager {
 		foreach ($fixtures as $f) {
 			if (!empty($this->_loaded[$f])) {
 				$fixture = $this->_loaded[$f];
-				$db = ConnectionManager::getDataSource($fixture->useDbConfig);
+				$db = ConnectionManager::get($fixture->useDbConfig);
 				$this->_setupTable($fixture, $db, $test->dropTables);
 				$fixture->insert($db);
 			}
@@ -222,17 +222,17 @@ class CakeFixtureManager {
 /**
  * Truncates the fixtures tables
  *
- * @param CakeTestCase $test the test to inspect for fixture unloading
+ * @param TestCase $test the test to inspect for fixture unloading
  * @return void
  */
-	public function unload(CakeTestCase $test) {
+	public function unload(TestCase $test) {
 		$fixtures = !empty($test->fixtures) ? $test->fixtures : array();
 		foreach (array_reverse($fixtures) as $f) {
 			if (isset($this->_loaded[$f])) {
 				$fixture = $this->_loaded[$f];
 				if (!empty($fixture->created)) {
 					foreach ($fixture->created as $ds) {
-						$db = ConnectionManager::getDataSource($ds);
+						$db = ConnectionManager::get($ds);
 						$fixture->truncate($db);
 					}
 				}
@@ -253,13 +253,13 @@ class CakeFixtureManager {
 		if (isset($this->_fixtureMap[$name])) {
 			$fixture = $this->_fixtureMap[$name];
 			if (!$db) {
-				$db = ConnectionManager::getDataSource($fixture->useDbConfig);
+				$db = ConnectionManager::get($fixture->useDbConfig);
 			}
 			$this->_setupTable($fixture, $db);
 			$fixture->truncate($db);
 			$fixture->insert($db);
 		} else {
-			throw new UnexpectedValueException(__d('cake_dev', 'Referenced fixture class %s not found', $name));
+			throw new UnexpectedValueException(__d('cake_dev', 'Referenced fixture class {0} not found', $name));
 		}
 	}
 
@@ -272,7 +272,7 @@ class CakeFixtureManager {
 		foreach ($this->_loaded as $fixture) {
 			if (!empty($fixture->created)) {
 				foreach ($fixture->created as $ds) {
-					$db = ConnectionManager::getDataSource($ds);
+					$db = ConnectionManager::get($ds);
 					$fixture->drop($db);
 				}
 			}

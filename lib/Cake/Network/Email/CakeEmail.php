@@ -16,12 +16,9 @@
  * @since         CakePHP(tm) v 2.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Network\Email;
 
-App::uses('Validation', 'Utility');
-App::uses('Multibyte', 'I18n');
-App::uses('AbstractTransport', 'Network/Email');
-App::uses('String', 'Utility');
-App::uses('View', 'View');
+
 App::import('I18n', 'Multibyte');
 
 /**
@@ -32,7 +29,7 @@ App::import('I18n', 'Multibyte');
  *
  * @package       Cake.Network.Email
  */
-class CakeEmail {
+class Email {
 /**
  * Default X-Mailer
  *
@@ -343,7 +340,7 @@ class CakeEmail {
  *
  * @param string|array $email
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  * @throws SocketException
  */
 	public function from($email = null, $name = null) {
@@ -358,7 +355,7 @@ class CakeEmail {
  *
  * @param string|array $email
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  * @throws SocketException
  */
 	public function sender($email = null, $name = null) {
@@ -373,7 +370,7 @@ class CakeEmail {
  *
  * @param string|array $email
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  * @throws SocketException
  */
 	public function replyTo($email = null, $name = null) {
@@ -388,7 +385,7 @@ class CakeEmail {
  *
  * @param string|array $email
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  * @throws SocketException
  */
 	public function readReceipt($email = null, $name = null) {
@@ -403,7 +400,7 @@ class CakeEmail {
  *
  * @param string|array $email
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  * @throws SocketException
  */
 	public function returnPath($email = null, $name = null) {
@@ -418,7 +415,7 @@ class CakeEmail {
  *
  * @param string|array $email Null to get, String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  */
 	public function to($email = null, $name = null) {
 		if ($email === null) {
@@ -432,7 +429,7 @@ class CakeEmail {
  *
  * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return CakeEmail $this
+ * @return Email $this
  */
 	public function addTo($email, $name = null) {
 		return $this->_addEmail('_to', $email, $name);
@@ -443,7 +440,7 @@ class CakeEmail {
  *
  * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  */
 	public function cc($email = null, $name = null) {
 		if ($email === null) {
@@ -457,7 +454,7 @@ class CakeEmail {
  *
  * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return CakeEmail $this
+ * @return Email $this
  */
 	public function addCc($email, $name = null) {
 		return $this->_addEmail('_cc', $email, $name);
@@ -468,7 +465,7 @@ class CakeEmail {
  *
  * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return array|CakeEmail
+ * @return array|Email
  */
 	public function bcc($email = null, $name = null) {
 		if ($email === null) {
@@ -482,7 +479,7 @@ class CakeEmail {
  *
  * @param string|array $email String with email, Array with email as key, name as value or email as value (without name)
  * @param string $name
- * @return CakeEmail $this
+ * @return Email $this
  */
 	public function addBcc($email, $name = null) {
 		return $this->_addEmail('_bcc', $email, $name);
@@ -524,13 +521,13 @@ class CakeEmail {
  * @param string $varName
  * @param string|array $email
  * @param string $name
- * @return CakeEmail $this
+ * @return Email $this
  * @throws SocketException
  */
 	protected function _setEmail($varName, $email, $name) {
 		if (!is_array($email)) {
 			if (!Validation::email($email)) {
-				throw new SocketException(__d('cake_dev', 'Invalid email: "%s"', $email));
+				throw new SocketException(__d('cake_dev', 'Invalid email: "{0}"', $email));
 			}
 			if ($name === null) {
 				$name = $email;
@@ -544,7 +541,7 @@ class CakeEmail {
 				$key = $value;
 			}
 			if (!Validation::email($key)) {
-				throw new SocketException(__d('cake_dev', 'Invalid email: "%s"', $key));
+				throw new SocketException(__d('cake_dev', 'Invalid email: "{0}"', $key));
 			}
 			$list[$key] = $value;
 		}
@@ -559,7 +556,7 @@ class CakeEmail {
  * @param string|array $email
  * @param string $name
  * @param string $throwMessage
- * @return CakeEmail $this
+ * @return Email $this
  * @throws SocketException
  */
 	protected function _setEmailSingle($varName, $email, $name, $throwMessage) {
@@ -578,13 +575,13 @@ class CakeEmail {
  * @param string $varName
  * @param string|array $email
  * @param string $name
- * @return CakeEmail $this
+ * @return Email $this
  * @throws SocketException
  */
 	protected function _addEmail($varName, $email, $name) {
 		if (!is_array($email)) {
 			if (!Validation::email($email)) {
-				throw new SocketException(__d('cake_dev', 'Invalid email: "%s"', $email));
+				throw new SocketException(__d('cake_dev', 'Invalid email: "{0}"', $email));
 			}
 			if ($name === null) {
 				$name = $email;
@@ -598,7 +595,7 @@ class CakeEmail {
 				$key = $value;
 			}
 			if (!Validation::email($key)) {
-				throw new SocketException(__d('cake_dev', 'Invalid email: "%s"', $key));
+				throw new SocketException(__d('cake_dev', 'Invalid email: "{0}"', $key));
 			}
 			$list[$key] = $value;
 		}
@@ -610,7 +607,7 @@ class CakeEmail {
  * Get/Set Subject.
  *
  * @param string $subject
- * @return string|CakeEmail
+ * @return string|Email
  */
 	public function subject($subject = null) {
 		if ($subject === null) {
@@ -624,7 +621,7 @@ class CakeEmail {
  * Sets headers for the message
  *
  * @param array $headers Associative array containing headers to be set.
- * @return CakeEmail $this
+ * @return Email $this
  * @throws SocketException
  */
 	public function setHeaders($headers) {
@@ -711,7 +708,7 @@ class CakeEmail {
 		}
 		if ($this->_messageId !== false) {
 			if ($this->_messageId === true) {
-				$headers['Message-ID'] = '<' . str_replace('-', '', String::UUID()) . '@' . $this->_domain . '>';
+				$headers['Message-ID'] = '<' . str_replace('-', '', Text::UUID()) . '@' . $this->_domain . '>';
 			} else {
 				$headers['Message-ID'] = $this->_messageId;
 			}
@@ -760,7 +757,7 @@ class CakeEmail {
  *
  * @param boolean|string $template Template name or null to not use
  * @param boolean|string $layout Layout name or null to not use
- * @return array|CakeEmail
+ * @return array|Email
  */
 	public function template($template = false, $layout = false) {
 		if ($template === false) {
@@ -780,7 +777,7 @@ class CakeEmail {
  * View class for render
  *
  * @param string $viewClass
- * @return string|CakeEmail
+ * @return string|Email
  */
 	public function viewRender($viewClass = null) {
 		if ($viewClass === null) {
@@ -794,7 +791,7 @@ class CakeEmail {
  * Variables to be set on render
  *
  * @param array $viewVars
- * @return array|CakeEmail
+ * @return array|Email
  */
 	public function viewVars($viewVars = null) {
 		if ($viewVars === null) {
@@ -808,7 +805,7 @@ class CakeEmail {
  * Theme to use when rendering
  *
  * @param string $theme
- * @return string|CakeEmail
+ * @return string|Email
  */
 	public function theme($theme = null) {
 		if ($theme === null) {
@@ -822,7 +819,7 @@ class CakeEmail {
  * Helpers to be used in render
  *
  * @param array $helpers
- * @return array|CakeEmail
+ * @return array|Email
  */
 	public function helpers($helpers = null) {
 		if ($helpers === null) {
@@ -836,7 +833,7 @@ class CakeEmail {
  * Email format
  *
  * @param string $format
- * @return string|CakeEmail
+ * @return string|Email
  * @throws SocketException
  */
 	public function emailFormat($format = null) {
@@ -854,7 +851,7 @@ class CakeEmail {
  * Transport name
  *
  * @param string $name
- * @return string|CakeEmail
+ * @return string|Email
  */
 	public function transport($name = null) {
 		if ($name === null) {
@@ -868,7 +865,7 @@ class CakeEmail {
 /**
  * Return the transport class
  *
- * @return CakeEmail
+ * @return Email
  * @throws SocketException
  */
 	public function transportClass() {
@@ -877,11 +874,11 @@ class CakeEmail {
 		}
 		list($plugin, $transportClassname) = pluginSplit($this->_transportName, true);
 		$transportClassname .= 'Transport';
-		App::uses($transportClassname, $plugin . 'Network/Email');
+		/* TODO: App::uses($transportClassname, $plugin . 'Network/Email'); */
 		if (!class_exists($transportClassname)) {
-			throw new SocketException(__d('cake_dev', 'Class "%s" not found.', $transportClassname));
+			throw new SocketException(__d('cake_dev', 'Class "{0}" not found.', $transportClassname));
 		} elseif (!method_exists($transportClassname, 'send')) {
-			throw new SocketException(__d('cake_dev', 'The "%s" do not have send method.', $transportClassname));
+			throw new SocketException(__d('cake_dev', 'The "{0}" do not have send method.', $transportClassname));
 		}
 
 		return $this->_transportClass = new $transportClassname();
@@ -891,7 +888,7 @@ class CakeEmail {
  * Message-ID
  *
  * @param boolean|string $message True to generate a new Message-ID, False to ignore (not send in email), String to set as Message-ID
- * @return boolean|string|CakeEmail
+ * @return boolean|string|Email
  * @throws SocketException
  */
 	public function messageId($message = null) {
@@ -913,7 +910,7 @@ class CakeEmail {
  * Domain as top level (the part after @)
  *
  * @param string $domain Manually set the domain for CLI mailing
- * @return string|CakeEmail
+ * @return string|Email
  */
 	public function domain($domain = null) {
 		if ($domain === null) {
@@ -954,7 +951,7 @@ class CakeEmail {
  * can use `<img src="cid:abc123" />` to display the image inline.
  *
  * @param string|array $attachments String with the filename or array with filenames
- * @return array|CakeEmail Either the array of attachments when getting or $this when setting.
+ * @return array|Email Either the array of attachments when getting or $this when setting.
  * @throws SocketException
  */
 	public function attachments($attachments = null) {
@@ -971,7 +968,7 @@ class CakeEmail {
 			}
 			$fileInfo['file'] = realpath($fileInfo['file']);
 			if ($fileInfo['file'] === false || !file_exists($fileInfo['file'])) {
-				throw new SocketException(__d('cake_dev', 'File not found: "%s"', $fileInfo['file']));
+				throw new SocketException(__d('cake_dev', 'File not found: "{0}"', $fileInfo['file']));
 			}
 			if (is_int($name)) {
 				$name = basename($fileInfo['file']);
@@ -989,7 +986,7 @@ class CakeEmail {
  * Add attachments
  *
  * @param string|array $attachments String with the filename or array with filenames
- * @return CakeEmail $this
+ * @return Email $this
  * @throws SocketException
  */
 	public function addAttachments($attachments) {
@@ -1019,7 +1016,7 @@ class CakeEmail {
  * Configuration to use when send email
  *
  * @param string|array $config String with configuration name (from email.php), array with config or null to return current config
- * @return string|array|CakeEmail
+ * @return string|array|Email
  */
 	public function config($config = null) {
 		if ($config === null) {
@@ -1062,20 +1059,20 @@ class CakeEmail {
 			if ($this->_config['log'] !== true) {
 				$level = $this->_config['log'];
 			}
-			CakeLog::write($level, PHP_EOL . $contents['headers'] . PHP_EOL . $contents['message']);
+			Log::write($level, PHP_EOL . $contents['headers'] . PHP_EOL . $contents['message']);
 		}
 		return $contents;
 	}
 
 /**
- * Static method to fast create an instance of CakeEmail
+ * Static method to fast create an instance of Email
  *
- * @param string|array $to Address to send (see CakeEmail::to()). If null, will try to use 'to' from transport config
+ * @param string|array $to Address to send (see Email::to()). If null, will try to use 'to' from transport config
  * @param string $subject String of subject or null to use 'subject' from transport config
  * @param string|array $message String with message or array with variables to be used in render
  * @param string|array $transportConfig String to use config from EmailConfig or array with configs
  * @param boolean $send Send the email or just return the instance pre-configured
- * @return CakeEmail Instance of CakeEmail
+ * @return Email Instance of Email
  * @throws SocketException
  */
 	public static function deliver($to = null, $subject = null, $message = null, $transportConfig = 'fast', $send = true) {
@@ -1104,7 +1101,7 @@ class CakeEmail {
 /**
  * Apply the config to an instance
  *
- * @param CakeEmail $obj CakeEmail
+ * @param Email $obj Email
  * @param array $config
  * @return void
  * @throws ConfigureException When configuration file cannot be found, or is missing
@@ -1113,11 +1110,11 @@ class CakeEmail {
 	protected function _applyConfig($config) {
 		if (is_string($config)) {
 			if (!class_exists('EmailConfig') && !config('email')) {
-				throw new ConfigureException(__d('cake_dev', '%s not found.', APP . 'Config' . DS . 'email.php'));
+				throw new ConfigureException(__d('cake_dev', '{0} not found.', APP . 'Config' . DS . 'email.php'));
 			}
 			$configs = new EmailConfig();
 			if (!isset($configs->{$config})) {
-				throw new ConfigureException(__d('cake_dev', 'Unknown email configuration "%s".', $config));
+				throw new ConfigureException(__d('cake_dev', 'Unknown email configuration "{0}".', $config));
 			}
 			$config = $configs->{$config};
 		}
@@ -1161,7 +1158,7 @@ class CakeEmail {
 /**
  * Reset all EmailComponent internal variables to be able to send out a new email.
  *
- * @return CakeEmail $this
+ * @return Email $this
  */
 	public function reset() {
 		$this->_to = array();
@@ -1525,7 +1522,7 @@ class CakeEmail {
 		if ($viewClass !== 'View') {
 			list($plugin, $viewClass) = pluginSplit($viewClass, true);
 			$viewClass .= 'View';
-			App::uses($viewClass, $plugin . 'View');
+			/* TODO: App::uses($viewClass, $plugin . 'View'); */
 		}
 
 		$View = new $viewClass(null);

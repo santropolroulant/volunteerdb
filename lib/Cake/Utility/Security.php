@@ -16,8 +16,9 @@
  * @since         CakePHP(tm) v .0.10.0.1233
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
 
-App::uses('String', 'Utility');
+
 
 /**
  * Security Library contains utility methods related to security
@@ -56,7 +57,7 @@ class Security {
  * @return string Hash
  */
 	public static function generateAuthKey() {
-		return Security::hash(String::uuid());
+		return Security::hash(Text::uuid());
 	}
 
 /**
@@ -133,8 +134,7 @@ class Security {
  */
 	public static function cipher($text, $key) {
 		if (empty($key)) {
-			trigger_error(__d('cake_dev', 'You cannot use an empty key for Security::cipher()'), E_USER_WARNING);
-			return '';
+			trigger_error(__d('cake_dev', 'You cannot			return '';
 		}
 
 		srand(Configure::read('Security.cipherSeed'));
@@ -162,16 +162,14 @@ class Security {
  */
 	public static function rijndael($text, $key, $operation) {
 		if (empty($key)) {
-			trigger_error(__d('cake_dev', 'You cannot use an empty key for Security::rijndael()'), E_USER_WARNING);
-			return '';
+			trigger_error(__d('cake_dev', 'You cannot			return '';
 		}
 		if (empty($operation) || !in_array($operation, array('encrypt', 'decrypt'))) {
 			trigger_error(__d('cake_dev', 'You must specify the operation for Security::rijndael(), either encrypt or decrypt'), E_USER_WARNING);
 			return '';
 		}
 		if (strlen($key) < 32) {
-			trigger_error(__d('cake_dev', 'You must use a key larger than 32 bytes for Security::rijndael()'), E_USER_WARNING);
-			return '';
+			trigger_error(__d('cake_dev', 'You must			return '';
 		}
 		$algorithm = 'rijndael-256';
 		$mode = 'cbc';

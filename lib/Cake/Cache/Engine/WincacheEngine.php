@@ -18,6 +18,8 @@
  * @since         CakePHP(tm) v 1.2.0.4933
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Cache\Engine;
+
 
 /**
  * Wincache storage engine for cache

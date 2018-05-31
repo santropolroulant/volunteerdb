@@ -20,7 +20,6 @@
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
 
-App::uses('ExceptionRenderer', 'Error');
 
 class TestPluginExceptionRenderer extends ExceptionRenderer {
 

@@ -12,13 +12,12 @@
  * @since         CakePHP(tm) v 1.0.0.2363
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Core;
 
-App::uses('Hash', 'Utility');
-App::uses('ConfigReaderInterface', 'Configure');
+
 /**
  * Compatibility with 2.1, which expects Configure to load Set.
  */
-App::uses('Set', 'Utility');
 
 /**
  * Configuration class. Used for managing runtime configuration information.
@@ -74,7 +73,7 @@ class Configure {
 			));
 
 			if (!include APP . 'Config' . DS . 'core.php') {
-				trigger_error(__d('cake_dev', "Can't find application core file. Please create %score.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
+				trigger_error(__d('cake_dev', "Can't find application core file. Please create {0}core.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
 			}
 			App::$bootstrapping = false;
 			App::init();
@@ -90,7 +89,7 @@ class Configure {
 			self::_setErrorHandlers($error, $exception);
 
 			if (!include APP . 'Config' . DS . 'bootstrap.php') {
-				trigger_error(__d('cake_dev', "Can't find application bootstrap file. Please create %sbootstrap.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
+				trigger_error(__d('cake_dev', "Can't find application bootstrap file. Please create {0}bootstrap.php, and make sure it is readable by PHP.", APP . 'Config' . DS), E_USER_ERROR);
 			}
 			restore_error_handler();
 
@@ -306,10 +305,10 @@ class Configure {
 	public static function dump($key, $config = 'default', $keys = array()) {
 		$reader = self::_getReader($config);
 		if (!$reader) {
-			throw new ConfigureException(__d('cake', 'There is no "%s" adapter.', $config));
+			throw new ConfigureException(__d('cake', 'There is no "{0}" adapter.', $config));
 		}
 		if (!method_exists($reader, 'dump')) {
-			throw new ConfigureException(__d('cake', 'The "%s" adapter, does not have a dump() method.', $config));
+			throw new ConfigureException(__d('cake', 'The "{0}" adapter, does not have a dump() method.', $config));
 		}
 		$values = self::$_values;
 		if (!empty($keys) && is_array($keys)) {
@@ -330,7 +329,6 @@ class Configure {
 			if ($config !== 'default') {
 				return false;
 			}
-			App::uses('PhpReader', 'Configure');
 			self::config($config, new PhpReader());
 		}
 		return self::$_readers[$config];

@@ -16,6 +16,8 @@
  * @since         CakePHP(tm) v 2.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Network\Email;
+
 
 /**
  * Abstract transport for sending email
@@ -34,10 +36,10 @@ abstract class AbstractTransport {
 /**
  * Send mail
  *
- * @params CakeEmail $email
+ * @params Email $email
  * @return array
  */
-	abstract public function send(CakeEmail $email);
+	abstract public function send(Email $email);
 
 /**
  * Set the config

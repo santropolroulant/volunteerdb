@@ -18,9 +18,9 @@
  * @since         CakePHP(tm) v 1.2.4560
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
 
-App::uses('CakeLog', 'Log');
-App::uses('String', 'Utility');
+
 
 /**
  * Provide custom logging and error handling.
@@ -190,7 +190,7 @@ class Debugger {
  */
 	public static function log($var, $level = LOG_DEBUG) {
 		$source = self::trace(array('start' => 1)) . "\n";
-		CakeLog::write($level, "\n" . $source . self::exportVar($var));
+		Log::write($level, "\n" . $source . self::exportVar($var));
 	}
 
 /**
@@ -338,7 +338,7 @@ class Debugger {
 				$trace['path'] = self::trimPath($trace['file']);
 				$trace['reference'] = $reference;
 				unset($trace['object'], $trace['args']);
-				$back[] = String::insert($tpl, $trace, array('before' => '{:', 'after' => '}'));
+				$back[] = Text::insert($tpl, $trace, array('before' => '{:', 'after' => '}'));
 			}
 		}
 
@@ -583,7 +583,7 @@ class Debugger {
  * @param string $format The format you want errors to be output as.
  *   Leave null to get the current format.
  * @return mixed Returns null when setting.  Returns the current format when getting.
- * @throws CakeException when choosing a format that doesn't exist.
+ * @throws \Exception when choosing a format that doesn't exist.
  */
 	public static function outputAs($format = null) {
 		$self = Debugger::getInstance();
@@ -591,7 +591,7 @@ class Debugger {
 			return $self->_outputFormat;
 		}
 		if ($format !== false && !isset($self->_templates[$format])) {
-			throw new CakeException(__d('cake_dev', 'Invalid Debugger output format.'));
+			throw new \Exception(__d('cake_dev', 'Invalid Debugger output format.'));
 		}
 		$self->_outputFormat = $format;
 	}
@@ -601,7 +601,7 @@ class Debugger {
  *
  * `Debugger::addFormat('custom', $data);`
  *
- * Where $data is an array of strings that use String::insert() variable
+ * Where $data is an array of strings that use Text::insert() variable
  * replacement.  The template vars should be in a `{:id}` style.
  * An error formatter can have the following keys:
  *
@@ -739,7 +739,7 @@ class Debugger {
 
 		if (isset($tpl['links'])) {
 			foreach ($tpl['links'] as $key => $val) {
-				$links[$key] = String::insert($val, $data, $insertOpts);
+				$links[$key] = Text::insert($val, $data, $insertOpts);
 			}
 		}
 
@@ -755,14 +755,14 @@ class Debugger {
 			if (is_array($value)) {
 				$value = join("\n", $value);
 			}
-			$info .= String::insert($tpl[$key], array($key => $value) + $data, $insertOpts);
+			$info .= Text::insert($tpl[$key], array($key => $value) + $data, $insertOpts);
 		}
 		$links = join(' ', $links);
 
 		if (isset($tpl['callback']) && is_callable($tpl['callback'])) {
 			return call_user_func($tpl['callback'], $data, compact('links', 'info'));
 		}
-		echo String::insert($tpl['error'], compact('links', 'info') + $data, $insertOpts);
+		echo Text::insert($tpl['error'], compact('links', 'info') + $data, $insertOpts);
 	}
 
 /**

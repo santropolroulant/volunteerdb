@@ -16,8 +16,8 @@
  * @since         CakePHP(tm) v 1.2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('CakeSocket', 'Network');
-App::uses('Router', 'Routing');
+namespace lib\Cake\Network\Http;
+
 
 /**
  * Cake network socket connection class.
@@ -27,7 +27,7 @@ App::uses('Router', 'Routing');
  *
  * @package       Cake.Network.Http
  */
-class HttpSocket extends CakeSocket {
+class HttpSocket extends Socket {
 
 /**
  * When one activates the $quirksMode by setting it to true, all checks meant to
@@ -130,18 +130,18 @@ class HttpSocket extends CakeSocket {
  * You can use a url string to set the url and use default configurations for
  * all other options:
  *
- * `$http = new HttpSocket('http://cakephp.org/');`
+ * `$http = new Client('http://cakephp.org/');`
  *
  * Or use an array to configure multiple options:
  *
  * {{{
- * $http = new HttpSocket(array(
+ * $http = new Client(array(
  *    'host' => 'cakephp.org',
  *    'timeout' => 20
  * ));
  * }}}
  *
- * See HttpSocket::$config for options that can be used.
+ * See Client::$config for options that can be used.
  *
  * @param string|array $config Configuration information, either a string url or an array of options.
  */
@@ -242,7 +242,7 @@ class HttpSocket extends CakeSocket {
 	}
 
 /**
- * Issue the specified request. HttpSocket::get() and HttpSocket::post() wrap this
+ * Issue the specified request. Client::get() and Client::post() wrap this
  * method and provide a more granular interface.
  *
  * @param string|array $request Either an URI string, or an array defining host/uri
@@ -390,9 +390,9 @@ class HttpSocket extends CakeSocket {
 		}
 
 		list($plugin, $responseClass) = pluginSplit($this->responseClass, true);
-		App::uses($responseClass, $plugin . 'Network/Http');
+		/* TODO: App::uses($responseClass, $plugin . 'Network/Http'); */
 		if (!class_exists($responseClass)) {
-			throw new SocketException(__d('cake_dev', 'Class %s not found.', $this->responseClass));
+			throw new SocketException(__d('cake_dev', 'Class {0} not found.', $this->responseClass));
 		}
 		$this->response = new $responseClass($response);
 		if (!empty($this->response->cookies)) {
@@ -429,7 +429,7 @@ class HttpSocket extends CakeSocket {
  * );
  * }}}
  *
- * @param string|array $uri URI to request. Either a string uri, or a uri array, see HttpSocket::_parseUri()
+ * @param string|array $uri URI to request. Either a string uri, or a uri array, see Client::_parseUri()
  * @param array $query Querystring parameters to append to URI
  * @param array $request An indexed array with indexes such as 'method' or uri
  * @return mixed Result of request, either false on failure or the response to the request.
@@ -461,7 +461,7 @@ class HttpSocket extends CakeSocket {
  * ));
  * }}}
  *
- * @param string|array $uri URI to request. See HttpSocket::_parseUri()
+ * @param string|array $uri URI to request. See Client::_parseUri()
  * @param array $data Array of POST data keys and values.
  * @param array $request An indexed array with indexes such as 'method' or uri
  * @return mixed Result of request, either false on failure or the response to the request.
@@ -474,7 +474,7 @@ class HttpSocket extends CakeSocket {
 /**
  * Issues a PUT request to the specified URI, query, and request.
  *
- * @param string|array $uri URI to request, See HttpSocket::_parseUri()
+ * @param string|array $uri URI to request, See Client::_parseUri()
  * @param array $data Array of PUT data keys and values.
  * @param array $request An indexed array with indexes such as 'method' or uri
  * @return mixed Result of request
@@ -508,7 +508,7 @@ class HttpSocket extends CakeSocket {
  * urls.
  *
  * {{{
- * $http = new HttpSocket('http://www.cakephp.org');
+ * $http = new Client('http://www.cakephp.org');
  * $url = $http->url('/search?q=bar');
  * }}}
  *
@@ -573,7 +573,7 @@ class HttpSocket extends CakeSocket {
 		$method = key($this->_auth);
 		list($plugin, $authClass) = pluginSplit($method, true);
 		$authClass = Inflector::camelize($authClass) . 'Authentication';
-		App::uses($authClass, $plugin . 'Network/Http');
+		/* TODO: App::uses($authClass, $plugin . 'Network/Http'); */
 
 		if (!class_exists($authClass)) {
 			throw new SocketException(__d('cake_dev', 'Unknown authentication method.'));
@@ -602,7 +602,7 @@ class HttpSocket extends CakeSocket {
 		}
 		list($plugin, $authClass) = pluginSplit($this->_proxy['method'], true);
 		$authClass = Inflector::camelize($authClass) . 'Authentication';
-		App::uses($authClass, $plugin . 'Network/Http');
+		/* TODO: App::uses($authClass, $plugin . 'Network/Http'); */
 
 		if (!class_exists($authClass)) {
 			throw new SocketException(__d('cake_dev', 'Unknown authentication method for proxy.'));
@@ -616,7 +616,7 @@ class HttpSocket extends CakeSocket {
 /**
  * Parses and sets the specified URI into current request configuration.
  *
- * @param string|array $uri URI, See HttpSocket::_parseUri()
+ * @param string|array $uri URI, See Client::_parseUri()
  * @return boolean If uri has merged in config
  */
 	protected function _configUri($uri = null) {
@@ -833,7 +833,7 @@ class HttpSocket extends CakeSocket {
 		if (is_string($request)) {
 			$isValid = preg_match("/(.+) (.+) (.+)\r\n/U", $request, $match);
 			if (!$this->quirksMode && (!$isValid || ($match[2] == '*' && !in_array($match[3], $asteriskMethods)))) {
-				throw new SocketException(__d('cake_dev', 'HttpSocket::_buildRequestLine - Passed an invalid request line string. Activate quirks mode to do this.'));
+				throw new SocketException(__d('cake_dev', 'Client::_buildRequestLine - Passed an invalid request line string. Activate quirks mode to do this.'));
 			}
 			return $request;
 		} elseif (!is_array($request)) {
@@ -851,7 +851,7 @@ class HttpSocket extends CakeSocket {
 		}
 
 		if (!$this->quirksMode && $request['uri'] === '*' && !in_array($request['method'], $asteriskMethods)) {
-			throw new SocketException(__d('cake_dev', 'HttpSocket::_buildRequestLine - The "*" asterisk character is only allowed for the following methods: %s. Activate quirks mode to work outside of HTTP/1.1 specs.', implode(',', $asteriskMethods)));
+			throw new SocketException(__d('cake_dev', 'Client::_buildRequestLine - The "*" asterisk character is only allowed for the following methods: {0}. Activate quirks mode to work outside of HTTP/1.1 specs.', implode(',', $asteriskMethods)));
 		}
 		return $request['method'] . ' ' . $request['uri'] . ' ' . $versionToken . "\r\n";
 	}
@@ -957,7 +957,7 @@ class HttpSocket extends CakeSocket {
  * Resets the state of this HttpSocket instance to it's initial state (before Object::__construct got executed) or does
  * the same thing partially for the request and the response property only.
  *
- * @param boolean $full If set to false only HttpSocket::response and HttpSocket::request are reseted
+ * @param boolean $full If set to false only Client::response and Client::request are reseted
  * @return boolean True on success
  */
 	public function reset($full = true) {

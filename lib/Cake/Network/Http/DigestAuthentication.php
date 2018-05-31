@@ -16,6 +16,8 @@
  * @since         CakePHP(tm) v 2.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Network\Http;
+
 
 /**
  * Digest authentication

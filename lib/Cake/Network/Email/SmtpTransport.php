@@ -16,8 +16,9 @@
  * @since         CakePHP(tm) v 2.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Network\Email;
 
-App::uses('CakeSocket', 'Network');
+
 
 /**
  * Send mail using SMTP protocol
@@ -29,14 +30,14 @@ class SmtpTransport extends AbstractTransport {
 /**
  * Socket to SMTP server
  *
- * @var CakeSocket
+ * @var Socket
  */
 	protected $_socket;
 
 /**
- * CakeEmail
+ * Email
  *
- * @var CakeEmail
+ * @var Email
  */
 	protected $_cakeEmail;
 
@@ -50,11 +51,11 @@ class SmtpTransport extends AbstractTransport {
 /**
  * Send mail
  *
- * @param CakeEmail $email CakeEmail
+ * @param Email $email Email
  * @return array
  * @throws SocketException
  */
-	public function send(CakeEmail $email) {
+	public function send(Email $email) {
 		$this->_cakeEmail = $email;
 
 		$this->_connect();
@@ -200,7 +201,7 @@ class SmtpTransport extends AbstractTransport {
  * @throws SocketException
  */
 	protected function _generateSocket() {
-		$this->_socket = new CakeSocket($this->_config);
+		$this->_socket = new Socket($this->_config);
 	}
 
 /**
@@ -233,7 +234,7 @@ class SmtpTransport extends AbstractTransport {
 				}
 				return $code[1];
 			}
-			throw new SocketException(__d('cake_dev', 'SMTP Error: %s', $response));
+			throw new SocketException(__d('cake_dev', 'SMTP Error: {0}', $response));
 		}
 	}
 

@@ -16,6 +16,8 @@
  * @since         CakePHP(tm) v 1.2.0.4947
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Cache\Engine;
+
 
 /**
  * Xcache storage engine for cache

@@ -16,15 +16,11 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\TestSuite;
+
 
 require_once 'PHPUnit/TextUI/Command.php';
 
-App::uses('CakeTestRunner', 'TestSuite');
-App::uses('CakeTestLoader', 'TestSuite');
-App::uses('CakeTestSuite', 'TestSuite');
-App::uses('CakeTestCase', 'TestSuite');
-App::uses('ControllerTestCase', 'TestSuite');
-App::uses('CakeTestModel', 'TestSuite/Fixture');
 
 /**
  * Class to customize loading of test suites from CLI
@@ -155,10 +151,10 @@ class CakeTestSuiteCommand extends PHPUnit_TextUI_Command {
 		$type = strtolower($reporter);
 		$reporter = ucwords($reporter);
 		$coreClass = 'Cake' . $reporter . 'Reporter';
-		App::uses($coreClass, 'TestSuite/Reporter');
+		/* TODO: App::uses($coreClass, 'TestSuite/Reporter'); */
 
 		$appClass = $reporter . 'Reporter';
-		App::uses($appClass, 'TestSuite/Reporter');
+		/* TODO: App::uses($appClass, 'TestSuite/Reporter'); */
 
 		if (!class_exists($appClass)) {
 			$object = new $coreClass(null, $this->_params);

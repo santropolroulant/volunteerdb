@@ -1,6 +1,6 @@
 <?php
 /**
- * CakeTime utility class file.
+ * Time utility class file.
  *
  * PHP 5
  *
@@ -16,8 +16,9 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
 
-App::uses('Multibyte', 'I18n');
+
 
 /**
  * Time Helper class for easy use of time data.
@@ -27,43 +28,43 @@ App::uses('Multibyte', 'I18n');
  * @package       Cake.Utility
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/time.html
  */
-class CakeTime {
+class Time {
 
 /**
- * The format to use when formatting a time using `CakeTime::nice()`
+ * The format to use when formatting a time using `Time::nice()`
  *
  * The format should use the locale strings as defined in the PHP docs under
  * `strftime` (http://php.net/manual/en/function.strftime.php)
  *
  * @var string
- * @see CakeTime::format()
+ * @see Time::format()
  */
 	public static $niceFormat = '%a, %b %eS %Y, %H:%M';
 
 /**
- * The format to use when formatting a time using `CakeTime::timeAgoInWords()`
- * and the difference is more than `CakeTime::$wordEnd`
+ * The format to use when formatting a time using `Time::timeAgoInWords()`
+ * and the difference is more than `Time::$wordEnd`
  *
  * @var string
- * @see CakeTime::timeAgoInWords()
+ * @see Time::timeAgoInWords()
  */
 	public static $wordFormat = 'j/n/y';
 
 /**
- * The format to use when formatting a time using `CakeTime::niceShort()`
+ * The format to use when formatting a time using `Time::niceShort()`
  * and the difference is between 3 and 7 days
  *
  * @var string
- * @see CakeTime::niceShort()
+ * @see Time::niceShort()
  */
 	public static $niceShortFormat = '%d/%m, %H:%M';
 
 /**
- * The format to use when formatting a time using `CakeTime::timeAgoInWords()`
- * and the difference is less than `CakeTime::$wordEnd`
+ * The format to use when formatting a time using `Time::timeAgoInWords()`
+ * and the difference is less than `Time::$wordEnd`
  *
  * @var array
- * @see CakeTime::timeAgoInWords()
+ * @see Time::timeAgoInWords()
  */
 	public static $wordAccuracy = array(
 		'year' => "day",
@@ -79,7 +80,7 @@ class CakeTime {
  * The end of relative time telling
  *
  * @var string
- * @see CakeTime::timeAgoInWords()
+ * @see Time::timeAgoInWords()
  */
 	public static $wordEnd = '+1 month';
 
@@ -91,7 +92,7 @@ class CakeTime {
 /**
  * Magic set method for backward compatibility.
  *
- * Used by TimeHelper to modify static variables in CakeTime
+ * Used by TimeHelper to modify static variables in Time
  */
 	public function __set($name, $value) {
 		switch ($name) {
@@ -106,7 +107,7 @@ class CakeTime {
 /**
  * Magic set method for backward compatibility.
  *
- * Used by TimeHelper to get static variables in CakeTime
+ * Used by TimeHelper to get static variables in Time
  */
 	public function __get($name) {
 		switch ($name) {
@@ -132,7 +133,7 @@ class CakeTime {
 			$time = time();
 		}
 		self::$_time = $time;
-		return preg_replace_callback('/\%(\w+)/', array('CakeTime', '_translateSpecifier'), $format);
+		return preg_replace_callback('/\%(\w+)/', array('Time', '_translateSpecifier'), $format);
 	}
 
 /**
@@ -394,15 +395,15 @@ class CakeTime {
 		);
 
 		if (self::isToday($dateString, $timezone)) {
-			$ret = __d('cake', 'Today, %s', self::_strftime("%H:%M", $date));
+			$ret = __d('cake', 'Today, {0}', self::_strftime("%H:%M", $date));
 		} elseif (self::wasYesterday($dateString, $timezone)) {
-			$ret = __d('cake', 'Yesterday, %s', self::_strftime("%H:%M", $date));
+			$ret = __d('cake', 'Yesterday, {0}', self::_strftime("%H:%M", $date));
 		} elseif (self::isTomorrow($dateString, $timezone)) {
-			$ret = __d('cake', 'Tomorrow, %s', self::_strftime("%H:%M", $date));
+			$ret = __d('cake', 'Tomorrow, {0}', self::_strftime("%H:%M", $date));
 		} elseif (self::wasWithinLast('7 days', $dateString, $timezone)) {
 			$ret = sprintf('%s %s', $day[$d], self::_strftime(self::$niceShortFormat, $date));
 		} elseif (self::isWithinNext('7 days', $dateString, $timezone)) {
-			$ret = __d('cake', 'On %s %s', $day[$d], self::_strftime(self::$niceShortFormat, $date));
+			$ret = __d('cake', 'On {0} {1}', $day[$d], self::_strftime(self::$niceShortFormat, $date));
 		} else {
 			$format = self::convertSpecifiers("%b %eS{$y}, %H:%M", $date);
 			$ret = self::_strftime($format, $date);
@@ -804,7 +805,7 @@ class CakeTime {
 		$diff = $futureTime - $pastTime;
 
 		if ($diff > abs($now - self::fromString($end))) {
-			$relativeDate = __d('cake', 'on %s', date($format, $inSeconds));
+			$relativeDate = __d('cake', 'on {0}', date($format, $inSeconds));
 		} else {
 			if ($years > 0) {
 				$f = $accuracy['year'];
@@ -824,16 +825,16 @@ class CakeTime {
 
 			$f = str_replace(array('year', 'month', 'week', 'day', 'hour', 'minute', 'second'), array(1, 2, 3, 4, 5, 6, 7), $f);
 
-			$relativeDate .= $f >= 1 && $years > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d year', '%d years', $years, $years) : '';
-			$relativeDate .= $f >= 2 && $months > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d month', '%d months', $months, $months) : '';
-			$relativeDate .= $f >= 3 && $weeks > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d week', '%d weeks', $weeks, $weeks) : '';
-			$relativeDate .= $f >= 4 && $days > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d day', '%d days', $days, $days) : '';
-			$relativeDate .= $f >= 5 && $hours > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d hour', '%d hours', $hours, $hours) : '';
-			$relativeDate .= $f >= 6 && $minutes > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d minute', '%d minutes', $minutes, $minutes) : '';
-			$relativeDate .= $f >= 7 && $seconds > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '%d second', '%d seconds', $seconds, $seconds) : '';
+			$relativeDate .= $f >= 1 && $years > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} year', '%d years', $years, $years) : '';
+			$relativeDate .= $f >= 2 && $months > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} month', '%d months', $months, $months) : '';
+			$relativeDate .= $f >= 3 && $weeks > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} week', '%d weeks', $weeks, $weeks) : '';
+			$relativeDate .= $f >= 4 && $days > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} day', '%d days', $days, $days) : '';
+			$relativeDate .= $f >= 5 && $hours > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} hour', '%d hours', $hours, $hours) : '';
+			$relativeDate .= $f >= 6 && $minutes > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} minute', '%d minutes', $minutes, $minutes) : '';
+			$relativeDate .= $f >= 7 && $seconds > 0 ? ($relativeDate ? ', ' : '') . __dn('cake', '{0} second', '%d seconds', $seconds, $seconds) : '';
 
 			if (!$backwards) {
-				$relativeDate = __d('cake', '%s ago', $relativeDate);
+				$relativeDate = __d('cake', '{0} ago', $relativeDate);
 			}
 		}
 
@@ -926,10 +927,10 @@ class CakeTime {
  * Create localized & formatted time:
  *
  * {{{
- *   CakeTime::format('2012-02-15', '%m-%d-%Y'); // returns 02-15-2012
- *   CakeTime::format('2012-02-15 23:01:01', '%c'); // returns preferred date and time based on configured locale
- *   CakeTime::format('0000-00-00', '%d-%m-%Y', 'N/A'); // return N/A becuase an invalid date was passed
- *   CakeTime::format('2012-02-15 23:01:01', '%c', 'N/A', 'America/New_York'); // converts passed date to timezone
+ *   Time::format('2012-02-15', '%m-%d-%Y'); // returns 02-15-2012
+ *   Time::format('2012-02-15 23:01:01', '%c'); // returns preferred date and time based on configured locale
+ *   Time::format('0000-00-00', '%d-%m-%Y', 'N/A'); // return N/A becuase an invalid date was passed
+ *   Time::format('2012-02-15 23:01:01', '%c', 'N/A', 'America/New_York'); // converts passed date to timezone
  * }}}
  *
  * @param integer|string|DateTime $date UNIX timestamp, strtotime() valid string or DateTime object (or a date format string)
@@ -938,7 +939,7 @@ class CakeTime {
  * @param string|DateTimeZone $timezone Timezone string or DateTimeZone object
  * @return string Formatted date string
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/time.html#formatting
- * @see CakeTime::i18nFormat()
+ * @see Time::i18nFormat()
  */
 	public static function format($date, $format = null, $default = false, $timezone = null) {
 		//Backwards compatible params re-order test

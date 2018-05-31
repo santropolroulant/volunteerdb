@@ -1,6 +1,6 @@
 <?php
 /**
- * CakeLogInterface
+ * LogInterface
  *
  * PHP 5
  *
@@ -16,6 +16,8 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Log;
+
 
 /**
  * CakeLogStreamInterface is the interface that should be implemented
@@ -23,7 +25,7 @@
  *
  * @package       Cake.Log
  */
-interface CakeLogInterface {
+interface LogInterface {
 
 /**
  * Write method to handle writes being made to the Logger

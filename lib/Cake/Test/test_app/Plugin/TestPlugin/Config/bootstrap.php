@@ -1,2 +1,2 @@
 <?php
-Configure::write('CakePluginTest.test_plugin.bootstrap', 'loaded plugin bootstrap');
+Configure::write('PluginTest.test_plugin.bootstrap', 'loaded plugin bootstrap');

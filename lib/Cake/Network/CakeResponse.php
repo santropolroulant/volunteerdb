@@ -1,6 +1,6 @@
 <?php
 /**
- * CakeResponse
+ * Response
  *
  * PHP 5
  *
@@ -16,16 +16,18 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Network;
+
 
 /**
- * CakeResponse is responsible for managing the response text, status and headers of a HTTP response.
+ * Response is responsible for managing the response text, status and headers of a HTTP response.
  *
  * By default controllers will use this class to render their response. If you are going to use
  * a custom response class it should subclass this object in order to ensure compatibility.
  *
  * @package       Cake.Network
  */
-class CakeResponse {
+class Response {
 
 /**
  * Holds HTTP response statuses
@@ -384,7 +386,7 @@ class CakeResponse {
 	}
 
 /**
- * Sets the cookies that have been added via static method CakeResponse::addCookie()
+ * Sets the cookies that have been added via static method Response::addCookie()
  * before any other output is sent to the client.
  * Will set the cookies in the order they have been set.
  *
@@ -548,14 +550,14 @@ class CakeResponse {
  *
  * @param integer $code
  * @return integer current status code
- * @throws CakeException When an unknown status code is reached.
+ * @throws \Exception When an unknown status code is reached.
  */
 	public function statusCode($code = null) {
 		if (is_null($code)) {
 			return $this->_status;
 		}
 		if (!isset($this->_statusCodes[$code])) {
-			throw new CakeException(__d('cake_dev', 'Unknown status code'));
+			throw new \Exception(__d('cake_dev', 'Unknown status code'));
 		}
 		return $this->_status = $code;
 	}
@@ -1058,7 +1060,7 @@ class CakeResponse {
  * @return boolean whether the response was marked as not modified or
  * not
  **/
-	public function checkNotModified(CakeRequest $request) {
+	public function checkNotModified(Request $request) {
 		$etags = preg_split('/\s*,\s*/', $request->header('If-None-Match'), null, PREG_SPLIT_NO_EMPTY);
 		$modifiedSince = $request->header('If-Modified-Since');
 		if ($responseTag = $this->etag()) {

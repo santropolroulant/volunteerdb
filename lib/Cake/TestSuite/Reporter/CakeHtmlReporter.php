@@ -15,7 +15,8 @@
  * @since         CakePHP(tm) v 1.2.0.4433
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('CakeBaseReporter', 'TestSuite/Reporter');
+namespace lib\Cake\TestSuite\Reporter;
+
 
 /**
  * CakeHtmlReporter Reports Results of TestSuites and Test Cases
@@ -172,7 +173,6 @@ class CakeHtmlReporter extends CakeBaseReporter {
  * @return void
  */
 	public function paintCoverage(array $coverage) {
-		App::uses('HtmlCoverageReport', 'TestSuite/Coverage');
 
 		$reporter = new HtmlCoverageReport($coverage, $this);
 		echo $reporter->report();
@@ -264,7 +264,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		}
 
 		echo "</pre></div>\n";
-		echo "<div class='msg'>" . __d('cake_dev', 'Test case: %s', $testName) . "</div>\n";
+		echo "<div class='msg'>" . __d('cake_dev', 'Test case: {0}', $testName) . "</div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Stack trace:') . '<br />' . $trace . "</div>\n";
 		echo "</li>\n";
 	}
@@ -302,7 +302,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		echo "<span>" . get_class($message) . "</span>";
 
 		echo "<div class='msg'>" . $this->_htmlEntities($message->getMessage()) . "</div>\n";
-		echo "<div class='msg'>" . __d('cake_dev', 'Test case: %s', $testName) . "</div>\n";
+		echo "<div class='msg'>" . __d('cake_dev', 'Test case: {0}', $testName) . "</div>\n";
 		echo "<div class='msg'>" . __d('cake_dev', 'Stack trace:') . '<br />' . $trace . "</div>\n";
 		echo "</li>\n";
 	}
@@ -371,7 +371,7 @@ class CakeHtmlReporter extends CakeBaseReporter {
 		if (!$this->_headerSent) {
 			echo $this->paintHeader();
 		}
-		echo '<h2>' . __d('cake_dev', 'Running  %s', $suite->getName()) . '</h2>';
+		echo '<h2>' . __d('cake_dev', 'Running  {0}', $suite->getName()) . '</h2>';
 	}
 
 }

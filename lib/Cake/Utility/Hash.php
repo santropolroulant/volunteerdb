@@ -12,8 +12,9 @@
  * @since         CakePHP(tm) v 2.2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
 
-App::uses('String', 'Utility');
+
 
 /**
  * Library of array functions for manipulating and extracting data
@@ -99,7 +100,7 @@ class Hash {
 		if (strpos('[', $path) === false) {
 			$tokens = explode('.', $path);
 		} else {
-			$tokens = String::tokenize($path, '.', '[', ']');
+			$tokens = Text::tokenize($path, '.', '[', ']');
 		}
 
 		$_key = '__set_item__';

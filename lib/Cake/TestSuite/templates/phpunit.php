@@ -17,6 +17,8 @@
  * @since         CakePHP(tm) v 1.2.0.4433
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\TestSuite\templates;
+
 ?>
 <?php include dirname(__FILE__) . DS . 'header.php'; ?>
 <div id="content">

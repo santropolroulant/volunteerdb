@@ -12,9 +12,9 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Routing\Route;
 
-App::uses('CakeResponse', 'Network');
-App::uses('CakeRoute', 'Routing/Route');
+
 
 /**
  * Redirect route will perform an immediate redirect. Redirect routes
@@ -23,12 +23,12 @@ App::uses('CakeRoute', 'Routing/Route');
  *
  * @package Cake.Routing.Route
  */
-class RedirectRoute extends CakeRoute {
+class RedirectRoute extends Route {
 
 /**
- * A CakeResponse object
+ * A Response object
  *
- * @var CakeResponse
+ * @var Response
  */
 	public $response = null;
 
@@ -71,7 +71,7 @@ class RedirectRoute extends CakeRoute {
 			return false;
 		}
 		if (!$this->response) {
-			$this->response = new CakeResponse();
+			$this->response = new Response();
 		}
 		$redirect = $this->redirect;
 		if (count($this->redirect) == 1 && !isset($this->redirect['controller'])) {

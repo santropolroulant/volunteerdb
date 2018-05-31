@@ -18,6 +18,8 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
+
 
 App::import('Model', 'ConnectionManager');
 
@@ -65,7 +67,7 @@ class Sanitize {
  * @return string SQL safe string
  */
 	public static function escape($string, $connection = 'default') {
-		$db = ConnectionManager::getDataSource($connection);
+		$db = ConnectionManager::get($connection);
 		if (is_numeric($string) || $string === null || is_bool($string)) {
 			return $string;
 		}

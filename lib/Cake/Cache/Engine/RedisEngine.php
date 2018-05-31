@@ -17,6 +17,8 @@
  * @since         CakePHP(tm) v 2.2
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Cache\Engine;
+
 
 /**
  * Redis storage engine for cache.

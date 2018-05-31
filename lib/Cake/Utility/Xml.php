@@ -18,6 +18,8 @@
  * @since         CakePHP v .0.10.3.1400
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
+
 
 /**
  * XML handling for Cake.

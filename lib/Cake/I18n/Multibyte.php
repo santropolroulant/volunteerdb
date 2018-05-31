@@ -17,6 +17,8 @@
  * @since         CakePHP(tm) v 1.2.0.6833
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\I18n;
+
 
 if (!function_exists('mb_stripos')) {
 
@@ -1090,7 +1092,6 @@ class Multibyte {
 				return null;
 			}
 			if (!Configure::configured('_cake_core_')) {
-				App::uses('PhpReader', 'Configure');
 				Configure::config('_cake_core_', new PhpReader(CAKE . 'Config' . DS));
 			}
 			Configure::load('unicode' . DS . 'casefolding' . DS . $range, '_cake_core_');

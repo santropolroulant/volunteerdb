@@ -16,6 +16,8 @@
  * @since         CakePHP(tm) v 2.0.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Network\Http;
+
 
 /**
  * HTTP Response from HttpSocket.
@@ -214,7 +216,7 @@ class HttpResponse implements ArrayAccess {
 
 		while ($chunkLength !== 0) {
 			if (!preg_match('/^([0-9a-f]+) *(?:;(.+)=(.+))?(?:\r\n|\n)/iU', $body, $match)) {
-				throw new SocketException(__d('cake_dev', 'HttpSocket::_decodeChunkedBody - Could not parse malformed chunk.'));
+				throw new SocketException(__d('cake_dev', 'Client::_decodeChunkedBody - Could not parse malformed chunk.'));
 			}
 
 			$chunkSize = 0;

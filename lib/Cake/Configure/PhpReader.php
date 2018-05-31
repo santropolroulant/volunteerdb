@@ -15,6 +15,8 @@
  * @since         CakePHP(tm) v 2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Configure;
+
 
 /**
  * PHP Reader allows Configure to load configuration values from
@@ -74,7 +76,7 @@ class PhpReader implements ConfigReaderInterface {
 			$file = $this->_path . $key;
 		}
 		if (!is_file($file)) {
-			throw new ConfigureException(__d('cake_dev', 'Could not load configuration file: %s', $file));
+			throw new ConfigureException(__d('cake_dev', 'Could not load configuration file: {0}', $file));
 		}
 
 		include $file;

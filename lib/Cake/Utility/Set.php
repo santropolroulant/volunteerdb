@@ -16,9 +16,9 @@
  * @since         CakePHP(tm) v 1.2.0
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
 
-App::uses('String', 'Utility');
-App::uses('Hash', 'Utility');
+
 
 /**
  * Class used for manipulation of arrays.
@@ -549,7 +549,7 @@ class Set {
 			return null;
 		}
 		if (is_string($path) && strpos($path, '{') !== false) {
-			$path = String::tokenize($path, '.', '{', '}');
+			$path = Text::tokenize($path, '.', '{', '}');
 		} elseif (is_string($path)) {
 			$path = explode('.', $path);
 		}

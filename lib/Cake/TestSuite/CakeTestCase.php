@@ -1,6 +1,6 @@
 <?php
 /**
- * CakeTestCase file
+ * TestCase file
  *
  * PHP 5
  *
@@ -16,15 +16,15 @@
  * @since         CakePHP(tm) v 1.2.0.4667
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
-App::uses('CakeFixtureManager', 'TestSuite/Fixture');
-App::uses('CakeTestFixture', 'TestSuite/Fixture');
+namespace lib\Cake\TestSuite;
+
 
 /**
- * CakeTestCase class
+ * TestCase class
  *
  * @package       Cake.TestSuite
  */
-abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
+abstract class TestCase extends PHPUnit_Framework_TestCase {
 
 /**
  * The class responsible for managing the creation, loading and removing of fixtures
@@ -197,7 +197,7 @@ abstract class CakeTestCase extends PHPUnit_Framework_TestCase {
  * @param string $fixture Each parameter is a model name that corresponds to a
  *                        fixture, i.e. 'Post', 'Author', etc.
  * @return void
- * @see CakeTestCase::$autoFixtures
+ * @see TestCase::$autoFixtures
  * @throws Exception when no fixture manager is available.
  */
 	public function loadFixtures() {

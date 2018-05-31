@@ -16,6 +16,8 @@
  * @since         CakePHP(tm) v 1.2.0.6001
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Core;
+
 
 /**
  * App is responsible for path management, class location and class loading.
@@ -361,7 +363,7 @@ class App {
  * @link http://book.cakephp.org/2.0/en/core-utility-libraries/app.html#App::pluginPath
  */
 	public static function pluginPath($plugin) {
-		return CakePlugin::path($plugin);
+		return Plugin::path($plugin);
 	}
 
 /**
@@ -506,9 +508,9 @@ class App {
  *
  * Usage:
  *
- * `App::uses('MyCustomController', 'Controller');` will setup the class to be found under Controller package
+ * `use App\Controller\MyCustomController;` will setup the class to be found under Controller package
  *
- * `App::uses('MyHelper', 'MyPlugin.View/Helper');` will setup the helper class to be found in plugin's helper package
+ * `use MyPlugin\View\Helper\MyHelper;` will setup the helper class to be found in plugin's helper package
  *
  * @param string $className the name of the class to configure package for
  * @param string $location the package name
@@ -627,7 +629,7 @@ class App {
 		}
 		list($plugin, $name) = pluginSplit($name);
 		if (!empty($plugin)) {
-			if (!CakePlugin::loaded($plugin)) {
+			if (!Plugin::loaded($plugin)) {
 				return false;
 			}
 		}
@@ -673,16 +675,16 @@ class App {
 				$extends = array_pop($parts);
 				$extendType = implode('/', $parts);
 			}
-			App::uses($extends, $extendType);
+			/* TODO: App::uses($extends, $extendType); */
 			if ($plugin && in_array($originalType, array('controller', 'model'))) {
-				App::uses($plugin . $extends, $plugin . '.' . $type);
+				/* TODO: App::uses($plugin . $extends, $plugin . '.' . $type); */
 			}
 		}
 		if ($plugin) {
 			$plugin .= '.';
 		}
 		$name = Inflector::camelize($name);
-		App::uses($name, $plugin . $type);
+		/* TODO: App::uses($name, $plugin . $type); */
 		return class_exists($name);
 	}
 

@@ -1,6 +1,6 @@
 <?php
 /**
- * CakeNumber Utility.
+ * Number Utility.
  *
  * Methods to make numbers more readable.
  *
@@ -18,6 +18,8 @@
  * @since         CakePHP(tm) v 0.10.0.1076
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
+
 
 /**
  * Number helper library.
@@ -27,11 +29,11 @@
  * @package       Cake.Utility
  * @link http://book.cakephp.org/2.0/en/core-libraries/helpers/number.html
  */
-class CakeNumber {
+class Number {
 
 /**
  * Currencies supported by the helper.  You can add additional currency formats
- * with CakeNumber::addFormat
+ * with Number::addFormat
  *
  * @var array
  */
@@ -89,9 +91,9 @@ class CakeNumber {
 	public static function toReadableSize($size) {
 		switch (true) {
 			case $size < 1024:
-				return __dn('cake', '%d Byte', '%d Bytes', $size, $size);
+				return __dn('cake', '{0} Byte', '%d Bytes', $size, $size);
 			case round($size / 1024) < 1024:
-				return __d('cake', '%d KB', self::precision($size / 1024, 0));
+				return __d('cake', '{0} KB', self::precision($size / 1024, 0));
 			case round($size / 1024 / 1024, 2) < 1024:
 				return __d('cake', '%.2f MB', self::precision($size / 1024 / 1024, 2));
 			case round($size / 1024 / 1024 / 1024, 2) < 1024:
@@ -280,8 +282,8 @@ class CakeNumber {
  *
  * {{{ $number->currency($value, 'NOK'); }}}
  *
- * Added formats are merged with the defaults defined in CakeNumber::$_currencyDefaults
- * See CakeNumber::currency() for more information on the various options and their function.
+ * Added formats are merged with the defaults defined in Number::$_currencyDefaults
+ * See Number::currency() for more information on the various options and their function.
  *
  * @param string $formatName The format name to be used in the future.
  * @param array $options The array of options for this format.

@@ -12,6 +12,8 @@
  * @since         CakePHP(tm) v 0.2.9
  * @license       MIT License (http://www.opensource.org/licenses/mit-license.php)
  */
+namespace lib\Cake\Utility;
+
 
 /**
  * Pluralize and singularize English words.
