@@ -9,3 +9,5 @@
 /tags
 migrate.php
 dump_njk.sql
+
+/vendor/
