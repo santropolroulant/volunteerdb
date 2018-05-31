@@ -94,10 +94,12 @@ array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer'][
   <?php $mediapermission = $v['mediapermission']; ?>
   <dt>Photo / Video Permission</dt>
   <dd>
-    <?php if ($mediapermission) { ?>
+    <?php if ($mediapermission == 1) { ?>
     <span class="label label-success">Permission granted</span>
-    <?php } else { ?>
+    <?php } else if ($mediapermission == 0) { ?>
     <span class="label label-danger" style="background-color:#d9534f">Permission not granted</span>
+    <?php } else { ?>
+    <span class="label label-warning">This volunteer has not been asked for media permission yet</span>
     <?php } ?>
   </dd>
 

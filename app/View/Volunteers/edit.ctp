@@ -304,8 +304,8 @@ $months = array(
     echo $this->Form->input('mediapermission', array(
       'label' => array('text' => 'Photo / Video Permission', 'class' => 'control-label'),
       'type' => 'select',
-      'default' => 1,
       'options' => array(
+        2 => 'Unanswered',
         0 => "No",
         1 => "Yes"
       )
@@ -314,7 +314,6 @@ $months = array(
 </div>
 <div class="span6">
 <?php
-
 
     $languages = array( "",
       "Most Common" => array(
