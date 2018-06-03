@@ -77,7 +77,7 @@ class VolunteersController extends AppController {
 
 	public function edit($id = null) {
 	    if ($this->request->is('get')) {
-	        $this->request->data = $this->Volunteers->query()->where(["id" => $id])->first();
+	        $this->set('volunteer', $this->Volunteers->query()->where(["id" => $id])->first());
 	        # XXX TODO: add error-checking to this query
 	    } else if ($this->request->is('post')) {
             $fullname = $this->request->data["Volunteer"]["firstname"] . " " . $this->request->data["Volunteer"]["lastname"];

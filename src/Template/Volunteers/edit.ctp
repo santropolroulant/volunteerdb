@@ -1,6 +1,6 @@
 <?php
-    echo $this->Form->create('Volunteer', array(
-    	'action' => 'edit',
+    echo $this->Form->create($volunteer, array(
+    	'url' => 'edit',
     	'class' => 'form-horizontal',
 		'inputDefaults' => array(
 		    'div' => 'control-group',
@@ -89,8 +89,7 @@
       echo $this->Form->input('email', array(
         "label" => array("text" => "Email Address", 'class' => 'control-label'),
       ));
-    ?>
-    </div>
+    ?>    </div>
   </div>
 </fieldset>
 </div>
@@ -104,12 +103,13 @@
 </style>
 
   <?php
-  $v = $this->data['Volunteer'];
+  # determine if we should show the extra contact fields
+  # XXX TODO: this could probably be better done in javascript, since we've got javascript anyway?
+  # just set :hidden on the element if it's not there..
   $secondContactProps = array('emerg2name', 'emerg2relation', 'emerg2phone1', 'emerg2phone2', 'emerg2phone3', 'emerg2email');
   $hasSecondaryContact = false;
-
   forEach ($secondContactProps as $prop) {
-    if ($v[$prop] != '') {
+    if ($volunteer[$prop] != '') {
       $hasSecondaryContact = true;
     }
   }
@@ -301,15 +301,16 @@ $months = array(
       "class" => "input-mini"
     ));
 
-    echo $this->Form->input('mediapermission', array(
-      'label' => array('text' => 'Photo / Video Permission', 'class' => 'control-label'),
-      'type' => 'select',
-      'options' => array(
-        2 => 'Unanswered',
-        0 => "No",
-        1 => "Yes"
-      )
-    ));
+    echo $this->Form->input('mediapermission',
+       array(
+        'label' => array("text" => 'Photo / Video Permission', 'class' => 'control-label'),
+        'type' => 'select',
+        'options' => array(
+          2 => 'Unanswered',
+          0 => "No",
+          1 => "Yes"
+        )
+      ));
 ?>
 </div>
 <div class="span6">
@@ -400,7 +401,7 @@ $months = array(
 </div>
 </div> <!-- /row -->
 
-<?php $notes = $this->data['Volunteer']['notes']; ?>
+<?php $notes = $volunteer['notes']; ?>
 <div class="row" style="margin-bottom: 20px">
   <div class='span12'>
     <fieldset >
