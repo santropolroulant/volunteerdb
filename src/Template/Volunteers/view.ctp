@@ -1,5 +1,5 @@
 
-<?php $v = $volunteer["Volunteer"];  ?>
+<?php $v = $volunteer;  ?>
 
 <style>
 .dl-horizontal dt {margin-top: 15px; width: 300px;}
@@ -7,7 +7,7 @@
 .dl-horizontal dd {font-size: 18px;}
 </style>
 <small><?php echo $this->Html->link("Edit",
-array('controller' => 'Volunteers', 'action' => 'edit', $volunteer['Volunteer']['id']), array("class" => "btn btn-primary pull-right")); ?></small>
+array('controller' => 'Volunteers', 'action' => 'edit', $v['id']), array("class" => "btn btn-primary pull-right")); ?></small>
 <fieldset>
 <legend>Volunteer Info </legend>
 
