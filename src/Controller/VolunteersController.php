@@ -1,11 +1,11 @@
 <?php
-namespace app\Controller;
+namespace App\Controller;
 
 class VolunteersController extends AppController {
     public $helpers = array('Html', 'Form');
 	public $components = array('RequestHandler');
     
-    public function index() {
+    public function upcomingBirthdays() {
         #TODO make this "upcoming birthdays"
         #search for birthmonth = lastmonth, thismonth, nextmonth
         #remember about dec/jan wrap!
