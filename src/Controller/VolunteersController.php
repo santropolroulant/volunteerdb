@@ -28,7 +28,6 @@ class VolunteersController extends AppController {
         $query = $this->Volunteers
                    ->find()
                    ->where(["id" => $id]);
-        debug($query->first());
         $this->set('volunteer', $query->first());
     }
 
@@ -76,19 +75,25 @@ class VolunteersController extends AppController {
 	}
 
 	public function edit($id = null) {
-	    if ($this->request->is('get')) {
-	        $this->set('volunteer', $this->Volunteers->query()->where(["id" => $id])->first());
-	        # XXX TODO: add error-checking to this query
-	    } else if ($this->request->is('post')) {
-            $fullname = $this->request->data["Volunteer"]["firstname"] . " " . $this->request->data["Volunteer"]["lastname"];
-            $this->request->data["Volunteer"]["searchableName"] = $this->searchNormalize($fullname);
-	        if ($this->Volunteers->save($this->request->data)) {
+	    $volunteer = $this->Volunteers->query()->where(["id" => $id])->first();
+	    if ($this->request->is('put')) { # XXX for some reason a POST request is detected by CakePHP 3.6 as a PUT but not a POST???
+
+	        $data = $this->request->getData();
+
+            $fullname = $data["firstname"] . " " . $data["lastname"];
+            $data["searchableName"] = $this->searchNormalize($fullname);
+
+	        $this->Volunteers->patchEntity($volunteer, $data);
+	        if ($this->Volunteers->save($volunteer)) {
 	            $this->Flash->success('Data saved.');
-	            $this->redirect(array('action' => 'view', $id));
+	            return $this->redirect(array('action' => 'view', $id));
 	        } else {
 	            $this->Flash->error('Unable to save data.');
 	        }
 	    }
+
+        # XXX TODO: add error-checking to this query? Flash->error() if it fails?
+        $this->set('volunteer', $volunteer);
 	}
 
 

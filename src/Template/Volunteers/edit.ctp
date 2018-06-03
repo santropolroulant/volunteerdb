@@ -1,6 +1,5 @@
 <?php
     echo $this->Form->create($volunteer, array(
-    	'url' => 'edit',
     	'class' => 'form-horizontal',
 		'inputDefaults' => array(
 		    'div' => 'control-group',
