@@ -12,16 +12,24 @@ class VolunteersController extends AppController {
         $thisMonth = date("n");
         $nextMonth = $thisMonth + 1 == 13 ? 1 : $thisMonth + 1;
         $lastMonth = $thisMonth - 1 == 0 ? 12 : $thisMonth - 1;
-        $options = array(
-            "conditions" => array("Volunteer.birthmonth" => array($lastMonth, $thisMonth, $nextMonth)),
-            "order" => array('birthmonth' => 'asc', "birthday" => "asc")
-            );
-        $this->set('volunteers', $this->Volunteer->find("all", $options));
+        #$options = array(
+        #    "conditions" => array(,
+        #    "order" =>             );
+        $query = $this->Volunteers
+                   ->find()
+                   ->select(["birthday", "birthmonth", "firstname", "lastname"]) # limit the size of the query; you should be able to safely comment this out and still have the code work, since CakePHP has a smart ORM
+                   ->where(["birthmonth in" => array($lastMonth, $thisMonth, $nextMonth)])
+                   ->order(['birthmonth' => 'asc', "birthday" => "asc"]);
+
+        $this->set('volunteers', $query);
     }
 
     public function view($id = null) {
-        $this->Volunteer->id = $id;
-        $this->set('volunteer', $this->Volunteer->read());
+        $query = $this->Volunteers
+                   ->find()
+                   ->where(["id" => $id]);
+        debug($query->first());
+        $this->set('volunteer', $query->first());
     }
 
     function searchNormalize($x) {
@@ -59,27 +67,26 @@ class VolunteersController extends AppController {
 
 	public function delete($id = null) {
 	    if ($this->request->is('post') && $id) {
-	    	$this->Volunteer->delete($id);
-	        $this->Session->setFlash('Deleted.', 'flash_success');
-	    } else 
-	   {
-	        $this->Session->setFlash('Nothing to delete.', 'flash_failure');
-		
-           }
+	        # XXX TODO there should be error-checking wrapped around this execute() call
+	        $this->Volunteers->query()->delete()->where(["id" => $id])->execute();
+	        $this->Flash->success('Deleted.');
+	    } else {
+	        $this->Flash->error('Nothing to delete.');
+        }
 	}
 
 	public function edit($id = null) {
-	    $this->Volunteer->id = $id;
 	    if ($this->request->is('get')) {
-	        $this->request->data = $this->Volunteer->read();
-	    } else {
+	        $this->request->data = $this->Volunteers->query()->where(["id" => $id])->first();
+	        # XXX TODO: add error-checking to this query
+	    } else if ($this->request->is('post')) {
             $fullname = $this->request->data["Volunteer"]["firstname"] . " " . $this->request->data["Volunteer"]["lastname"];
             $this->request->data["Volunteer"]["searchableName"] = $this->searchNormalize($fullname);
-	        if ($this->Volunteer->save($this->request->data)) {
-	            $this->Session->setFlash('Data saved.', 'flash_success');
-	            $this->redirect(array('action' => 'view', $this->Volunteer->id));
+	        if ($this->Volunteers->save($this->request->data)) {
+	            $this->Flash->success('Data saved.');
+	            $this->redirect(array('action' => 'view', $id));
 	        } else {
-	            $this->Session->setFlash('Unable to save data.', 'flash_failure');
+	            $this->Flash->error('Unable to save data.');
 	        }
 	    }
 	}
