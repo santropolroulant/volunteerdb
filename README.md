@@ -1,6 +1,51 @@
 Santropol Volunteer DB
 ======================
 
+A simple volunteer CRM for use at [le Roulant](https://santropolroulant.org). Maybe it'll be useful for you to! Let us know :)
+
+## Production Install
+
+1. Clone this repo
+    ```
+    git clone https://github.com/santropolroulant/volunteerdb
+    ```
+2. Install project dependencies:
+    ```
+    composer install
+    ```
+    Note that this also generates a secret private password in `config/app.php`, e.g.:
+    ```
+    'Security' => [
+            'salt' => env('SECURITY_SALT', '71fd2ea6382779f5980baeb63e3eae66b5d2a6e4f773a2902520acd3add80f74'),
+             ],
+    ```
+3. Configure your webserver so that the document root is `volunteerdb/webroot/`.
+   You should test that it runs at this point. The PHP should execute and you should get a CakePHP error, complaining about not being able to reach the database. If not, try again.
+2. Create a database and a database user _with a strong password_. You may use [all the usual platforms](https://book.cakephp.org/3.0/en/orm/database-basics.html#supported-databases).
+3. Run the schema script to install the database:
+    ```
+    # TODO
+    ```
+4. Configure your database connection in `config/app.php`, e.g.:
+    ```
+    'Datasources' => [
+        'default' => [
+            'className' => 'Cake\Database\Connection',
+            'driver' => 'Cake\Database\Driver\Mysql',
+            'persistent' => false,
+            'host' => 'localhost',
+            /*
+             * CakePHP will use the default DB port based on the driver selected
+             * MySQL on MAMP uses port 8889, MAMP users will want to uncomment
+             * the following line and set the port accordingly
+             */
+            //'port' => 'non_standard_port_number',
+            'username' => 'volunteerdb',
+            'password' => 'secret',
+            'database' => 'volunteerdb',
+    ```
+5. It should be running now. If not, try again, then file bug reports.
+
 ## Development setup
 
 1. [Install Docker Compose](https://docs.docker.com/compose/install/)
@@ -22,46 +67,3 @@ Santropol Volunteer DB
 2. From the project root, run `docker-compose up`
 3. The application should now be running on `http://localhost:8090`
 
-
-
-
-
-CakePHP
-=======
-
-[![CakePHP](http://cakephp.org/img/cake-logo.png)](http://www.cakephp.org)
-
-CakePHP is a rapid development framework for PHP which uses commonly known design patterns like Active Record, Association Data Mapping, Front Controller and MVC.
-Our primary goal is to provide a structured framework that enables PHP users at all levels to rapidly develop robust web applications, without any loss to flexibility.
-
-Some Handy Links
-----------------
-
-[CakePHP](http://www.cakephp.org) - The rapid development PHP framework
-
-[Cookbook](http://book.cakephp.org) - THE Cake user documentation; start learning here!
-
-[Plugins](http://plugins.cakephp.org/) - A repository of extensions to the framework
-
-[The Bakery](http://bakery.cakephp.org) - Tips, tutorials and articles
-
-[API](http://api.cakephp.org) - A reference to Cake's classes
-
-[CakePHP TV](http://tv.cakephp.org) - Screen casts from events and video tutorials
-
-[The Cake Software Foundation](http://cakefoundation.org/) - promoting development related to CakePHP
-
-Get Support!
-------------
-
-[Our Google Group](http://groups.google.com/group/cake-php) - community mailing list and forum
-
-[#cakephp](http://webchat.freenode.net/?channels=#cakephp) on irc.freenode.net - Come chat with us, we have cake.
-
-[Q & A](http://ask.cakephp.org/) - Ask questions here, all questions welcome
-
-[Lighthouse](http://cakephp.lighthouseapp.com/) - Got issues? Please tell us!
-
-[![Bake Status](https://secure.travis-ci.org/cakephp/cakephp.png?branch=master)](http://travis-ci.org/cakephp/cakephp)
-
-![Cake Power](https://raw.github.com/cakephp/cakephp/master/lib/Cake/Console/Templates/skel/webroot/img/cake.power.gif)
