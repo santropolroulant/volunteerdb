@@ -8,7 +8,9 @@
     <!-- Here is where we loop through our $volunteers array, printing out volunteer info -->
 
     <?php foreach ($volunteers as $volunteer): 
-        $v = $volunteer['Volunteer'];
+        $v = $volunteer;
+        # only display birthdays in the immediate vicinity of today.
+        # XXX TODO: this should be rolled into the SQL query; see #6
         if(delta_days($v["birthday"], $v["birthmonth"]) > 10) continue;
         if(delta_days($v["birthday"], $v["birthmonth"]) < -2) continue;
         ?>

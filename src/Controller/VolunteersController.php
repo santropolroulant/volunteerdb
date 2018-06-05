@@ -22,7 +22,7 @@ class VolunteersController extends AppController {
         #    "order" =>             );
         $query = $this->Volunteers
                    ->find()
-                   ->select(["birthday", "birthmonth", "firstname", "lastname"]) # limit the size of the query; you should be able to safely comment this out and still have the code work, since CakePHP has a smart ORM
+                   ->select(["id", "birthday", "birthmonth", "firstname", "lastname"]) # limit the size of the query; you should be able to safely comment this out and still have the code work, since CakePHP has a smart ORM
                    ->where(["birthmonth in" => array($lastMonth, $thisMonth, $nextMonth)])
                    ->order(['birthmonth' => 'asc', "birthday" => "asc"]);
 
