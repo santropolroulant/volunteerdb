@@ -263,6 +263,15 @@
 <div class="row"> 
 <div class="span6">
 <?php
+        echo $this->Form->input('_birthdate', array(
+          "label" => array("text" => "Birthdate", 'class' => 'control-label'), 
+          'type'=>'text',
+          'value'=>$_birthdate,
+          'id' => "birthdatedatepicker",
+          "class" => "input-small" 
+        ));
+
+        /* Commented out temporarily; will probably be fully removed in favour of the datepicker^ soon.
 $months = array(
       1 => "January",
       2 => "February",
@@ -289,11 +298,13 @@ $months = array(
       "label" => array("text" => "Birth Month", 'class' => 'control-label'),
       'options' => $months, "empty" => ""
       ));
-      */
+      * /
     echo $this->Form->input('birthyear', array(
       "label" => array("text" => "Birth Year", 'class' => 'control-label'),
       "class" => "input-mini"
     ));
+
+     */
 
     echo $this->Form->input('mediapermission',
        array(
@@ -460,6 +471,7 @@ $months = array(
 
     $(function(){
      $("#orientdationdatepicker").datepicker({format:"yyyy-mm-dd", viewMode: "years"});
+     $("#birthdatedatepicker").datepicker({format:"yyyy-mm-dd", viewMode: "years"});
 
      $('#VolunteerEditForm').validate(
      {

@@ -1,6 +1,7 @@
 <?php
 namespace App\Controller;
 
+use \Datetime;
 use Cake\Http\Exception\NotFoundException;
 
 class VolunteersController extends AppController {
@@ -107,14 +108,33 @@ class VolunteersController extends AppController {
     public function edit($id = null) {
 
         $volunteer = $this->Volunteers->query()->where(["id" => $id])->first(); # look up the volunteer here, to share code paths between GET/POST (if we're in the POST->new subpath, this will just be null and that's okay)
-        if ($this->request->is('post')) { # XXX for some reason a POST request is detected by CakePHP 3.6 as a PUT but not a POST???
-            
+
+        if ($this->request->is('post') || $this->request->is('put')) {
+            # XXX for some reason CakePHP seems to rewrite POST requests for *edits* to 'PUT' requests
+            # but a POST request for a new entity is still POST. what?
+
+            $data = $this->request->getData();
+
+            # glue the DatePicker widget into our silly three-column birthdate setup
+            # TODO: this will be dropped once we do https://github.com/santropolroulant/volunteerdb/issues/5
+            if($data["_birthdate"]) {
+              $_birthdate = new DateTime($data["_birthdate"]);
+              $data["birthday"] = $_birthdate->format('d');
+              $data["birthmonth"] = $_birthdate->format('m');
+              $data["birthyear"] = $_birthdate->format('Y');
+            } else {
+              $data["birthday"] = "";
+              $data["birthmonth"] = "";
+              $data["birthyear"] = "";
+            }
+            unset($data["_birthdate"]);
+
             if($volunteer) {
                 # it's an edit
-                $this->Volunteers->patchEntity($volunteer, $this->request->getData());
+                $this->Volunteers->patchEntity($volunteer, $data);
             } else {
                 # it's a create
-                $volunteer = $this->Volunteers->newEntity($this->request->getData());
+                $volunteer = $this->Volunteers->newEntity($data);
             }
 
             if ($this->Volunteers->save($volunteer)) {
@@ -125,6 +145,13 @@ class VolunteersController extends AppController {
             }
         }
 
+        # again: an awkward temporary glue between two different data storage systems
+        try {
+          $_birthdate = new DateTime($volunteer["birthyear"]."-".$volunteer["birthmonth"]."-".$volunteer["birthday"]);
+          $this->set('_birthdate', $_birthdate->format("Y-m-d"));
+        } catch(Exception $e) {
+        }
+        
         $this->set('volunteer', $volunteer);
     }
 
