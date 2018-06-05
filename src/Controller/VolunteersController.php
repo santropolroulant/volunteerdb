@@ -3,9 +3,14 @@ namespace App\Controller;
 
 class VolunteersController extends AppController {
     public $helpers = array('Html', 'Form');
-	public $components = array('RequestHandler');
-    
-    public function upcomingBirthdays() {
+    public $components = array('RequestHandler');
+
+    public function bounceIndex() {
+        # HTTP 301: / -> /Volunteers
+        $this->redirect(array('action' => 'index'));
+    }
+
+    public function index() {
         #TODO make this "upcoming birthdays"
         #search for birthmonth = lastmonth, thismonth, nextmonth
         #remember about dec/jan wrap!
