@@ -80,14 +80,13 @@
                    */
                   process(data.map((volunteer) => { return volunteer.firstname + " " + volunteer.lastname }));
                 });
+        },
+        /* when an item is chosen from the list, jump to it */
+        updater: function(item) {
+          $('#searchbox').val(item);
+          $('#searchform').submit();
+          return item;
         }
-      });
-
-      /* when an item is chosen from the bootstrap-typeahead list, jump to it */
-      /* XXX with a newer Typeahead, we could store the volunteer ID in memory
-         and directly go to /view/$id */
-      $('#searchbox').bind("change", function() {
-        $('#searchform').submit();
       });
     });
     </script>
