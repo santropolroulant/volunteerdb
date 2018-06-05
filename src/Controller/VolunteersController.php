@@ -1,6 +1,8 @@
 <?php
 namespace App\Controller;
 
+use Cake\Http\Exception\NotFoundException;
+
 class VolunteersController extends AppController {
     public $helpers = array('Html', 'Form');
     public $components = array('RequestHandler');
@@ -33,7 +35,12 @@ class VolunteersController extends AppController {
         $query = $this->Volunteers
                    ->find()
                    ->where(["id" => $id]);
-        $this->set('volunteer', $query->first());
+        $volunteer = $query->first();
+        if($volunteer) {
+            $this->set('volunteer', $volunteer);
+        } else {
+            throw new NotFoundException();
+        }
     }
 
     function searchNormalize($x) {
