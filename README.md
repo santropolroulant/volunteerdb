@@ -9,7 +9,7 @@ A simple volunteer CRM for use at [le Roulant](https://santropolroulant.org). Ma
     ```
     git clone https://github.com/santropolroulant/volunteerdb
     ```
-2. Install project dependencies:
+2. Install project dependencies using [composer](https://getcomposer.org):
     ```
     composer install
     ```
