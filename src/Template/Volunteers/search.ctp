@@ -5,9 +5,6 @@
         <th>Orientation Date</th>
     </tr>
 
-    <!-- Select the columns we actually need for below -->
-    <?php $volunteers = $volunteers->select(["id", "firstname", "lastname", "orientationdate"]); ?>
-
     <!-- Here is where we loop through our $volunteers array, printing out volunteer info -->
     <?php foreach ($volunteers as $volunteer): ?>
     <tr>

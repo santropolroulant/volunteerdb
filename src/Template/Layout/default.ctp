@@ -64,8 +64,6 @@
     $(function(){
       $('input[placeholder]').placeholder();
       $("#searchbox").typeahead({
-        items: 20,
-        matcher: function(){return true;},
         source: function (query, process) {
           $.get('<?php echo $this->request->getAttribute("webroot") ?>Volunteers/search.json',
                 { term: query },

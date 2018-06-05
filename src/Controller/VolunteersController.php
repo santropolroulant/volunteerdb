@@ -4,8 +4,12 @@ namespace App\Controller;
 use Cake\Http\Exception\NotFoundException;
 
 class VolunteersController extends AppController {
-    public $helpers = array('Html', 'Form');
-    public $components = array('RequestHandler');
+    public $helpers = array('Html', 'Form', 'Paginator');
+    public $components = array('RequestHandler', 'Paginator');
+
+    public $paginate = [
+        'limit' => 20,
+    ];
 
     public function bounceIndex() {
         # HTTP 301: / -> /Volunteers
@@ -85,7 +89,7 @@ class VolunteersController extends AppController {
     public function search() {
         $term = $this->request->query('term');
         $query = $this->searchQuery($term);
-        $query = $query->select(["id", "firstname", "lastname"]); # minimize database traffic
+        $query = $query->select(["id", "firstname", "lastname", "orientationdate"]); # minimize database traffic
                                          # weirdness: under CakePHP 3.6, without this here, the query defaults to querying for all columns in the table
                                          # but adding it restricts to just a single column.
                                          # further ->select() calls can add columns to that list
@@ -93,7 +97,7 @@ class VolunteersController extends AppController {
                                          # columns may be added in the Views but without this initial select()
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
         $this->set('search_term', $term);
-        $this->set('volunteers', $query);
+        $this->set('volunteers', $this->paginate($query));
 
         # Enable /search.json
         $this->set('_serialize', 'volunteers');
