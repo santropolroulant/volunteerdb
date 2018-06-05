@@ -281,10 +281,15 @@ $months = array(
       "label" => array("text" => "Birth Day", 'class' => 'control-label'),
       "class" => "input-mini"
     ));
-    echo $this->Form->input('birthmonth', array(
+    echo $this->Form->select('birthmonth', $months, [
+        "empty" => ""
+        ]);
+        
+        /* array(
       "label" => array("text" => "Birth Month", 'class' => 'control-label'),
       'options' => $months, "empty" => ""
       ));
+      */
     echo $this->Form->input('birthyear', array(
       "label" => array("text" => "Birth Year", 'class' => 'control-label'),
       "class" => "input-mini"
