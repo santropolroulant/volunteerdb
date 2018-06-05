@@ -88,15 +88,21 @@ class VolunteersController extends AppController {
         $this->set('_serialize', 'volunteers');
     }
 
-	public function delete($id = null) {
-	    if ($this->request->is('post') && $id) {
-	        # XXX TODO there should be error-checking wrapped around this execute() call
-	        $this->Volunteers->query()->delete()->where(["id" => $id])->execute();
-	        $this->Flash->success('Deleted.');
-	    } else {
-	        $this->Flash->error('Nothing to delete.');
+    public function delete($id = null) {
+        $id = $this->request->data["id"];
+        if ($this->request->is('put') && $id) {
+            # XXX TODO there should be error-checking wrapped around this execute() call
+            if($this->Volunteers->query()->delete()->where(["id" => $id])->execute()) {
+                $this->Flash->success('Deleted.');
+                return $this->redirect("/"); # this is important; otherwise it will try to load the non-existent delete.ctp file
+            } else {
+                $this->Flash->error('Deletion failed.');
+            }
+        } else {
+            $this->Flash->error('Nothing to delete.');
         }
-	}
+        return $this->redirect("/"); # ditto
+    }
 
 	public function edit($id = null) {
 	    $volunteer = $this->Volunteers->query()->where(["id" => $id])->first();

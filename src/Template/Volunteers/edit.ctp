@@ -1,17 +1,7 @@
 <?php
-    echo $this->Form->create($volunteer, array(
-    	'class' => 'form-horizontal',
-		'inputDefaults' => array(
-		    'div' => 'control-group',
-		    'label' => array('class' => 'control-label'),
-		    'between' => '<div class="controls">',
-		    'after' => '</div>',
-		    'error' => array('attributes' => array('wrap' => 'div', 'class' => 'alert alert-error'))
-		)
-	));
-
-  echo $this->Form->input('id', array('type' => 'hidden'));
-	?>
+    echo $this->Form->create($volunteer);
+    echo $this->Form->input('id', array('type' => 'hidden'));
+?>
 
 <div class="row">
 <div class="span12">
@@ -444,20 +434,12 @@ $months = array(
 
 
 <?php
-    echo $this->Form->create('Volunteer', array(
-    	'action' => 'delete',
-    	'class' => 'form-horizontal',
-		'inputDefaults' => array(
-		    'div' => 'control-group',
-		    'label' => array('class' => 'control-label'),
-		    'between' => '<div class="controls">',
-		    'after' => '</div>',
-		    'error' => array('attributes' => array('wrap' => 'div', 'class' => 'alert alert-error'))
-		)
-	));
-
-  echo $this->Form->input('id', array('type' => 'hidden'));
-	echo $this->Form->button('Delete', array('type' => 'submit', 'class' => 'btn btn-danger pull-right', 'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"));
+    echo $this->Form->create($volunteer,
+                [ "method" => "post",
+                  "url" => \Cake\Routing\Router::url(['controller' => 'Volunteers', 'action' => 'delete'])
+                ]);
+    echo $this->Form->input('id', array('type' => 'hidden'));
+    echo $this->Form->button('Delete', array('type' => 'submit', 'class' => 'btn btn-danger pull-right', 'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"));
     echo $this->Form->end();
 ?>
 
