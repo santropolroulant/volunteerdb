@@ -92,6 +92,7 @@ class VolunteersController extends AppController {
                                          # *but* only if there's an initial ->select() in the Controller;
                                          # columns may be added in the Views but without this initial select()
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
+        $this->set('search_term', $q);
         $this->set('volunteers', $query);
 
         # Enable /search.json
