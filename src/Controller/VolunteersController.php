@@ -104,27 +104,29 @@ class VolunteersController extends AppController {
         return $this->redirect("/"); # ditto
     }
 
-	public function edit($id = null) {
-	    $volunteer = $this->Volunteers->query()->where(["id" => $id])->first();
-	    if ($this->request->is('put')) { # XXX for some reason a POST request is detected by CakePHP 3.6 as a PUT but not a POST???
+    public function edit($id = null) {
 
-	        $data = $this->request->getData();
+        $volunteer = $this->Volunteers->query()->where(["id" => $id])->first(); # look up the volunteer here, to share code paths between GET/POST (if we're in the POST->new subpath, this will just be null and that's okay)
+        if ($this->request->is('post')) { # XXX for some reason a POST request is detected by CakePHP 3.6 as a PUT but not a POST???
+            
+            if($volunteer) {
+                # it's an edit
+                $this->Volunteers->patchEntity($volunteer, $this->request->getData());
+            } else {
+                # it's a create
+                $volunteer = $this->Volunteers->newEntity($this->request->getData());
+            }
 
-            $fullname = $data["firstname"] . " " . $data["lastname"];
-            $data["searchableName"] = $this->searchNormalize($fullname);
+            if ($this->Volunteers->save($volunteer)) {
+                $this->Flash->success('Data saved.');
+                return $this->redirect(array('action' => 'view', $volunteer["id"]));
+            } else {
+                $this->Flash->error('Unable to save data.');
+            }
+        }
 
-	        $this->Volunteers->patchEntity($volunteer, $data);
-	        if ($this->Volunteers->save($volunteer)) {
-	            $this->Flash->success('Data saved.');
-	            return $this->redirect(array('action' => 'view', $id));
-	        } else {
-	            $this->Flash->error('Unable to save data.');
-	        }
-	    }
-
-        # XXX TODO: add error-checking to this query? Flash->error() if it fails?
         $this->set('volunteer', $volunteer);
-	}
+    }
 
 
 }
