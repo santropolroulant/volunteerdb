@@ -93,6 +93,9 @@ class VolunteersController extends AppController {
                                          # columns may be added in the Views but without this initial select()
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
         $this->set('volunteers', $query);
+
+        # Enable /search.json
+        $this->set('_serialize', 'volunteers');
     }
 
 	public function delete($id = null) {
