@@ -47,13 +47,6 @@ class VolunteersController extends AppController {
         }
     }
 
-    function searchNormalize($x) {
-        $x = str_replace("'", "", $x); #O'Brien -> OBrien
-        $src = "-àáâãäçèéêëìíîïñòóôõöùúûüýÿÀÁÂÃÄÇÈÉÊËÌÍÎÏÑÒÓÔÕÖÙÚÛÜÝ";
-        $dst = " aaaaaceeeeiiiinooooouuuuyyAAAAACEEEEIIIINOOOOOUUUUY";
-        return strtr(utf8_decode($x),utf8_decode($src),$dst); #Marie-Zoé -> Marie Zoe
-    }
-
     public function search() {
 
         $query = $this->Volunteers
@@ -68,8 +61,16 @@ class VolunteersController extends AppController {
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
 
         $term = $this->request->query('term');
-        $term = $this->searchNormalize($term);
-        $query = $query->where(['searchableName LIKE' => "%$term%"]); # XXX SQL injection here
+        $query = $query->where(function ($exp, $q) use ($query, $term) {
+                    return $exp->like(
+                         # compare "$firstname $lastname" ~ "%$term%"
+                         $query->func()->concat([
+                                 'firstname' => 'identifier',
+                                 " ",
+                                 'lastname' => 'identifier']),
+                         "%$term%" # subtlety: this is *not* a SQL injection because PHP this whole expression gets wrapped up in a bound SQL var by like().
+                         );
+                    });
 
         # Special Case:
         # if a user has typed in an unambiguous name for a volunteer,
