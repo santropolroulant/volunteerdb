@@ -75,7 +75,7 @@ class VolunteersController extends AppController {
         # because we want to get the database to do the count for us (count($query->toList()) would first copy all results from SQL to PHP, then count them).
         # We end up tacking on an extra select count("*") to the previously-defined query which makes any other columns in that query meaningless, but whatever
         if($query->select(["count" => $query->func()->count("*")])->first()['count'] == 1) {
-            $this->redirect(array('action' => 'view', $query->first()['id']));
+            $this->redirect(array('action' => 'view', $query->select(["id"])->first()['id']));
         }
         else {
             $this->redirect(array('action' => 'search', "?" => array("term" => $q)));
@@ -83,16 +83,16 @@ class VolunteersController extends AppController {
     }
 
     public function search() {
-        $q = $this->request->query('term');
-        $query = $this->searchQuery($q);
-        $query = $query->select(["id"]); # minimize database traffic
+        $term = $this->request->query('term');
+        $query = $this->searchQuery($term);
+        $query = $query->select(["id", "firstname", "lastname"]); # minimize database traffic
                                          # weirdness: under CakePHP 3.6, without this here, the query defaults to querying for all columns in the table
                                          # but adding it restricts to just a single column.
                                          # further ->select() calls can add columns to that list
                                          # *but* only if there's an initial ->select() in the Controller;
                                          # columns may be added in the Views but without this initial select()
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
-        $this->set('search_term', $q);
+        $this->set('search_term', $term);
         $this->set('volunteers', $query);
 
         # Enable /search.json

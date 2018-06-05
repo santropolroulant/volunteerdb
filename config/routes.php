@@ -47,18 +47,14 @@ use Cake\Routing\Route\DashedRoute;
 Router::defaultRouteClass(DashedRoute::class);
 
 Router::scope('/', function (RouteBuilder $routes) {
-    /**
-     * Here, we are connecting '/' (base path) to a controller called 'Pages',
-     * its action called 'display', and we pass a param to select the view file
-     * to use (in this case, src/Template/Pages/home.ctp)...
-     */
+    /* Enable .json processing: outputs database contents as json when asked */
     $routes->setExtensions(['json']);
-    $routes->connect('/', ['controller' => 'Volunteers', 'action' => 'bounce_index', 'home']);
 
     /**
-     * ...and connect the rest of 'Pages' controller's URLs.
+     * Here, we connecting '/' (base path) to VolunteersController::bounce_index()
+     * which bounces the front-page to /Volunteers. This is a HTTP 301, not an internal rewrite, so it's user-visible.
      */
-    $routes->connect('/pages/*', ['controller' => 'Pages', 'action' => 'display']);
+    $routes->connect('/', ['controller' => 'Volunteers', 'action' => 'bounce_index', 'home']);
 
     /**
      * Connect catchall routes for all controllers.

@@ -67,12 +67,28 @@
         items: 20,
         matcher: function(){return true;},
         source: function (query, process) {
-          return $.get('<?php echo $this->request->getAttribute("webroot") ?>Volunteers/search.json', { term: query }, process);
+          $.get('<?php echo $this->request->getAttribute("webroot") ?>Volunteers/search.json',
+                { term: query },
+                function(data) {
+                  /* bootstrap-typeahead wants a simple list of strings:
+                     http://bootstrapdocs.com/v2.1.1/docs/javascript.html#typeahead
+                     but the API returns database tuples.
+
+                     TODO: newer versions of this plugin have displayText
+                           to handle doing this map()
+                           https://github.com/bassjobsen/Bootstrap-3-Typeahead
+                   */
+                  process(data.map((volunteer) => { return volunteer.firstname + " " + volunteer.lastname }));
+                });
         }
       });
-       $('#searchbox').bind("change", function() {
-          $('#searchform').submit();
-       });
+
+      /* when an item is chosen from the bootstrap-typeahead list, jump to it */
+      /* XXX with a newer Typeahead, we could store the volunteer ID in memory
+         and directly go to /view/$id */
+      $('#searchbox').bind("change", function() {
+        $('#searchform').submit();
+      });
     });
     </script>
   </body>
