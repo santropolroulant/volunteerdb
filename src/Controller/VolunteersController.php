@@ -55,9 +55,6 @@ class VolunteersController extends AppController {
     }
 
     public function search() {
-        $term = $this->request->query('term');
-
-        $terms = explode(" ", $this->searchNormalize($term));
 
         $query = $this->Volunteers
                       ->find()
@@ -70,15 +67,9 @@ class VolunteersController extends AppController {
                                          # columns may be added in the Views but without this initial select()
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
 
-        # XXX this makes a giant AND clause; every new word is addition restriction, which is kind of strange
-        # To write an OR clause we need to have a single where() containing 
-        # "OR" => [ cond1, cond2, ... ]
-        # https://book.cakephp.org/3.0/en/orm/query-builder.html#advanced-conditions
-        # $query->where(["OR" => array_map(function($term) { return ['searchableName LIKE' => "%$term%"] }, $terms)])
-        foreach($terms as $term)
-        {
-            $query = $query->where(['searchableName LIKE' => "%$term%"]); # XXX SQL injection here
-        }
+        $term = $this->request->query('term');
+        $term = $this->searchNormalize($term);
+        $query = $query->where(['searchableName LIKE' => "%$term%"]); # XXX SQL injection here
 
         # Special Case:
         # if a user has typed in an unambiguous name for a volunteer,
