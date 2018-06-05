@@ -41,7 +41,7 @@
           </a>
           <a class="brand" href="<?php echo $this->request->getAttribute("webroot") ?>Volunteers">Volunteers</a>
           <div class="nav-collapse collapse">
-            <form class="navbar-search pull-right" action="<?php echo $this->request->getAttribute("webroot") ?>Volunteers/jump" method="GET" id="searchform">
+            <form class="navbar-search pull-right" action="<?php echo $this->request->getAttribute("webroot") ?>Volunteers/search" method="GET" id="searchform">
               <input type="text" class="search-query" id='searchbox' placeholder="Search..." name="term" value="<?php echo defined("search_term") ? htmlspecialchars($search_term) : "" ?>"  autocomplete="off">
             </form>
             <ul class="nav">

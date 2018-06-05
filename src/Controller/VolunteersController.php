@@ -54,41 +54,14 @@ class VolunteersController extends AppController {
         return strtr(utf8_decode($x),utf8_decode($src),$dst); #Marie-Zoé -> Marie Zoe
     }
 
-    function searchQuery($q) {
-        $terms = explode(" ", $this->searchNormalize($q));
+    public function search() {
+        $term = $this->request->query('term');
+
+        $terms = explode(" ", $this->searchNormalize($term));
 
         $query = $this->Volunteers
                       ->find()
-                      ->order(["id" => "asc"]);
-        foreach($terms as $term)
-        {
-            $query = $query->where(['searchableName LIKE' => "%$term%"]); # XXX SQL injection here
-        }
-        return $query;
-    }
-
-    public function jump() {
-        $q = $this->request->query('term');
-        $query = $this->searchQuery($q);
-        # Dig into the database and decide if we have a single result or not.
-        # If we have a single result, jump to that person immediately,
-        # otherwise show the full search UI with the search preloaded.
-        # This is run when people _submit_ (i.e. press enter in) the search box.
-        #
-        # Making the decision is rather verbose and a bit off-kilter,
-        # because we want to get the database to do the count for us (count($query->toList()) would first copy all results from SQL to PHP, then count them).
-        # We end up tacking on an extra select count("*") to the previously-defined query which makes any other columns in that query meaningless, but whatever
-        if($query->select(["count" => $query->func()->count("*")])->first()['count'] == 1) {
-            $this->redirect(array('action' => 'view', $query->select(["id"])->first()['id']));
-        }
-        else {
-            $this->redirect(array('action' => 'search', "?" => array("term" => $q)));
-        }
-    }
-
-    public function search() {
-        $term = $this->request->query('term');
-        $query = $this->searchQuery($term);
+                      ->order(["firstname" => "asc", "lastname" => "asc"]);
         $query = $query->select(["id", "firstname", "lastname", "orientationdate"]); # minimize database traffic
                                          # weirdness: under CakePHP 3.6, without this here, the query defaults to querying for all columns in the table
                                          # but adding it restricts to just a single column.
@@ -96,6 +69,26 @@ class VolunteersController extends AppController {
                                          # *but* only if there's an initial ->select() in the Controller;
                                          # columns may be added in the Views but without this initial select()
                                          # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
+
+        # XXX this makes a giant AND clause; every new word is addition restriction, which is kind of strange
+        # To write an OR clause we need to have a single where() containing 
+        # "OR" => [ cond1, cond2, ... ]
+        # https://book.cakephp.org/3.0/en/orm/query-builder.html#advanced-conditions
+        # $query->where(["OR" => array_map(function($term) { return ['searchableName LIKE' => "%$term%"] }, $terms)])
+        foreach($terms as $term)
+        {
+            $query = $query->where(['searchableName LIKE' => "%$term%"]); # XXX SQL injection here
+        }
+
+        # Special Case:
+        # if a user has typed in an unambiguous name for a volunteer,
+        # into the web UI, then jump immediately to it.
+        if(!$this->request->is('json')) {
+            if($query->count() == 1) { # a single result == unambiguous
+                $this->redirect(array('action' => 'view', $query->select(["id"])->first()['id']));
+            }
+        }
+
         $this->set('search_term', $term);
         $this->set('volunteers', $this->paginate($query));
 
