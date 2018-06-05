@@ -43,30 +43,41 @@ class VolunteersController extends AppController {
         return strtr(utf8_decode($x),utf8_decode($src),$dst); #Marie-Zoé -> Marie Zoe
     }
 
-    function find($q) {
-    	$terms = explode(" ", $this->searchNormalize($q));
-    	$conditions = array('AND' => array());
-    	foreach($terms as $term)
-    	{
-    		$conditions['AND'][] = array('Volunteer.searchableName LIKE' => "%$term%");
-    	}
-        return $this->Volunteer->find('all', array('conditions' => $conditions, "order" => "id"));
+    function searchQuery($q) {
+        $terms = explode(" ", $this->searchNormalize($q));
+
+        $query = $this->Volunteers
+                      ->find()
+                      ->order(["id" => "asc"]);
+        foreach($terms as $term)
+        {
+            $query = $query->where(['searchableName LIKE' => "%$term%"]); # XXX SQL injection here
+        }
+        return $query;
     }
 
     public function jump() {
-    	$q = isset($this->params['url']['term']) ? $this->params['url']['term'] : "";
-    	$result = $this->find($q);
-    	if(count($result) == 1) {
-    		$this->redirect(array('action' => 'view', $result[0]['Volunteer']['id']));
-    	}
-    	else {
-    		$this->redirect(array('action' => 'search', "?" => array("term" => $q)));
-    	}
+        $q = $this->request->query('term');
+        $query = $this->searchQuery($q);
+        # Dig into the database and decide if we have a single result or not.
+        # If we have a single result, jump to that person immediately,
+        # otherwise show the full search UI with the search preloaded.
+        # This is run when people _submit_ (i.e. press enter in) the search box.
+        #
+        # Making the decision is rather verbose and a bit off-kilter,
+        # because we want to get the database to do the count for us (count($query->toList()) would first copy all results from SQL to PHP, then count them).
+        # We end up tacking on an extra select count("*") to the previously-defined query which makes any other columns in that query meaningless, but whatever
+        if($query->select(["count" => $query->func()->count("*")])->first()['count'] == 1) {
+            $this->redirect(array('action' => 'view', $query->first()['id']));
+        }
+        else {
+            $this->redirect(array('action' => 'search', "?" => array("term" => $q)));
+        }
     }
 
     public function search() {
-    	$q = isset($this->params['url']['term']) ? $this->params['url']['term'] : "";
-        $this->set('volunteers', $this->find($q));
+        $q = $this->request->query('term');
+        $this->set('volunteers', $this->searchQuery($q));
     }
 
 	public function delete($id = null) {
