@@ -77,7 +77,15 @@ class VolunteersController extends AppController {
 
     public function search() {
         $q = $this->request->query('term');
-        $this->set('volunteers', $this->searchQuery($q));
+        $query = $this->searchQuery($q);
+        $query = $query->select(["id"]); # minimize database traffic
+                                         # weirdness: under CakePHP 3.6, without this here, the query defaults to querying for all columns in the table
+                                         # but adding it restricts to just a single column.
+                                         # further ->select() calls can add columns to that list
+                                         # *but* only if there's an initial ->select() in the Controller;
+                                         # columns may be added in the Views but without this initial select()
+                                         # to constrain the list, the query object inside the views is stuck in full-heavy pick-all-columns mode.
+        $this->set('volunteers', $query);
     }
 
 	public function delete($id = null) {
