@@ -39,8 +39,15 @@ array('controller' => 'Volunteers', 'action' => 'edit', $v['id']), array("class"
   	<dt>Postal Address</dt> <dd><?php echo $v["address"] ?></dd> 
   <?php } ?>
 
-  <?php if($v["birthday"] || $v["birthmonth"] || $v["birthyear"]){ ?>
-  <?php $age = (new DateTime($v['birthyear'] . '-' . $v['birthmonth'] . '-' . $v['birthday']))->diff(new DateTime('now'))->y; ?>
+  <?php
+    /* NB: we used to support partial birthdays -- i.e. a vol might tell us their age but not birthday, or their birthday but not age -- but the overhead for managing that is a technical pain.
+
+    Having the birthday, therefore, as three columns instead of just $v["birthdate"] is vestigial
+    and will be superseded by https://github.com/santropolroulant/volunteerdb/issues/5.
+     */
+    if($v["birthday"] && $v["birthmonth"] && $v["birthyear"]){
+      $age = (new DateTime($v['birthyear'] . '-' . $v['birthmonth'] . '-' . $v['birthday']))->diff(new DateTime('now'))->y;
+  ?>
     <dt>Birthday</dt> 
     <dd>
       <?php echo format_bday($v["birthday"], $v["birthmonth"], $v["birthyear"]) ?>
