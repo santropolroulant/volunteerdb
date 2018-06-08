@@ -149,7 +149,8 @@ class VolunteersController extends AppController {
         try {
           $_birthdate = new DateTime($volunteer["birthyear"]."-".$volunteer["birthmonth"]."-".$volunteer["birthday"]);
           $this->set('_birthdate', $_birthdate->format("Y-m-d"));
-        } catch(Exception $e) {
+        } catch(\Exception $e) {
+          $this->set('_birthdate', "");
         }
         
         $this->set('volunteer', $volunteer);
