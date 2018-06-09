@@ -9,8 +9,10 @@
     <meta name="author" content="">
 
     <!-- Le styles -->
-    <link href="<?php echo $this->request->getAttribute("webroot") ?>css/bootstrap.css" rel="stylesheet">
-    <link href="<?php echo $this->request->getAttribute("webroot") ?>css/datepicker.css" rel="stylesheet">
+    <?php echo $this->Html->css([
+        'bootstrap',
+        'datepicker'
+        ]); ?>
     <style>
       body {
         padding-top: 60px; /* 60px to make the container go all the way to the bottom of the topbar */
@@ -21,12 +23,13 @@
     <!--[if lt IE 9]>
       <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
     <![endif]-->
-
-    <script src="<?php echo $this->request->getAttribute("webroot") ?>js/jquery-1.8.3.min.js"></script>
-    <script src="<?php echo $this->request->getAttribute("webroot") ?>js/jquery.validate.min.js"></script>
-    <script src="<?php echo $this->request->getAttribute("webroot") ?>js/bootstrap.min.js"></script>
-    <script src="<?php echo $this->request->getAttribute("webroot") ?>js/bootstrap-datepicker.js"></script>
-    <script src="<?php echo $this->request->getAttribute("webroot") ?>js/jquery.placeholder.min.js"></script>
+    <?php echo $this->Html->script([
+        'jquery-1.8.3.min.js',
+        'jquery.validate.min.js',
+        'bootstrap.min.js',
+        'bootstrap-datepicker.js',
+        'jquery.placeholder.min.js'
+        ]); ?>
   </head>
 
   <body>
@@ -39,13 +42,14 @@
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
           </a>
-          <a class="brand" href="<?php echo $this->request->getAttribute("webroot") ?>Volunteers">Volunteers</a>
+          <?php echo $this->Html->link("Volunteers", ["controller"=>"Volunteers", "action"=>"index"], ["class"=>"brand"]); ?>
           <div class="nav-collapse collapse">
-            <form class="navbar-search pull-right" action="<?php echo $this->request->getAttribute("webroot") ?>Volunteers/search" method="GET" id="searchform">
+            <!-- TODO: update this <form> using $this->Form ? -->
+            <form class="navbar-search pull-right" action="<?php echo $this->Url->build(["controller"=>"Volunteers","action"=>"search"]); ?>" method="GET" id="searchform">
               <input type="text" class="search-query" id='searchbox' placeholder="Search..." name="term" value="<?php echo defined("search_term") ? htmlspecialchars($search_term) : "" ?>"  autocomplete="off">
             </form>
             <ul class="nav">
-              <li class="active"><a href="<?php echo $this->request->getAttribute("webroot") ?>Volunteers/edit">Add a Volunteer</a></li>
+              <li class="active"><?php echo $this->Html->link("Add a Volunteer", ["controller"=>"Volunteers","action"=>"edit"]); ?></li>
             </ul>
           </div><!--/.nav-collapse -->
         </div>
@@ -65,7 +69,7 @@
       $('input[placeholder]').placeholder();
       $("#searchbox").typeahead({
         source: function (query, process) {
-          $.get('<?php echo $this->request->getAttribute("webroot") ?>Volunteers/search.json',
+          $.get('<?php echo $this->Url->build(["controller" => "Volunteers", "action" => "search.json"]) ?>',
                 { term: query },
                 function(data) {
                   /* bootstrap-typeahead wants a simple list of strings:
