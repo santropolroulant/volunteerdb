@@ -1,5 +1,5 @@
 <?php
-    echo $this->Form->create($volunteer);
+    echo $this->Form->create($volunteer, [ "id" => "VolunteerEditForm" ]);
     echo $this->Form->hidden('id');
 ?>
 
@@ -9,19 +9,19 @@
   <legend>Volunteer Information</legend>
 
   <div class="row">
-    <div class="span4">
+    <div class="span4 control-group">
     <?php
       echo $this->Form->label('firstname', 'First Name');
       echo $this->Form->text('firstname', [ "class" => "input-medium" ]);
     ?>
     </div>
-    <div class="span4">
+    <div class="span4 control-group">
     <?php
       echo $this->Form->label('lastname', 'Last Name');
       echo $this->Form->text('lastname', [ "class" => "input-medium" ]);
     ?>
     </div>
-    <div class="span4">
+    <div class="span4 control-group">
     <?php
         # This field is actually type="date", but we're using bootstrap-datepicker as a shim for older browsers.
         # Beware: [Form->date()](https://book.cakephp.org/3.0/en/views/helpers/form.html#Cake\View\Helper\FormHelper::date) is *not* the native HTML5 datepicker. Maybe it will be someday but it's not now.
@@ -38,7 +38,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="span12">
+    <div class="span12 control-group">
     <?php
     echo $this->Form->label('address', "Mailing Address");
     echo $this->Form->textarea('address', [ "style" => "width: 90%" ]);
@@ -46,19 +46,19 @@
     </div>
   </div>
   <div class="row">
-    <div class="span4">
+    <div class="span4 control-group">
       <?php
       echo $this->Form->label('phone1', "Cell Phone"); 
       echo $this->Form->tel('phone1', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span4">
+    <div class="span4 control-group">
       <?php
       echo $this->Form->label('phone2', "Home Phone"); 
       echo $this->Form->tel('phone2', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class='span4'>
+    <div class='span4 control-group'>
       <?php
       echo $this->Form->label('phone3', "Other Phone"); 
       echo $this->Form->tel('phone3', [ "class" => "input-small" ]);
@@ -66,7 +66,7 @@
     </div>
   </div>
   <div class="row">
-    <div class="span12">
+    <div class="span12 control-group">
     <?php
       echo $this->Form->label('email', "Email Address"); 
       echo $this->Form->email('email', [ "class" => "input-small" ]);
@@ -104,37 +104,37 @@
     <div class="span12" id="primary-header" style="<?php if (!$hasSecondaryContact) echo 'display:none'; ?>">
       <div class="alert alert-secondary">Primary Emergency Contact</div>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emergname', "Contact name"); 
       echo $this->Form->text('emergname');
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emergrelation', "Relationship"); 
       echo $this->Form->text('emergrelation');
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emergphone1', "Primary Phone");
       echo $this->Form->tel('emergphone1', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emergphone2', "Secondary Phone");
       echo $this->Form->tel('emergphone2', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emergphone3', "Other Phone");
       echo $this->Form->tel('emergphone3', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emergemail', "Email Address");
       echo $this->Form->email('emergemail');
@@ -152,37 +152,37 @@
     <div class="span12">
       <div class="alert alert-secondary">Secondary Emergency Contact</div>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emerg2name', "Contact Name");
       echo $this->Form->text('emerg2name');
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emerg2relation', "Relationship");
       echo $this->Form->text('emerg2relation');
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emerg2phone1', "Primary Phone");
       echo $this->Form->tel('emerg2phone1', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emerg2phone2', "Secondary Phone");
       echo $this->Form->tel('emerg2phone2', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emerg2phone3', "Other Phone");
       echo $this->Form->tel('emerg2phone3', [ "class" => "input-small" ]);
       ?>
     </div>
-    <div class="span6">
+    <div class="span6 control-group">
       <?php
       echo $this->Form->label('emerg2email', "Email Address");
       echo $this->Form->email('emerg2email');
@@ -212,7 +212,7 @@
   <div class="row">
     <div class='span1'></div>
     <div class='span9'>
-      <div class="checkbox" style="
+      <div class="checkbox control-group" style="
       padding-top: 15px; padding-bottom: 15px;">
         <label>
         <?php
@@ -237,7 +237,8 @@
 
 <div class="row"> 
 <div class="span6">
-<?php
+    <div class="control-group">
+    <?php
     echo $this->Form->label('birthdate', "Birthdate");
     echo $this->Form->text('birthdate', [
           'value' => $volunteer["birthdate"] ? $volunteer["birthdate"]->format("Y-m-d") : NULL,
@@ -279,7 +280,11 @@ $months = array(
     ));
 
      */
+     ?>
+     </div>
 
+    <div class="control-group">
+    <?php
     echo $this->Form->label('mediapermission', "Photo / Video Permission");
     echo $this->Form->select('mediapermission',
         [
@@ -288,8 +293,9 @@ $months = array(
           1 => "Yes"
         ]);
     ?>
+    </div>
 </div>
-<div class="span6">
+<div class="span6 control-group"><!-- XXX this control-group needs to be on individual <div>s if we want the validator to run on these controls -->
 <?php
 
     $languages = array( "",
@@ -377,7 +383,7 @@ $months = array(
   <div class='span12'>
     <fieldset >
       <legend><button id="toggle-notes" class="btn <?php echo $notes == '' ? 'btn-success' : 'btn-danger' ?>">Notes</button></legend>
-      <div class='span12' id="user-notes" style="display:none">
+      <div class='span12 control-group' id="user-notes" style="display:none">
         <?php
         echo $this->Form->textarea('notes', [ 'style' => 'width: 100%; height: 300px' ]);
         ?>
@@ -442,45 +448,45 @@ $months = array(
      $('#VolunteerEditForm').validate(
      {
       rules: {
-        "data[Volunteer][firstname]": {
+        "firstname": {
           minlength: 2,
           required: true
         },
-        "data[Volunteer][lastname]": {
+        "lastname": {
           minlength: 2,
           required: true
         },
-        //"data[Volunteer][phone1]": {
+        //"phone1": {
         //  phoneUS: true
         //},
-        //"data[Volunteer][phone2]": {
+        //"phone2": {
         //  phoneUS: true
         //},
-        //"data[Volunteer][phone3]": {
+        //"phone3": {
         //  phoneUS: true
         //},
-        //"data[Volunteer][email]": {
+        //"email": {
         //  email: true
         //},
-        "data[Volunteer][address]": {
+        "address": {
           minlength: 2
         },
-        "data[Volunteer][emergname]": {
+        "emergname": {
           minlength: 2,
         },
-        "data[Volunteer][emergrelation]": {
+        "emergrelation": {
           minlength: 2,
         },
-        "data[Volunteer][emergemail]": {
+        "emergemail": {
           email: true
         },
-        "data[Volunteer][birthday]": {
+        "birthday": {
           number: true, min: 1, max: 31
         },
-        "data[Volunteer][birthyear]": {
+        "birthyear": {
           number: true, min: 1900, max: 2012
         },
-        "data[Volunteer][orientationdate]": {
+        "orientationdate": {
           date: true
         },
       },
