@@ -96,16 +96,14 @@ class VolunteersController extends AppController {
         $data = $this->request->getData();
         # Unpack the birthdate field into the older birthday/month/year fields
         # TODO: this will be dropped once we do https://github.com/santropolroulant/volunteerdb/issues/5
-        if(isset($data["birthdate"])) {
+        if(isset($data["birthdate"]) && $data["birthdate"]) {
             $_birthdate = new DateTime($data["birthdate"]);
             $data["birthday"] = $_birthdate->format('d');
             $data["birthmonth"] = $_birthdate->format('m');
             $data["birthyear"] = $_birthdate->format('Y');
             unset($data["birthdate"]);
         } else {
-            $data["birthday"] = "";
-            $data["birthmonth"] = "";
-            $data["birthyear"] = "";
+            $data["birthday"] = $data["birthmonth"] = $data["birthyear"] = "";
         }
 
 
