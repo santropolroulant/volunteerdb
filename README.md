@@ -37,10 +37,6 @@ A simple volunteer CRM for use at [le Roulant](https://santropolroulant.org). Ma
     CREATE DATABASE volunteerdb WITH ENCODING 'UTF-8' LC_COLLATE='UTF-8' LC_CTYPE='UTF-8';
    ```
    TODO: you can also set collation per-table, at least in mysql. Is that a better idea?
-3. Run the schema script to install the database:
-    ```
-    # TODO
-    ```
 4. Configure your database connection in `config/app.php`, e.g.:
     ```
     'Datasources' => [
@@ -59,26 +55,31 @@ A simple volunteer CRM for use at [le Roulant](https://santropolroulant.org). Ma
             'password' => 'secret',
             'database' => 'volunteerdb',
     ```
+3. Run the schema script to install the database:
+    ```
+    bin/bake migrations migrate
+    ```
 5. It should be running now. If not, try again, then file bug reports.
 
 ## Development setup
 
+Development setup is very similar to production, except for what database you choose to use and what server to run on. In short:
+
+    git clone https://github.com/santropolroulant/volunteerdb
+    cd volunteerdb
+    composer install
+    < create and add a database and a database user volunteerdb_test, as explained above >
+    $EDITOR config/app.php # add database credentials here, as explained above
+    bin/bake migrations migrate
+    # run the dev server
+    bin/cake server
+
+## Development setup - Docker mode
+
 1. [Install Docker Compose](https://docs.docker.com/compose/install/)
-2. Create the database connection file at `app/Config/database.php`:
-    ```
-    <?php
-    class DATABASE_CONFIG {
-        public $default = array(
-            'datasource'  => 'Database/Mysql',
-            'persistent'  => false,
-            'host'        => 'db',
-            'login'       => 'root',
-            'password'    => 'password',
-            'database'    => 'database',
-            'prefix'      => 'vol2_'
-        );
-    }
-    ```
-2. From the project root, run `docker-compose up`
+2. ???
+3. From the project root, run `docker-compose up`
 3. The application should now be running on `http://localhost:8090`
+
+
 
