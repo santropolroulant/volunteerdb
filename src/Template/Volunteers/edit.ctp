@@ -414,13 +414,15 @@ $months = array(
 
 
 <?php
-    echo $this->Form
-              ->postButton('Delete',
-                  [ "controller"=>"Volunteers", "action"=>"edit", $volunteer["id"] ],
-                  [ "method" => "delete",
-                    "class" => "btn btn-danger pull-right",
-                    'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"
-                  ]);
+    if($volunteer) {
+        echo $this->Form
+                  ->postButton('Delete',
+                      [ "controller"=>"Volunteers", "action"=>"edit", $volunteer["id"] ],
+                      [ "method" => "delete",
+                        "class" => "btn btn-danger pull-right",
+                        'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"
+                      ]);
+    }
 ?>
 
 <br /><br />
