@@ -89,22 +89,6 @@ class VolunteersController extends AppController {
         $this->set('_serialize', 'volunteers');
     }
 
-    public function delete($id = null) {
-        $id = $this->request->data["id"];
-        if ($this->request->is('delete') && $id) {
-            # XXX TODO there should be error-checking wrapped around this execute() call
-            if($this->Volunteers->query()->delete()->where(["id" => $id])->execute()) {
-                $this->Flash->success('Deleted.');
-                return $this->redirect("/"); # this is important; otherwise it will try to load the non-existent delete.ctp file
-            } else {
-                $this->Flash->error('Deletion failed.');
-            }
-        } else {
-            $this->Flash->error('Nothing to delete.');
-        }
-        return $this->redirect("/"); # ditto
-    }
-
     public function edit($id = null) {
 
         $volunteer = $this->Volunteers->query()->where(["id" => $id])->first(); # look up the volunteer here, to share code paths between GET/POST (if we're in the POST->new subpath, this will just be null and that's okay)
@@ -142,6 +126,15 @@ class VolunteersController extends AppController {
                 return $this->redirect(array('action' => 'view', $volunteer["id"]));
             } else {
                 $this->Flash->error('Unable to save data.');
+            }
+        }
+        else if ($this->request->is('delete')) {
+            # XXX TODO there should be error-checking wrapped around this execute() call
+            if($this->Volunteers->query()->delete()->where(["id" => $volunteer["id"]])->execute()) {
+                $this->Flash->success('Deleted.');
+                return $this->redirect("/"); # this is important; otherwise it will try to load the non-existent delete.ctp file
+            } else {
+                $this->Flash->error('Deletion failed.'); # TODO: extract better error message?
             }
         }
 
