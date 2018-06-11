@@ -41,7 +41,7 @@
     <div class="span12 control-group">
     <?php
     echo $this->Form->label('address', "Mailing Address");
-    echo $this->Form->textarea('address', [ "style" => "width: 90%" ]);
+    echo $this->Form->textarea('address', [ "style" => "width: 78%" ]);
     ?>
     </div>
   </div>
@@ -81,6 +81,22 @@
     color: #555;
     background-color: #eee;
     border-color: #aaa;
+  }
+
+  /* These were recovered from the old bootstrap 2 + cakephp2 settings
+     They could probably be redone to make the layout flow better.
+   */
+  .control-group label {
+    /*float: left;*/ /* you can't trust floats! inline-block + controlling margins is better */
+    display: inline-block;
+    margin-left: 0;
+    width: 160px;
+    padding-top: 5px;
+    text-align: right;
+  }
+
+  .control-group input,select,textarea {
+    margin-left: 10px;
   }
 </style>
 
@@ -214,15 +230,17 @@
     <div class='span9'>
       <div class="checkbox control-group" style="
       padding-top: 15px; padding-bottom: 15px;">
-        <label>
         <?php
-        echo $this->Form->checkbox('emergunable', array(
-          "label" => array("text" => "I am unable at this time to provide an emergency contact", 'class' => 'control-label'),
-          "id" => "emergunable"
-        ));
+        echo $this->Form
+                  ->label('emergunable',
+                          "I am unable at this time to provide an emergency contact",
+                          [ "style" => "width: 400px" ] # Hack: override the default width for labels of 180px
+                                                        # in order to fit the entire text on one line
+                                                        # This used to not be an issue because pre CakePHP 3.x upgrade
+                                                        # this just had the text in a <span>, not a <label>.
+                         );
+        echo $this->Form->checkbox('emergunable', [ "id" => "emergunable" ]);
         ?>
-        <span style="margin-left: 15px">I am unable at this time to provide an emergency contact</span>
-        </label>
       </div>
     </div>
   </div>
@@ -358,18 +376,23 @@ $months = array(
 
     echo $this->Form->label('language1', "Primary Language");
     echo $this->Form->select('language1', $languages);
+    echo "<br/>\n"; # XXX hack; we should wrap <divs> instead
 
     echo $this->Form->label('language2', "Secondary Language");
     echo $this->Form->select('language2', $languages);
+    echo "<br/>\n"; # XXX hack; we should wrap <divs> instead
 
     echo $this->Form->label('language3', "Third Language");
     echo $this->Form->select('language3', $languages);
+    echo "<br/>\n"; # XXX hack; we should wrap <divs> instead
 
     echo $this->Form->label('language4', "Fourth Language");
     echo $this->Form->select('language4', $languages);
+    echo "<br/>\n"; # XXX hack; we should wrap <divs> instead
 
     echo $this->Form->label('language5', "Fifth Language");
     echo $this->Form->select('language5', $languages);
+    echo "<br/>\n"; # XXX hack; we should wrap <divs> instead
 
     ?>
 </div>
