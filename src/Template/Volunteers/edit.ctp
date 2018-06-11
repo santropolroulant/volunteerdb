@@ -238,9 +238,9 @@
 <div class="row"> 
 <div class="span6">
 <?php
-    echo $this->Form->label('_birthdate', "Birthdate");
-    echo $this->Form->text('_birthdate', [
-          'value' => $_birthdate ? $_birthdate->format("Y-m-d") : NULL,
+    echo $this->Form->label('birthdate', "Birthdate");
+    echo $this->Form->text('birthdate', [
+          'value' => $volunteer["birthdate"] ? $volunteer["birthdate"]->format("Y-m-d") : NULL,
           'id' => "birthdatedatepicker",
           "class" => "input-small" 
         ]);

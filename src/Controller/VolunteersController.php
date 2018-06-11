@@ -117,8 +117,8 @@ class VolunteersController extends AppController {
 
             # glue the DatePicker widget into our silly three-column birthdate setup
             # TODO: this will be dropped once we do https://github.com/santropolroulant/volunteerdb/issues/5
-            if($data["_birthdate"]) {
-              $_birthdate = new DateTime($data["_birthdate"]);
+            if($data["birthdate"]) {
+              $_birthdate = new DateTime($data["birthdate"]);
               $data["birthday"] = $_birthdate->format('d');
               $data["birthmonth"] = $_birthdate->format('m');
               $data["birthyear"] = $_birthdate->format('Y');
@@ -127,7 +127,7 @@ class VolunteersController extends AppController {
               $data["birthmonth"] = "";
               $data["birthyear"] = "";
             }
-            unset($data["_birthdate"]);
+            unset($data["birthdate"]);
 
             if($volunteer) {
                 # it's an edit
@@ -147,10 +147,8 @@ class VolunteersController extends AppController {
 
         # again: an awkward temporary glue between two different data storage systems
         try {
-          $_birthdate = new DateTime($volunteer["birthyear"]."-".$volunteer["birthmonth"]."-".$volunteer["birthday"]);
-          $this->set('_birthdate', $_birthdate);
+          $volunteer["birthdate"] = new DateTime($volunteer["birthyear"]."-".$volunteer["birthmonth"]."-".$volunteer["birthday"]);
         } catch(\Exception $e) {
-          $this->set('_birthdate', "");
         }
         
         $this->set('volunteer', $volunteer);
