@@ -1,6 +1,6 @@
 <?php
     echo $this->Form->create($volunteer);
-    echo $this->Form->input('id', array('type' => 'hidden'));
+    echo $this->Form->hidden('id');
 ?>
 
 <div class="row">
@@ -11,74 +11,60 @@
   <div class="row">
     <div class="span4">
     <?php
-      echo $this->Form->input('firstname', array(
-        "label" => array("text" => "First Name", 'class' => 'control-label'),
-        "class" => "input-medium"  
-      ));
+      echo $this->Form->label('firstname', 'First Name');
+      echo $this->Form->text('firstname', [ "class" => "input-medium" ]);
     ?>
     </div>
     <div class="span4">
     <?php
-      echo $this->Form->input('lastname', array(
-        "label" => array("text" => "Last Name", 'class' => 'control-label'), 
-        "class" => "input-medium"  
-      ));
+      echo $this->Form->label('lastname', 'Last Name');
+      echo $this->Form->text('lastname', [ "class" => "input-medium" ]);
     ?>
     </div>
     <div class="span4">
     <?php
-        echo $this->Form->input('orientationdate', array(
-          "label" => array("text" => "Orientation Date", 'class' => 'control-label'), 
-          'type'=>'text',
-          'id' => "orientdationdatepicker",
-          "class" => "input-small" 
-        ));
+        # This field is actually type="date", but we're using bootstrap-datepicker as a shim for older browsers.
+        # See https://github.com/santropolroulant/volunteerdb/issues/13
+        echo $this->Form->label("orientationdate", "Orientation Date");
+        echo $this->Form->text("orientationdate", [ 'id' => "orientdationdatepicker", "class" => "input-small" ]);
     ?>
     </div>
   </div>
   <div class="row">
     <div class="span12">
     <?php
-    echo $this->Form->input('address', array(
-      "label" => array("text" => "Mailing Address", 'class' => 'control-label'),
-      "style" => "width: 90%"
-    ));
+    echo $this->Form->label('address', "Mailing Address");
+    echo $this->Form->textarea('address', [ "style" => "width: 90%" ]);
     ?>
     </div>
   </div>
   <div class="row">
     <div class="span4">
       <?php
-      echo $this->Form->input('phone1', array(
-        "label" => array("text" => "Cell Phone", 'class' => 'control-label'), 
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('phone1', "Cell Phone"); 
+      echo $this->Form->tel('phone1', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span4">
       <?php
-      echo $this->Form->input('phone2', array(
-        "label" => array("text" => "Home Phone", 'class' => 'control-label'), 
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('phone2', "Home Phone"); 
+      echo $this->Form->tel('phone2', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class='span4'>
       <?php
-      echo $this->Form->input('phone3', array(
-        "label" => array("text" => "Other Phone", 'class' => 'control-label'), 
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('phone3', "Other Phone"); 
+      echo $this->Form->tel('phone3', [ "class" => "input-small" ]);
       ?>
     </div>
   </div>
   <div class="row">
     <div class="span12">
     <?php
-      echo $this->Form->input('email', array(
-        "label" => array("text" => "Email Address", 'class' => 'control-label'),
-      ));
-    ?>    </div>
+      echo $this->Form->label('email', "Email Address"); 
+      echo $this->Form->email('email', [ "class" => "input-small" ]);
+    ?>
+    </div>
   </div>
 </fieldset>
 </div>
@@ -113,47 +99,38 @@
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emergname', array(
-        "label" => array("text" => "Contact Name", 'class' => 'control-label'),
-      ));
+      echo $this->Form->label('emergname', "Contact name"); 
+      echo $this->Form->text('emergname');
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emergrelation', array(
-        "label" => array("text" => "Relationship", 'class' => 'control-label'), 
-      ));
+      echo $this->Form->label('emergrelation', "Relationship"); 
+      echo $this->Form->text('emergrelation');
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emergphone1', array(
-        "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('emergphone1', "Primary Phone");
+      echo $this->Form->tel('emergphone1', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emergphone2', array(
-        "label" => array("text" => "Secondary Phone", 'class' => 'control-label'),
-        "class" => "input-small"  
-      ));
+      echo $this->Form->label('emergphone2', "Secondary Phone");
+      echo $this->Form->tel('emergphone2', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emergphone3', array(
-        "label" => array("text" => "Other Phone", 'class' => 'control-label'),
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('emergphone3', "Other Phone");
+      echo $this->Form->tel('emergphone3', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emergemail', array(
-        "label" => array("text" => "Email Address", 'class' => 'control-label'),
-      ));
+      echo $this->Form->label('emergemail', "Email Address");
+      echo $this->Form->email('emergemail');
       ?>
     </div>
   </div>
@@ -170,47 +147,38 @@
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emerg2name', array(
-        "label" => array("text" => "Contact Name", 'class' => 'control-label'),
-      ));
+      echo $this->Form->label('emerg2name', "Contact Name");
+      echo $this->Form->text('emerg2name');
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emerg2relation', array(
-        "label" => array("text" => "Relationship", 'class' => 'control-label'), 
-      ));
+      echo $this->Form->label('emerg2relation', "Relationship");
+      echo $this->Form->text('emerg2relation');
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emerg2phone1', array(
-        "label" => array("text" => "Primary Phone", 'class' => 'control-label'), 
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('emerg2phone1', "Primary Phone");
+      echo $this->Form->tel('emerg2phone1', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emerg2phone2', array(
-        "label" => array("text" => "Secondary Phone", 'class' => 'control-label'),
-        "class" => "input-small"  
-      ));
+      echo $this->Form->label('emerg2phone2', "Secondary Phone");
+      echo $this->Form->tel('emerg2phone2', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emerg2phone3', array(
-        "label" => array("text" => "Other Phone", 'class' => 'control-label'),
-        "class" => "input-small" 
-      ));
+      echo $this->Form->label('emerg2phone3', "Other Phone");
+      echo $this->Form->tel('emerg2phone3', [ "class" => "input-small" ]);
       ?>
     </div>
     <div class="span6">
       <?php
-      echo $this->Form->input('emerg2email', array(
-        "label" => array("text" => "Email Address", 'class' => 'control-label'),
-      ));
+      echo $this->Form->label('emerg2email', "Email Address");
+      echo $this->Form->email('emerg2email');
       ?>
     </div>
   </div>
@@ -263,13 +231,12 @@
 <div class="row"> 
 <div class="span6">
 <?php
-        echo $this->Form->input('_birthdate', array(
-          "label" => array("text" => "Birthdate", 'class' => 'control-label'), 
-          'type'=>'text',
-          'value'=>$_birthdate,
+    echo $this->Form->label('_birthdate', "Birthdate");
+    echo $this->Form->text('_birthdate', [
+          'value'=>$_birthdate, # XXX special case to glue things together
           'id' => "birthdatedatepicker",
           "class" => "input-small" 
-        ));
+        ]);
 
         /* Commented out temporarily; will probably be fully removed in favour of the datepicker^ soon.
 $months = array(
@@ -306,17 +273,14 @@ $months = array(
 
      */
 
-    echo $this->Form->input('mediapermission',
-       array(
-        'label' => array("text" => 'Photo / Video Permission', 'class' => 'control-label'),
-        'type' => 'select',
-        'options' => array(
+    echo $this->Form->label('mediapermission', "Photo / Video Permission");
+    echo $this->Form->select('mediapermission',
+        [
           2 => 'Unanswered',
           0 => "No",
           1 => "Yes"
-        )
-      ));
-?>
+        ]);
+    ?>
 </div>
 <div class="span6">
 <?php
@@ -379,27 +343,22 @@ $months = array(
       )
     );
 
-    echo $this->Form->input('language1', array(
-      "label" => array("text" => "Primary Language", 'class' => 'control-label'),
-      'options' => $languages
-      ));
-    echo $this->Form->input('language2', array(
-      "label" => array("text" => "Secondary Language", 'class' => 'control-label'),
-      'options' => $languages
-      ));
-    echo $this->Form->input('language3', array(
-      "label" => array("text" => "Third Language", 'class' => 'control-label'),
-      'options' => $languages
-      ));
-    echo $this->Form->input('language4', array(
-      "label" => array("text" => "Fourth Language", 'class' => 'control-label'),
-      'options' => $languages
-      ));
-    echo $this->Form->input('language5', array(
-      "label" => array("text" => "Fifth Language", 'class' => 'control-label'),
-      'options' => $languages
-      ));
-?>
+    echo $this->Form->label('language1', "Primary Language");
+    echo $this->Form->select('language1', $languages);
+
+    echo $this->Form->label('language2', "Secondary Language");
+    echo $this->Form->select('language2', $languages);
+
+    echo $this->Form->label('language3', "Third Language");
+    echo $this->Form->select('language3', $languages);
+
+    echo $this->Form->label('language4', "Fourth Language");
+    echo $this->Form->select('language4', $languages);
+
+    echo $this->Form->label('language5', "Fifth Language");
+    echo $this->Form->select('language5', $languages);
+
+    ?>
 </div>
 </div>
 </fieldset>
@@ -413,9 +372,7 @@ $months = array(
       <legend><button id="toggle-notes" class="btn <?php echo $notes == '' ? 'btn-success' : 'btn-danger' ?>">Notes</button></legend>
       <div class='span12' id="user-notes" style="display:none">
         <?php
-        echo $this->Form->textarea('notes', array(
-          'style' => 'width: 100%; height: 300px'
-        ));
+        echo $this->Form->textarea('notes', [ 'style' => 'width: 100%; height: 300px' ]);
         ?>
       </div>
     </fieldset>
@@ -441,7 +398,7 @@ $months = array(
 </script>
 
 <?php
-  echo $this->Form->button('Save', array('type' => 'submit', 'class' => 'btn btn-primary btn-large'));
+  echo $this->Form->submit('Save', [ 'class' => 'btn btn-primary btn-large' ]);
 ?>
 
 <?php
@@ -450,13 +407,14 @@ $months = array(
 
 
 <?php
-    echo $this->Form->create($volunteer,
-                [ "method" => "post",
-                  "url" => \Cake\Routing\Router::url(['controller' => 'Volunteers', 'action' => 'delete'])
-                ]);
-    echo $this->Form->input('id', array('type' => 'hidden'));
-    echo $this->Form->button('Delete', array('type' => 'submit', 'class' => 'btn btn-danger pull-right', 'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"));
-    echo $this->Form->end();
+    echo $this->Form
+              ->postButton('Delete',
+                  [ "controller"=>"Volunteers", "action"=>"delete"],
+                  [ "data" => [ "id" => $volunteer["id"] ],
+                    #"method" => "delete", # TODO
+                    "class" => "btn btn-danger pull-right",
+                    'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"
+                  ]);
 ?>
 
 <br /><br />
