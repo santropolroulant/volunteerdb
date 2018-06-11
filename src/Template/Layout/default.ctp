@@ -40,10 +40,28 @@
           </a>
           <?php echo $this->Html->link("Volunteers", ["controller"=>"Volunteers", "action"=>"index"], ["class"=>"brand"]); ?>
           <div class="nav-collapse collapse">
-            <!-- TODO: update this <form> using $this->Form ? -->
-            <form class="navbar-search pull-right" action="<?php echo $this->Url->build(["controller"=>"Volunteers","action"=>"search"]); ?>" method="GET" id="searchform">
-              <input type="text" class="search-query" id='searchbox' placeholder="Search..." name="term" value="<?php echo defined("search_term") ? htmlspecialchars($search_term) : "" ?>"  autocomplete="off">
-            </form>
+            <?php
+            echo $this->Form
+                      ->create(NULL,
+                               [ "id" => "searchform",
+                                 "type" => "get",
+                                 "url" => ["controller"=>"Volunteers","action"=>"search" ],
+                                 "class" => "navbar-search pull-right"
+                               ]);
+            echo $this->Form
+                      ->search("term",
+                              [ "id" => "searchbox",
+                                "placeholder" => "Search...",
+                                "class" => "search-query",
+                                "autocomplete" => "off",
+                                # There should be a way to feed the $search_term in from the Form() constructor
+                                # but it looks super complicated:
+                                # https://book.cakephp.org/3.0/en/views/helpers/form.html#getting-form-values-from-the-query-string
+                                "value" => (isset($search_term) ? htmlspecialchars($search_term) : "")
+                              ]);
+            echo $this->Form->end();
+            ?>
+
             <ul class="nav">
               <li class="active"><?php echo $this->Html->link("Add a Volunteer", ["controller"=>"Volunteers","action"=>"edit"]); ?></li>
             </ul>
@@ -90,5 +108,3 @@
     </script>
   </body>
 </html>
-
-
