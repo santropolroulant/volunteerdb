@@ -22,11 +22,13 @@ A simple volunteer CRM for use at [le Roulant](https://santropolroulant.org). Ma
 3. Configure your webserver so that the document root is `volunteerdb/webroot/`.
    You should test that it runs at this point. The PHP should execute and you should get a CakePHP error, complaining about not being able to reach the database. If not, try again.
 2. Create a database and a database user _with a strong password_. You may use [all the usual platforms](https://book.cakephp.org/3.0/en/orm/database-basics.html#supported-databases).
+
     There's an important catch here! VolunteerDB relies upon its database for searches,
     which means the database collation rules --- the rules that define what letters are
     in relation to each other, i.e. how to sort and compare --- will affect the UI.
     The default collation for MySQL is `latin1_swedish_ci` where "E" = "e" but "É" != "E",
     for example (and for a bilingual organisation like the Roulant this is a big deal).
+    For a multilingual environment we need to set a full unicode-aware collation.
 
     Basically, on MySQL/MariaDB [you want](https://dev.mysql.com/doc/refman/8.0/en/charset-collation-implementations.html)
     ```
@@ -36,7 +38,7 @@ A simple volunteer CRM for use at [le Roulant](https://santropolroulant.org). Ma
    ```
     CREATE DATABASE volunteerdb WITH ENCODING 'UTF-8' LC_COLLATE='UTF-8' LC_CTYPE='UTF-8';
    ```
-   TODO: you can also set collation per-table, at least in mysql. Is that a better idea?
+
 4. Configure your database connection in `config/app.php`, e.g.:
     ```
     'Datasources' => [
