@@ -24,9 +24,16 @@
     <div class="span4">
     <?php
         # This field is actually type="date", but we're using bootstrap-datepicker as a shim for older browsers.
-        # See https://github.com/santropolroulant/volunteerdb/issues/13
+        # Beware: [Form->date()](https://book.cakephp.org/3.0/en/views/helpers/form.html#Cake\View\Helper\FormHelper::date) is *not* the native HTML5 datepicker. Maybe it will be someday but it's not now.
+        # Because of that we need to have some weird glue code in here
         echo $this->Form->label("orientationdate", "Orientation Date");
-        echo $this->Form->text("orientationdate", [ 'id' => "orientdationdatepicker", "class" => "input-small" ]);
+        echo $this->Form->text("orientationdate", [
+              #'type' => "date", # TODO: see https://github.com/santropolroulant/volunteerdb/issues/13
+              'id' => "orientdationdatepicker",
+              "class" => "input-small",
+                # voice les codes bizarre du colle
+              "value" => $volunteer["orientationdate"] ? $volunteer["orientationdate"]->format("Y-m-d") : NULL
+              ]);
     ?>
     </div>
   </div>
@@ -233,7 +240,7 @@
 <?php
     echo $this->Form->label('_birthdate', "Birthdate");
     echo $this->Form->text('_birthdate', [
-          'value'=>$_birthdate, # XXX special case to glue things together
+          'value' => $_birthdate ? $_birthdate->format("Y-m-d") : NULL,
           'id' => "birthdatedatepicker",
           "class" => "input-small" 
         ]);

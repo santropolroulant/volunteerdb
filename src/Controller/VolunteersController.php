@@ -148,7 +148,7 @@ class VolunteersController extends AppController {
         # again: an awkward temporary glue between two different data storage systems
         try {
           $_birthdate = new DateTime($volunteer["birthyear"]."-".$volunteer["birthmonth"]."-".$volunteer["birthday"]);
-          $this->set('_birthdate', $_birthdate->format("Y-m-d"));
+          $this->set('_birthdate', $_birthdate);
         } catch(\Exception $e) {
           $this->set('_birthdate', "");
         }
