@@ -91,7 +91,7 @@ class VolunteersController extends AppController {
 
     public function delete($id = null) {
         $id = $this->request->data["id"];
-        if ($this->request->is('put') && $id) {
+        if ($this->request->is('delete') && $id) {
             # XXX TODO there should be error-checking wrapped around this execute() call
             if($this->Volunteers->query()->delete()->where(["id" => $id])->execute()) {
                 $this->Flash->success('Deleted.');

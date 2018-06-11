@@ -418,7 +418,7 @@ $months = array(
               ->postButton('Delete',
                   [ "controller"=>"Volunteers", "action"=>"delete"],
                   [ "data" => [ "id" => $volunteer["id"] ],
-                    #"method" => "delete", # TODO
+                    "method" => "delete",
                     "class" => "btn btn-danger pull-right",
                     'onclick'=> "return confirm('Clicking OK will delete. This cannot be undone.')"
                   ]);
