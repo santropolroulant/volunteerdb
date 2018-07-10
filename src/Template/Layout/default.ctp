@@ -97,6 +97,26 @@
                   process(data.map((volunteer) => { return volunteer.firstname + " " + volunteer.lastname }));
                 });
         },
+
+        /* Display *all* results
+
+           There are two layers of filtering here: in the backend,
+           the SQL filters the results, and then again in the frontend,
+           typeahead's matcher() runs to do another filter.
+           typeahead's default is to do case *but not accent*-insensitive matching
+           which means it hides some of the results, which is no good.
+        */
+        matcher: function(item) {
+                return true;
+        },
+        /* *Disable* highlighting.
+
+           This is an easier alternative than make case-and-accent-insensitive highlighting work.
+           TODO: make this work properly; see issue #27.
+        */
+        highlighter: function(item) {
+                return item;
+        },
         /* when an item is chosen from the list, jump to it */
         updater: function(item) {
           $('#searchbox').val(item);
