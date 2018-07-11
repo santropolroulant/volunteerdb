@@ -23,15 +23,13 @@
     </div>
     <div class="span4 control-group">
     <?php
-        # This field is actually type="date", but we're using bootstrap-datepicker as a shim for older browsers.
         # Beware: [Form->date()](https://book.cakephp.org/3.0/en/views/helpers/form.html#Cake\View\Helper\FormHelper::date) is *not* the native HTML5 datepicker. Maybe it will be someday but it's not now.
-        # Because of that we need to have some weird glue code in here
+        # Because of that we need to pretend to be type='text' but override that in the options.
         echo $this->Form->label("orientationdate", "Orientation Date");
         echo $this->Form->text("orientationdate", [
-              #'type' => "date", # TODO: see https://github.com/santropolroulant/volunteerdb/issues/13
-              'id' => "orientdationdatepicker",
-              "class" => "input-small",
-                # voice les codes bizarre du colle
+              'id' => "orientdationdate",
+              "type" => "date",
+              "class" => "input-medium",
               "value" => $volunteer["orientationdate"] ? $volunteer["orientationdate"]->format("Y-m-d") : NULL
               ]);
     ?>
@@ -258,10 +256,13 @@
     <div class="control-group">
     <?php
     echo $this->Form->label('birthdate', "Birthdate");
+    # Beware: [Form->date()](https://book.cakephp.org/3.0/en/views/helpers/form.html#Cake\View\Helper\FormHelper::date) is *not* the native HTML5 datepicker. Maybe it will be someday but it's not now.
+    # Because of that we need to pretend to be type='text' but override that in the options.
     echo $this->Form->text('birthdate', [
-          'value' => $volunteer["birthdate"] ? $volunteer["birthdate"]->format("Y-m-d") : NULL,
-          'id' => "birthdatedatepicker",
-          "class" => "input-small" 
+          'id' => "birthdate",
+          "type" => "date",
+          "class" => "input-medium",
+          'value' => $volunteer["birthdate"] ? $volunteer["birthdate"]->format("Y-m-d") : NULL
         ]);
 
         /* Commented out temporarily; will probably be fully removed in favour of the datepicker^ soon.
@@ -465,9 +466,6 @@ $months = array(
   }, "Please specify a valid phone number");
 
     $(function(){
-     $("#orientdationdatepicker").datepicker({format:"yyyy-mm-dd", viewMode: "years"});
-     $("#birthdatedatepicker").datepicker({format:"yyyy-mm-dd", viewMode: "years"});
-
      $('#VolunteerEditForm').validate(
      {
       rules: {
@@ -510,6 +508,9 @@ $months = array(
           number: true, min: 1900, max: 2012
         },
         "orientationdate": {
+          date: true
+        },
+        "birthdate": {
           date: true
         },
       },

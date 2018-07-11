@@ -11,7 +11,6 @@
     <!-- Le styles -->
     <?php echo $this->Html->css([
         'bootstrap',
-        'datepicker'
         ]); ?>
     <style>
       body {
@@ -23,7 +22,6 @@
         'jquery-1.8.3.min.js',
         'jquery.validate.min.js',
         'bootstrap.min.js',
-        'bootstrap-datepicker.js',
         'jquery.placeholder.min.js'
         ]); ?>
   </head>
