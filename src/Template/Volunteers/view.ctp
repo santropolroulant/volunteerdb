@@ -113,10 +113,6 @@ array('controller' => 'Volunteers', 'action' => 'edit', $v['id']), array("class"
 </dl>
 </fieldset>
 
-
-    <?php if($v["emergname"] || $v["emergrelation"] || $v["emergemail"] || $v["emergphone1"] || $v["emergphone2"] || $v["emergphone3"]){ ?>
-
-
 <?php 
 $name = false;
 if($v["emergname"] || $v["emergrelation"]) {$name = $v["emergname"]. " (" . $v["emergrelation"] .")";}
@@ -201,13 +197,8 @@ forEach ($secondContactProps as $prop) {
     <?php } ?>
   </div>
 
-
-
 <?php } ?>
 </fieldset>
-
-  <?php } ?>
-
 
 <fieldset>
   <legend><button id="toggle-notes" class="btn <?php echo $v['notes'] == '' ? 'btn-success' : 'btn-danger' ?>">Notes</button></legend>
