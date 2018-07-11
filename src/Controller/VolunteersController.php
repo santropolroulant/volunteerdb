@@ -71,14 +71,17 @@ class VolunteersController extends AppController {
                          # But this is done:
                          # a) case-insensitively, because the install instructions in README say to use a unicode-aware collation (e.g. utf8mb4_unicode_ci)
                          # b) *accent*-insensitively, for the same reason
-                         # c) *hyphen*-insensitively; this is implemented via a hack here: we force all dashes in the data or in the query to spaces, using replace(), which is non-standard but is postgres, mysql, and t-sql compatible.
-                         #    and because of CakePHP idiosyncracies, it's easier to use PHP's replace()
-                         #    for the query
-                         $query->func()->concat([
-                                 'replace(firstname, "-"," ")' => 'literal',
-                                 " ",
-                                 'replace(lastname, "-", " ")' => 'literal']),
-                         str_replace("-", " ", "%$term%") # subtlety: this is *not* a SQL injection because PHP this whole expression gets wrapped up in a bound SQL var by like().
+                         # c) *hyphen*-insensitively; this is implemented via a hack:
+                         #    we force all dashes in the data or in the query to spaces,
+                         #    using SQL replace(), which is technically non-standard but
+                         #    is postgres, mysql, and t-sql compatible.
+                         $query->func()->replace([$query->func()->concat([
+                                 'firstname' => 'identifier',
+                                 ' ',
+                                 'lastname' => 'identifier']),
+                                 '-', ' ']),
+                         $query->func()->replace(["%$term%", '-', ' '])
+                         # subtlety: this is *not* a SQL injection because PHP this whole expression gets wrapped up in a bound SQL var by like().
                          );
                     });
 
