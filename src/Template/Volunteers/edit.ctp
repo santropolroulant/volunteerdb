@@ -27,10 +27,12 @@
         # Because of that we need to pretend to be type='text' but override that in the options.
         echo $this->Form->label("orientationdate", "Orientation Date");
         echo $this->Form->text("orientationdate", [
-              'id' => "orientdationdate",
+              'id' => "orientationdate",
               "type" => "date",
               "class" => "input-medium",
-              "value" => $volunteer["orientationdate"] ? $volunteer["orientationdate"]->format("Y-m-d") : NULL
+              "value" => $volunteer["orientationdate"] ? $volunteer["orientationdate"]->format("Y-m-d") : NULL,
+              "max" => (new DateTime())->format("Y-m-d"), // ensure dates can't be picked in the future
+              "min" => "2006-01-01" // this is approximately the date of the first entry in Santropol Roulant's volunteerdb; if you are adapting this for your own organization, please considering pulling this out into a config file somewhere and submitting a patch to make it configurable; I'm just being lazy.
               ]);
     ?>
     </div>
@@ -262,7 +264,9 @@
           'id' => "birthdate",
           "type" => "date",
           "class" => "input-medium",
-          'value' => $volunteer["birthdate"] ? $volunteer["birthdate"]->format("Y-m-d") : NULL
+          'value' => $volunteer["birthdate"] ? $volunteer["birthdate"]->format("Y-m-d") : NULL,
+          "max" => (new DateTime())->modify("-7 years")->format("Y-m-d"),
+          "min" => "1926-01-01",
         ]);
 
         /* Commented out temporarily; will probably be fully removed in favour of the datepicker^ soon.
@@ -501,17 +505,21 @@ $months = array(
         "emergemail": {
           email: true
         },
-        "birthday": {
-          number: true, min: 1, max: 31
-        },
-        "birthyear": {
-          number: true, min: 1900, max: 2012
-        },
         "orientationdate": {
-          date: true
+          dateISO: true,
+          // *disable* the old half-broken date validator
+          // see https://github.com/jquery-validation/jquery-validation/issues/1787
+          date: false,
+          min: false,
+          max: false
         },
         "birthdate": {
-          date: true
+          dateISO: true,
+          // *disable* the old half-broken date validator
+          // see https://github.com/jquery-validation/jquery-validation/issues/1787
+          date: false,
+          min: false,
+          max: false
         },
       },
       errorClass: "help-inline",
