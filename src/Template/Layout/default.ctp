@@ -63,6 +63,9 @@
             <ul class="nav">
               <li class="active"><?php echo $this->Html->link("Add a Volunteer", ["controller"=>"Volunteers","action"=>"edit"]); ?></li>
             </ul>
+            <ul class="nav">
+              <li class="active"><?php echo $this->Html->link("Statistics", ["controller"=>"Volunteers","action"=>"statistics"]); ?></li>
+            </ul>
           </div><!--/.nav-collapse -->
         </div>
       </div>

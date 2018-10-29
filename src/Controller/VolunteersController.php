@@ -101,6 +101,34 @@ class VolunteersController extends AppController {
         $this->set('_serialize', 'volunteers');
     }
 
+
+    # Generate statistics on the contents of the database
+    public function statistics() {
+        $query = $this->Volunteers
+                      ->find();
+
+        # Monthly signups: generate a count of new volunteers, by month.
+        # TODO: add a cumulative column
+        $monthly_signups = $query->select([
+                        # count volunteers added
+                        'year' => $query->func()->extract('year', 'created'),
+                        'month' => $query->func()->extract('month', 'created'),
+                        'count' => $query->func()->count('*'),
+                        #'cumulative' => $query->func()->sum('count') # ?? do I need to wrap a query around the query to do this?
+                        ])
+                        # grouped by month
+                        ->group([$query->func()->extract('year', 'created'),
+                                 $query->func()->extract('month', 'created')])
+                        # limit to records from this year
+                        ->where(function ($exp, $query) {
+                                return $exp->eq($query->func()->extract('year', 'created'),
+                                                $query->func()->extract('year', $query->func()->now('date')));
+                            });
+
+        $this->set('monthly_signups', $monthly_signups);
+    }
+
+
     public function edit($id = null) {
 
         $data = $this->request->getData();
