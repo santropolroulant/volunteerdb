@@ -4,7 +4,7 @@ use Migrations\AbstractMigration;
 class Initial extends AbstractMigration
 {
 
-    public $autoId = false;
+    public $autoId = true;
 
     public function up()
     {
